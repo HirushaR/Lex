@@ -164,8 +164,9 @@ namespace lex
                 return new SyntaxToken(SyntaxKind.OpenParanthesisToken, _position++, "(", null);
             if (Current == ')')
                 return new SyntaxToken(SyntaxKind.CloseParanthesisToken, _position++, ")", null);
+
             _diagnostics.Add($"ERROR: Bad character in input: '{Current}'");
-            return new SyntaxToken(SyntaxKind.BadToken, _position, _text.Substring(_position - 1, 1), null);
+            return new SyntaxToken(SyntaxKind.BadToken, _position++, _text.Substring(_position - 1, 1), null);
 
         }
     }
