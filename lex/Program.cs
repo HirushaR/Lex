@@ -12,6 +12,13 @@ namespace lex
                 var line = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(line))
                     return;
+
+                var lexer = new Lexer(line);
+                while(true)
+                {
+                    var token = lexer.NextToken();
+                }
+
                 if (line == "1 + 2 * 3")
                 {
                     Console.WriteLine("7");
@@ -74,6 +81,11 @@ namespace lex
             //+-*?()
             //<whitespace>
 
+            if(_position >= _text.Length)
+            {
+                return new SyntaxToken(SyntaxKind.EndOfFileToken, _position, "\0", null);
+            }
+
             if(char.IsDigit(Current))
             {
                 var start = _position;
@@ -128,6 +140,7 @@ namespace lex
         SlashToken,
         OpenParanthesisToken,
         CloseParanthesisToken,
-        BadToken
+        BadToken,
+        EndOfFileToken
     }
 }
