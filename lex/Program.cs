@@ -141,6 +141,11 @@ namespace lex
         EndOfFileToken
     }
 
+    abstract class SyntaxNode
+    {
+       public abstract SyntaxKind Kind {get; }
+    }
+
     class Parser
     {
         private readonly SyntaxToken[] _tokens;
