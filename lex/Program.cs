@@ -29,6 +29,21 @@ namespace lex
                 }
             }
         }
+
+        static void PrettyPrint(SyntaxNode node, string indent = "")
+        {
+            Console.Write(node.Kind);
+            if (node is SyntaxToken t && t.Value != null)
+            {
+                Console.Write(" ");
+                Console.Write(t.Value);
+            }
+
+            indent += "    ";
+
+            foreach (var child in node.getChildern())
+                PrettyPrint(child, indent);
+        }
     }
 
     class SyntaxToken : SyntaxNode
