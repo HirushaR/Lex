@@ -139,7 +139,8 @@ namespace lex
         CloseParanthesisToken,
         BadToken,
         EndOfFileToken,
-        NumberExpression
+        NumberExpression,
+        BinaryExpression
     }
 
     abstract class SyntaxNode
@@ -152,15 +153,31 @@ namespace lex
 
     }
 
-    sealed class NumberSyntax : SyntaxNode
+    sealed class NumberExpressionSyntax : SyntaxNode
     {
-        public NumberSyntax(SyntaxToken numberToken)
+        public NumberExpressionSyntax(SyntaxToken numberToken)
         {
             NumberToken = numberToken;
         }
 
         public override SyntaxKind Kind => SyntaxKind.NumberExpression;
         public SyntaxToken NumberToken { get; }
+    }
+
+    sealed class BinaryExpressionSyntax :ExpressionSyntax
+    {
+        public BinaryExpressionSyntax(ExpressionSyntax left, SyntaxToken operatorToken, ExpressionSyntax right)
+        {
+            Left = left;
+            OperatorToken = operatorToken;
+            Right = right;
+        }
+
+        public ExpressionSyntax Left { get; }
+        public SyntaxToken OperatorToken { get; }
+        public ExpressionSyntax Right { get; }
+
+        public override SyntaxKind Kind => SyntaxKind.BinaryExpression;
     }
 
 
