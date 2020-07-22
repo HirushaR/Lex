@@ -113,6 +113,8 @@ namespace lex
             if (Current == ')')
                 return new SyntaxToken(SyntaxKind.CloseParanthesisToken, _position++, ")", null);
 
+            return new SyntaxToken(SyntaxKind.BadToken, _position, _text.Substring(_position - 1, 1), null);
+
         }
     }
 
@@ -125,6 +127,7 @@ namespace lex
         StarToken,
         SlashToken,
         OpenParanthesisToken,
-        CloseParanthesisToken
+        CloseParanthesisToken,
+        BadToken
     }
 }
