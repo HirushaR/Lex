@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace lex
 {
@@ -138,5 +139,29 @@ namespace lex
         CloseParanthesisToken,
         BadToken,
         EndOfFileToken
+    }
+
+    class Parser
+    {
+        private readonly SyntaxToken[] _tokens;
+        private int _position;
+        public Parser(string text)
+        {
+            var tokens = new List<SyntaxToken>();
+            var lexer = new Lexer(text);
+            SyntaxToken token;
+            do
+            {
+                token = lexer.NextToken();
+                if(token.Kind != SyntaxKind.WhiteSpaceToken &&
+                    token.Kind != SyntaxKind.BadToken)
+                {
+                    tokens.Add(token);
+                }
+
+            } while (token.Kind != SyntaxKind.EndOfFileToken);
+
+            _tokens = tokens.ToArray();
+        }
     }
 }
