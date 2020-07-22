@@ -22,6 +22,16 @@ namespace lex
                 Console.ForegroundColor = ConsoleColor.DarkGray;
                 PrettyPrint(expression);
                 Console.ForegroundColor = color;
+
+                if(parser.Diagnostics.Any())
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    foreach(var diagnostics in parser.Diagnostics)
+                    {
+                        Console.WriteLine(diagnostics);
+                    }
+                    Console.ForegroundColor = color;
+                }
             }
         }
 
@@ -81,11 +91,14 @@ namespace lex
     {
         private readonly string _text;
         private int _position;
+        private List<string> _diagnostics = new List<string>();
 
         public Lexer(string text)
         {
             _text = text;
         }
+
+        public IEnumerable<string> Diagnostics => _diagnostics;
         private char Current
         {
             get
@@ -151,7 +164,7 @@ namespace lex
                 return new SyntaxToken(SyntaxKind.OpenParanthesisToken, _position++, "(", null);
             if (Current == ')')
                 return new SyntaxToken(SyntaxKind.CloseParanthesisToken, _position++, ")", null);
-
+            _diagnostics.Add($"ERROR: Bad character in input: '{Current}'");
             return new SyntaxToken(SyntaxKind.BadToken, _position, _text.Substring(_position - 1, 1), null);
 
         }
@@ -228,6 +241,7 @@ namespace lex
     {
         private readonly SyntaxToken[] _tokens;
         private int _position;
+        private List<string> _diagnostics = new List<string>();
         public Parser(string text)
         {
             var tokens = new List<SyntaxToken>();
@@ -245,7 +259,10 @@ namespace lex
             } while (token.Kind != SyntaxKind.EndOfFileToken);
 
             _tokens = tokens.ToArray();
+            _diagnostics.AddRange(lexer.Diagnostics);
         }
+
+        public IEnumerable<string> Diagnostics => _diagnostics;
 
         private SyntaxToken Peek(int offset)
         {
@@ -272,6 +289,7 @@ namespace lex
             if (Current.Kind == kind)
                 return NextToken();
 
+            _diagnostics.Add($"ERROR:Unexpected token <{Current.Kind}>, expected<{kind}>");
             return new SyntaxToken(kind, Current.Position, null, null);
 
         }
