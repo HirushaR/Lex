@@ -173,5 +173,7 @@ namespace lex
 
             return _tokens[index];
         }
+
+        private SyntaxToken syntaxToken => Peek(0);
     }
 }
