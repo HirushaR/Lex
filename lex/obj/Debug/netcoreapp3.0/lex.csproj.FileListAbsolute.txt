@@ -1,0 +1,11 @@
+F:\hiru\works\C#\lex\lex\bin\Debug\netcoreapp3.0\lex.exe
+F:\hiru\works\C#\lex\lex\bin\Debug\netcoreapp3.0\lex.deps.json
+F:\hiru\works\C#\lex\lex\bin\Debug\netcoreapp3.0\lex.runtimeconfig.json
+F:\hiru\works\C#\lex\lex\bin\Debug\netcoreapp3.0\lex.runtimeconfig.dev.json
+F:\hiru\works\C#\lex\lex\bin\Debug\netcoreapp3.0\lex.dll
+F:\hiru\works\C#\lex\lex\bin\Debug\netcoreapp3.0\lex.pdb
+F:\hiru\works\C#\lex\lex\obj\Debug\netcoreapp3.0\lex.csprojAssemblyReference.cache
+F:\hiru\works\C#\lex\lex\obj\Debug\netcoreapp3.0\lex.AssemblyInfoInputs.cache
+F:\hiru\works\C#\lex\lex\obj\Debug\netcoreapp3.0\lex.AssemblyInfo.cs
+F:\hiru\works\C#\lex\lex\obj\Debug\netcoreapp3.0\lex.dll
+F:\hiru\works\C#\lex\lex\obj\Debug\netcoreapp3.0\lex.pdb
