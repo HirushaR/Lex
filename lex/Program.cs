@@ -138,13 +138,31 @@ namespace lex
         OpenParanthesisToken,
         CloseParanthesisToken,
         BadToken,
-        EndOfFileToken
+        EndOfFileToken,
+        NumberExpression
     }
 
     abstract class SyntaxNode
     {
        public abstract SyntaxKind Kind {get; }
     }
+
+    abstract class ExpressionSyntax : SyntaxNode
+    {
+
+    }
+
+    sealed class NumberSyntax : SyntaxNode
+    {
+        public NumberSyntax(SyntaxToken numberToken)
+        {
+            NumberToken = numberToken;
+        }
+
+        public override SyntaxKind Kind => SyntaxKind.NumberExpression;
+        public SyntaxToken NumberToken { get; }
+    }
+
 
     class Parser
     {
