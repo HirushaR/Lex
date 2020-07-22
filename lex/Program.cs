@@ -22,6 +22,11 @@ namespace lex
                     Console.WriteLine(showTree ? "Showing parse trees": "Not showing parse tree");
                     continue;
                 }
+                else if (line == "#cls")
+                {
+                    Console.Clear();
+                    continue;
+                }
 
                 var parser = new Parser(line);
                 var syntaxTree = SyntexTree.Parse(line);
