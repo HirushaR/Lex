@@ -112,7 +112,7 @@ namespace lex
             if(Current == '+')
                 return new SyntaxToken(SyntaxKind.PlusToken, _position++, "+", null);
             if (Current == '-')
-                return new SyntaxToken(SyntaxKind.MinusToke, _position++, "-", null);
+                return new SyntaxToken(SyntaxKind.MinusToken, _position++, "-", null);
             if (Current == '*')
                 return new SyntaxToken(SyntaxKind.StarToken, _position++, "*", null);
             if (Current == '/')
@@ -132,7 +132,7 @@ namespace lex
         NumberToken,
         WhiteSpaceToken,
         PlusToken,
-        MinusToke,
+        MinusToken,
         StarToken,
         SlashToken,
         OpenParanthesisToken,
@@ -153,7 +153,7 @@ namespace lex
 
     }
 
-    sealed class NumberExpressionSyntax : SyntaxNode
+    sealed class NumberExpressionSyntax : ExpressionSyntax
     {
         public NumberExpressionSyntax(SyntaxToken numberToken)
         {
@@ -173,11 +173,12 @@ namespace lex
             Right = right;
         }
 
+        public override SyntaxKind Kind => SyntaxKind.BinaryExpression;
         public ExpressionSyntax Left { get; }
         public SyntaxToken OperatorToken { get; }
         public ExpressionSyntax Right { get; }
 
-        public override SyntaxKind Kind => SyntaxKind.BinaryExpression;
+        
     }
 
 
@@ -214,6 +215,44 @@ namespace lex
             return _tokens[index];
         }
 
-        private SyntaxToken syntaxToken => Peek(0);
+        private SyntaxToken Current => Peek(0);
+
+        private SyntaxToken NextToken()
+        {
+            var current = Current;
+            _position++;
+            return current;
+
+        }
+
+        private SyntaxToken Match(SyntaxKind kind)
+        {
+            if (Current.Kind == kind)
+                return NextToken();
+
+            return new SyntaxToken(kind, Current.Position, null, null);
+
+        }
+
+        // make tree struture
+        public ExpressionSyntax Parse()
+        {
+            var left = ParsePrimaryExpression();
+
+            while(Current.Kind == SyntaxKind.PlusToken ||
+                  Current.Kind == SyntaxKind.MinusToken)
+            {
+                var operatorToken = NextToken();
+                var right = ParsePrimaryExpression();
+                left = new BinaryExpressionSyntax(left, operatorToken, right);
+            }
+            return left;
+        }
+
+        private ExpressionSyntax ParsePrimaryExpression()
+        {
+            var numberToken = Match(SyntaxKind.NumberToken);
+            return new NumberExpressionSyntax(numberToken);
+        }
     }
 }
