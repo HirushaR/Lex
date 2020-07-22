@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace lex
 {
@@ -30,7 +31,7 @@ namespace lex
         }
     }
 
-    class SyntaxToken
+    class SyntaxToken : SyntaxNode
     {
         public SyntaxToken(SyntaxKind kind, int position, string text, object value)
         {
@@ -40,10 +41,15 @@ namespace lex
             Value = value;
         }
 
-        public SyntaxKind Kind { get; }
+        public override SyntaxKind Kind { get; }
         public int Position { get; }
         public string Text { get; }
         public object Value { get; }
+
+        public override IEnumerable<SyntaxNode> getChildern()
+        {
+            return Enumerable.Empty<SyntaxNode>();
+        }
     }
 
 
@@ -146,6 +152,8 @@ namespace lex
     abstract class SyntaxNode
     {
        public abstract SyntaxKind Kind {get; }
+
+        public abstract IEnumerable<SyntaxNode> getChildern();
     }
 
     abstract class ExpressionSyntax : SyntaxNode
@@ -162,6 +170,11 @@ namespace lex
 
         public override SyntaxKind Kind => SyntaxKind.NumberExpression;
         public SyntaxToken NumberToken { get; }
+
+        public override IEnumerable<SyntaxNode> getChildern()
+        {
+            yield return NumberToken;
+        }
     }
 
     sealed class BinaryExpressionSyntax :ExpressionSyntax
@@ -178,7 +191,12 @@ namespace lex
         public SyntaxToken OperatorToken { get; }
         public ExpressionSyntax Right { get; }
 
-        
+        public override IEnumerable<SyntaxNode> getChildern()
+        {
+            yield return Left;
+            yield return OperatorToken;
+            yield return Right;
+        }
     }
 
 
