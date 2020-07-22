@@ -192,7 +192,8 @@ namespace lex
         BadToken,
         EndOfFileToken,
         NumberExpression,
-        BinaryExpression
+        BinaryExpression,
+        ParenthesizedExpression
     }
 
     abstract class SyntaxNode
@@ -242,6 +243,30 @@ namespace lex
             yield return Left;
             yield return OperatorToken;
             yield return Right;
+        }
+    }
+
+    sealed class ParenthesizedExpressionSyntax : ExpressionSyntax
+    {
+        public ParenthesizedExpressionSyntax(SyntaxToken openParanthesizedToken, ExpressionSyntax expression, SyntaxToken closeParanthesizedToken)
+        {
+            OpenParanthesizedToken = openParanthesizedToken;
+            Expression = expression;
+            CloseParanthesizedToken = closeParanthesizedToken;
+        }
+
+        public override SyntaxKind Kind => SyntaxKind.ParenthesizedExpression;
+        public SyntaxToken OpenParanthesizedToken { get; }
+        public ExpressionSyntax Expression { get; }
+        public SyntaxToken CloseParanthesizedToken { get; }
+
+     
+
+        public override IEnumerable<SyntaxNode> getChildern()
+        {
+            yield return OpenParanthesizedToken;
+            yield return Expression;
+            yield return CloseParanthesizedToken;
         }
     }
 
@@ -318,14 +343,19 @@ namespace lex
         }
 
         // make tree struture
+
+        private ExpressionSyntax ParseExpression()
+        {
+            return ParseTerm();
+        }
         public SyntexTree Parse()
         {
-            var expression = PraseTerm();
+            var expression = ParseTerm();
             var endOfFileToken = Match(SyntaxKind.EndOfFileToken);
             return new SyntexTree(_diagnostics, expression, endOfFileToken);
         }
 
-        private ExpressionSyntax PraseTerm()
+        private ExpressionSyntax ParseTerm()
         {
             var left = PraseFactor();
 
@@ -355,6 +385,14 @@ namespace lex
 
         private ExpressionSyntax ParsePrimaryExpression()
         {
+
+            if(Current.Kind == SyntaxKind.OpenParanthesisToken)
+            {
+                var left = NextToken();
+                var expression = ParseExpression();
+                var right = Match(SyntaxKind.CloseParanthesisToken);
+                return new ParenthesizedExpressionSyntax(left, expression, right);
+            }
             var numberToken = Match(SyntaxKind.NumberToken);
             return new NumberExpressionSyntax(numberToken);
         }
@@ -400,6 +438,9 @@ namespace lex
                 else
                     throw new Exception($"Unexpected binary Operator {b.OperatorToken.Kind}");
             }
+
+            if (node is ParenthesizedExpressionSyntax p)
+                return EvaluateExpression(p.Expression);
 
             throw new Exception($"Unexpedcted node {node.Kind}");
 
