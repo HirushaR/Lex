@@ -320,19 +320,30 @@ namespace lex
         // make tree struture
         public SyntexTree Parse()
         {
-            var expression = PraseExpression();
+            var expression = PraseTerm();
             var endOfFileToken = Match(SyntaxKind.EndOfFileToken);
             return new SyntexTree(_diagnostics, expression, endOfFileToken);
         }
 
-        private ExpressionSyntax PraseExpression()
+        private ExpressionSyntax PraseTerm()
+        {
+            var left = PraseFactor();
+
+            while (Current.Kind == SyntaxKind.PlusToken ||
+                  Current.Kind == SyntaxKind.MinusToken)
+            {
+                var operatorToken = NextToken();
+                var right = PraseFactor();
+                left = new BinaryExpressionSyntax(left, operatorToken, right);
+            }
+            return left;
+        }
+        private ExpressionSyntax PraseFactor()
         {
             var left = ParsePrimaryExpression();
 
-            while (Current.Kind == SyntaxKind.PlusToken ||
-                  Current.Kind == SyntaxKind.MinusToken ||
-                  Current.Kind == SyntaxKind.StarToken ||
-                  Current.Kind == SyntaxKind.SlashToken)
+            while (Current.Kind == SyntaxKind.StarToken ||
+                   Current.Kind == SyntaxKind.SlashToken)
             {
                 var operatorToken = NextToken();
                 var right = ParsePrimaryExpression();
@@ -340,6 +351,7 @@ namespace lex
             }
             return left;
         }
+
 
         private ExpressionSyntax ParsePrimaryExpression()
         {
