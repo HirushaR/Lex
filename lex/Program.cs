@@ -163,5 +163,15 @@ namespace lex
 
             _tokens = tokens.ToArray();
         }
+
+        private SyntaxToken Peek(int offset)
+        {
+
+            var index = _position + offset;
+            if (index >= _tokens.Length)
+                return _tokens[_tokens.Length - 1];
+
+            return _tokens[index];
+        }
     }
 }
