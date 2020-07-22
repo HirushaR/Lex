@@ -15,18 +15,15 @@ namespace lex
                 if (string.IsNullOrWhiteSpace(line))
                     return;
 
-                var lexer = new Lexer(line);
-                while(true)
-                {
-                    var token = lexer.NextToken();
-                    if (token.Kind == SyntaxKind.EndOfFileToken)
-                        break;
-                    Console.Write($"{token.Kind} :'{token.Text}'");
-                    if (token.Value != null)
-                        Console.Write($"{token.Value}");
+                var parser = new Parser(line);
+                var expression = parser.Parse();
 
-                    Console.WriteLine();
-                }
+                var color = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+
+                PrettyPrint(expression);
+
+                Console.ForegroundColor = color;
             }
         }
 
