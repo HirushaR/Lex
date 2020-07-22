@@ -20,21 +20,21 @@ namespace lex
 
                 var color = Console.ForegroundColor;
                 Console.ForegroundColor = ConsoleColor.DarkGray;
-
                 PrettyPrint(expression);
-
                 Console.ForegroundColor = color;
             }
         }
 
         static void PrettyPrint(SyntaxNode node, string indent = "")
         {
+            Console.Write(indent);
             Console.Write(node.Kind);
             if (node is SyntaxToken t && t.Value != null)
             {
                 Console.Write(" ");
                 Console.Write(t.Value);
             }
+            Console.WriteLine();
 
             indent += "    ";
 
