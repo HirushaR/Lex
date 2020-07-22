@@ -25,7 +25,7 @@ namespace lex
             }
         }
 
-        static void PrettyPrint(SyntaxNode node, string indent = "", bool isLast = false)
+        static void PrettyPrint(SyntaxNode node, string indent = "", bool isLast = true)
         {
 
             // └──
@@ -45,13 +45,13 @@ namespace lex
             Console.WriteLine();
 
             // indent += "    ";
-            indent += "│   ";
+            indent += isLast? "    " : "│   ";
 
             var lastChild = node.getChildern().LastOrDefault();
             
 
             foreach (var child in node.getChildern())
-                PrettyPrint(child, indent, node == lastChild);
+                PrettyPrint(child, indent, child == lastChild);
         }
     }
 
