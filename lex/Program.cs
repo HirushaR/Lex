@@ -17,15 +17,13 @@ namespace lex
                 while(true)
                 {
                     var token = lexer.NextToken();
-                }
+                    if (token.Kind == SyntaxKind.EndOfFileToken)
+                        break;
+                    Console.Write($"{token.Kind} :'{token.Text}'");
+                    if (token.Value != null)
+                        Console.Write($"{token.Value}");
 
-                if (line == "1 + 2 * 3")
-                {
-                    Console.WriteLine("7");
-                }
-                else
-                {
-                    Console.WriteLine("ERROE:invalid Expression");
+                    Console.WriteLine();
                 }
             }
         }
@@ -82,9 +80,8 @@ namespace lex
             //<whitespace>
 
             if(_position >= _text.Length)
-            {
                 return new SyntaxToken(SyntaxKind.EndOfFileToken, _position, "\0", null);
-            }
+            
 
             if(char.IsDigit(Current))
             {
@@ -108,8 +105,7 @@ namespace lex
 
                 var length = _position - start;
                 var text = _text.Substring(start, length);
-                int.TryParse(text, out var value);
-                return new SyntaxToken(SyntaxKind.WhiteSpaceToken, start, text, value);
+                return new SyntaxToken(SyntaxKind.WhiteSpaceToken, start, text, null);
             }
 
             if(Current == '+')
