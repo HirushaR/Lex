@@ -16,17 +16,17 @@ namespace lex
                     return;
 
                 var parser = new Parser(line);
-                var expression = parser.Parse();
+                var syntaxTree = parser.Parse();
 
                 var color = Console.ForegroundColor;
                 Console.ForegroundColor = ConsoleColor.DarkGray;
-                PrettyPrint(expression);
+                PrettyPrint(syntaxTree.Root);
                 Console.ForegroundColor = color;
 
-                if(parser.Diagnostics.Any())
+                if(syntaxTree.Diagnostics.Any())
                 {
                     Console.ForegroundColor = ConsoleColor.DarkRed;
-                    foreach(var diagnostics in parser.Diagnostics)
+                    foreach(var diagnostics in syntaxTree.Diagnostics)
                     {
                         Console.WriteLine(diagnostics);
                     }
@@ -310,11 +310,18 @@ namespace lex
         }
 
         // make tree struture
-        public ExpressionSyntax Parse()
+        public SyntexTree Parse()
+        {
+            var expression = PraseExpression();
+            var endOfFileToken = Match(SyntaxKind.EndOfFileToken);
+            return new SyntexTree(_diagnostics, expression, endOfFileToken);
+        }
+
+        private ExpressionSyntax PraseExpression()
         {
             var left = ParsePrimaryExpression();
 
-            while(Current.Kind == SyntaxKind.PlusToken ||
+            while (Current.Kind == SyntaxKind.PlusToken ||
                   Current.Kind == SyntaxKind.MinusToken)
             {
                 var operatorToken = NextToken();
