@@ -237,6 +237,20 @@ namespace lex
         }
     }
 
+    sealed class SyntexTree
+    {
+        public SyntexTree(IEnumerable<string> diagnostics,ExpressionSyntax root, SyntaxToken endOfFileToken)
+        {
+            Diagnostics = diagnostics.ToArray();
+            Root = root;
+            EndOfFileToken = endOfFileToken;
+        }
+
+        public IReadOnlyList<string> Diagnostics { get; }
+        public ExpressionSyntax Root { get; }
+        public SyntaxToken EndOfFileToken { get; }
+    }
+
 
     class Parser
     {
@@ -290,7 +304,7 @@ namespace lex
             if (Current.Kind == kind)
                 return NextToken();
 
-            _diagnostics.Add($"ERROR:Unexpected token <{Current.Kind}>, expected<{kind}>");
+            _diagnostics.Add($"ERROR:Unexpected token <{Current.Kind}>, expected <{kind}>");
             return new SyntaxToken(kind, Current.Position, null, null);
 
         }
