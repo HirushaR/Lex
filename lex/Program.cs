@@ -8,6 +8,7 @@ namespace lex
     {
         static void Main(string[] args)
         {
+            bool showTree = false;
             while(true)
             {
                 Console.WriteLine(">");
@@ -15,14 +16,25 @@ namespace lex
                 if (string.IsNullOrWhiteSpace(line))
                     return;
 
+                if(line == "#showTree")
+                {
+                    showTree = !showTree;
+                    Console.WriteLine(showTree ? "Showing parse trees": "Not showing parse tree");
+                    continue;
+                }
+
                 var parser = new Parser(line);
-                var syntaxTree = parser.Parse();
-
+                var syntaxTree = SyntexTree.Parse(line);
                 var color = Console.ForegroundColor;
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                PrettyPrint(syntaxTree.Root);
-                Console.ForegroundColor = color;
 
+                if (showTree)
+                {
+                    
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    PrettyPrint(syntaxTree.Root);
+                    Console.ForegroundColor = color;
+                }
+              
                 if (!syntaxTree.Diagnostics.Any())
                 {
                     var e = new Evaluator(syntaxTree.Root);
@@ -282,6 +294,12 @@ namespace lex
         public IReadOnlyList<string> Diagnostics { get; }
         public ExpressionSyntax Root { get; }
         public SyntaxToken EndOfFileToken { get; }
+
+        public static SyntexTree Parse(string text)
+        {
+            var parser = new Parser(text);
+            return parser.Parse();
+        }
     }
 
 
