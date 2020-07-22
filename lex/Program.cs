@@ -100,14 +100,31 @@ namespace lex
                 return new SyntaxToken(SyntaxKind.WhiteSpaceToken, start, text, value);
             }
 
+            if(Current == '+')
+                return new SyntaxToken(SyntaxKind.PlusToken, _position++, "+", null);
+            if (Current == '-')
+                return new SyntaxToken(SyntaxKind.MinusToke, _position++, "-", null);
+            if (Current == '*')
+                return new SyntaxToken(SyntaxKind.StarToken, _position++, "*", null);
+            if (Current == '/')
+                return new SyntaxToken(SyntaxKind.SlashToken, _position++, "/", null);
+            if (Current == '(')
+                return new SyntaxToken(SyntaxKind.OpenParanthesisToken, _position++, "(", null);
+            if (Current == ')')
+                return new SyntaxToken(SyntaxKind.CloseParanthesisToken, _position++, ")", null);
 
-            
         }
     }
 
     enum SyntaxKind
     {
         NumberToken,
-        WhiteSpaceToken
+        WhiteSpaceToken,
+        PlusToken,
+        MinusToke,
+        StarToken,
+        SlashToken,
+        OpenParanthesisToken,
+        CloseParanthesisToken
     }
 }
