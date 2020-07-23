@@ -2,8 +2,9 @@
 
 namespace lex.CodeAnalysis
 {
-    internal sealed class Parser
+    internal sealed partial class Parser
     {
+
         private readonly SyntaxToken[] _tokens;
         private int _position;
         private List<string> _diagnostics = new List<string>();
@@ -87,20 +88,6 @@ namespace lex.CodeAnalysis
             return left;
         }
 
-        private static int GetBinaryOperatorPrecedence(SyntaxKind kind)
-        {
-            switch(kind)
-            {
-                case SyntaxKind.StarToken:
-                case SyntaxKind.SlashToken:
-                    return 2;
-                case SyntaxKind.PlusToken:
-                case SyntaxKind.MinusToken:
-                    return 1;
-                default:
-                    return 0;
-            }
-        }
 
        
         // handle +- operations
