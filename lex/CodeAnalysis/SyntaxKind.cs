@@ -1,6 +1,6 @@
 ﻿namespace lex.CodeAnalysis
 {
-    enum SyntaxKind
+    public enum SyntaxKind
     {
         NumberToken,
         WhiteSpaceToken,

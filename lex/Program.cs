@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace lex
 {
-    class Program
+    internal static class Program
     {
-        static void Main(string[] args)
+        private static void Main()
         {
             bool showTree = false;
             while (true)

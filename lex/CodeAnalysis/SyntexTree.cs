@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace lex.CodeAnalysis
 {
-    sealed class SyntexTree
+    public sealed class SyntexTree
     {
         public SyntexTree(IEnumerable<string> diagnostics, ExpressionSyntax root, SyntaxToken endOfFileToken)
         {
