@@ -1,12 +1,11 @@
 ﻿namespace lex.CodeAnalysis
 {
-    internal sealed partial class Parser
-    {
-        internal static class SyntaxFacts
+  
+      internal static class SyntaxFacts
         {
 
             // Mathematical operator
-            public static int GetBinaryOperatorPrecedence(SyntaxKind kind)
+            public static int GetBinaryOperatorPrecedence(this SyntaxKind kind)
             {
                 switch (kind)
                 {
@@ -21,7 +20,7 @@
                 }
             }
         }
-    }
+    
 }
 
 
