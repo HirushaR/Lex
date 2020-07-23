@@ -3,7 +3,7 @@ using System;
 namespace lex.CodeAnalysis
 {
 
-    public sealed class Evaluator
+     sealed class Evaluator
     {
         private readonly ExpressionSyntax _root;
 
