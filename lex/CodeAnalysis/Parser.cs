@@ -49,7 +49,7 @@ namespace lex.CodeAnalysis
 
         }
 
-        private SyntaxToken Match(SyntaxKind kind)
+        private SyntaxToken MatchToken(SyntaxKind kind)
         {
             if (Current.Kind == kind)
                 return NextToken();
@@ -59,18 +59,20 @@ namespace lex.CodeAnalysis
 
         }
 
+        public SyntexTree Parse()
+        {
+            var expression = ParseTerm();
+            var endOfFileToken = MatchToken(SyntaxKind.EndOfFileToken);
+            return new SyntexTree(_diagnostics, expression, endOfFileToken);
+        }
+
         // make tree struture
 
         private ExpressionSyntax ParseExpression()
         {
             return ParseTerm();
         }
-        public SyntexTree Parse()
-        {
-            var expression = ParseTerm();
-            var endOfFileToken = Match(SyntaxKind.EndOfFileToken);
-            return new SyntexTree(_diagnostics, expression, endOfFileToken);
-        }
+       
 
         private ExpressionSyntax ParseTerm()
         {
@@ -107,11 +109,11 @@ namespace lex.CodeAnalysis
             {
                 var left = NextToken();
                 var expression = ParseExpression();
-                var right = Match(SyntaxKind.CloseParanthesisToken);
+                var right = MatchToken(SyntaxKind.CloseParanthesisToken);
                 return new ParenthesizedExpressionSyntax(left, expression, right);
             }
-            var numberToken = Match(SyntaxKind.NumberToken);
-            return new NumberExpressionSyntax(numberToken);
+            var numberToken = MatchToken(SyntaxKind.NumberToken);
+            return new LiteralExpressionSyntax(numberToken);
         }
     }
 }
