@@ -86,7 +86,7 @@ namespace lex.CodeAnalysis.Binding
 
     internal sealed class Binder
     {
-        public BoundExpression Bind(ExpressionSyntax syntax)
+        public BoundExpression BindExpression(ExpressionSyntax syntax)
         {
             switch(syntax.Kind)
             {
@@ -115,24 +115,44 @@ namespace lex.CodeAnalysis.Binding
             throw new BoundUnaryExpression(boundOperatorKind, boundOperand);
         }
 
-       
+      
         private BoundExpression BindBinaryExpression(BinaryExpressionSyntax syntax)
         {
             var boundleft = BindExpression(syntax.Left);
             var boundOperatorKind = BindBinaryOperatorKind(syntax.OperatorToken.Kind);
-            var boundRight = BoundExpression(syntax.Right);
+            var boundRight = BindExpression(syntax.Right);
             throw new BoundBinaryExpression(boundleft, boundOperatorKind, boundRight);
         }
 
         private BoundUnaryOperatorKind BindUnaryOperatorKind(SyntaxKind kind)
         {
-            throw new NotImplementedException();
+            switch (kind)
+            {
+                case SyntaxKind.PlusToken:
+                    return BoundUnaryOperatorKind.Identity;
+                case SyntaxKind.MinusToken:
+                    return BoundUnaryOperatorKind.Negation;
+                default:
+                    throw new Exception($"Unexpected Unary Operator {kind}");
+            }
         }
 
 
         private BoundBinaryOperatorKind BindBinaryOperatorKind(SyntaxKind kind)
         {
-            throw new NotImplementedException();
+            switch (kind)
+            {
+                case SyntaxKind.PlusToken:
+                    return BoundBinaryOperatorKind.Addition;
+                case SyntaxKind.MinusToken:
+                    return BoundBinaryOperatorKind.Subtraction;
+                case SyntaxKind.StarToken:
+                    return BoundBinaryOperatorKind.Multiplication;
+                case SyntaxKind.SlashToken:
+                    return BoundBinaryOperatorKind.Division;
+                default:
+                    throw new Exception($"Unexpected Binary Operator {kind}");
+            }
         }
     }
 
