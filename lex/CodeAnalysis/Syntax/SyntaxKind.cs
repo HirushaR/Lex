@@ -18,7 +18,8 @@
         NumberExpression,
         BinaryExpression,
         ParenthesizedExpression,
-        UnaryExpression
+        UnaryExpression,
+        LiteralExpression
     }
 }
 

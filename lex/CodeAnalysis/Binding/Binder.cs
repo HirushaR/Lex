@@ -1,4 +1,5 @@
-﻿using System;
+﻿using lex.CodeAnalysis.Syntax;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -81,5 +82,40 @@ namespace lex.CodeAnalysis.Binding
         public BoundBinaryOperatorKind OperatorKind { get; }
         public BoundExpression Right { get; }
 
-          }
+    }
+
+    internal sealed class Binder
+    {
+        public BoundExpression Bind(ExpressionSyntax syntax)
+        {
+            switch(syntax.Kind)
+            {
+                case SyntaxKind.LiteralExpression:
+                    return BindLiteralExpression((LiteralExpressionSyntax)syntax);
+                case SyntaxKind.UnaryExpression:
+                    return BindUnaryExpression((UnaryExpressionSyntax)syntax);
+                case SyntaxKind.BinaryExpression:
+                    return BindBinaryExpression((BinaryExpressionSyntax)syntax);
+                default:
+                    throw new Exception($"Unexpected syntax {syntax.Kind}");
+            }
+        }
+
+        private BoundExpression BindBinaryExpression(BinaryExpressionSyntax syntax)
+        {
+            throw new NotImplementedException();
+        }
+
+        private BoundExpression BindUnaryExpression(UnaryExpressionSyntax syntax)
+        {
+            throw new NotImplementedException();
+        }
+
+        private BoundExpression BindLiteralExpression(LiteralExpressionSyntax syntax)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
 }
