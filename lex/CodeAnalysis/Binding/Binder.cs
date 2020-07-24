@@ -105,14 +105,15 @@ namespace lex.CodeAnalysis.Binding
         private BoundExpression BindLiteralExpression(LiteralExpressionSyntax syntax)
         {
             var value = syntax.LiteralToken.Value as int? ?? 0;
-            throw new BoundLiteralExpression(value);
+            return new BoundLiteralExpression(value);
         }
         private BoundExpression BindUnaryExpression(UnaryExpressionSyntax syntax)
         {
-            var boundOperatorKind = BindUnaryOperatorKind(syntax.OperatorToken.Kind);
             var boundOperand = BindExpression(syntax.Operand);
+            var boundOperatorKind = BindUnaryOperatorKind(syntax.OperatorToken.Kind, boundOperand type);
 
-            throw new BoundUnaryExpression(boundOperatorKind, boundOperand);
+
+            return new BoundUnaryExpression(boundOperatorKind, boundOperand);
         }
 
       
@@ -121,11 +122,15 @@ namespace lex.CodeAnalysis.Binding
             var boundleft = BindExpression(syntax.Left);
             var boundOperatorKind = BindBinaryOperatorKind(syntax.OperatorToken.Kind);
             var boundRight = BindExpression(syntax.Right);
-            throw new BoundBinaryExpression(boundleft, boundOperatorKind, boundRight);
+            return new BoundBinaryExpression(boundleft, boundOperatorKind, boundRight);
         }
 
-        private BoundUnaryOperatorKind BindUnaryOperatorKind(SyntaxKind kind)
+        private BoundUnaryOperatorKind BindUnaryOperatorKind(SyntaxKind kind,Type operandType)
         {
+
+            if (operandType != typeof(int))
+                return null;
+           
             switch (kind)
             {
                 case SyntaxKind.PlusToken:
