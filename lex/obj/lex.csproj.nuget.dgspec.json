@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "F:\\hiru\\works\\C#\\lex\\lex\\lex.csproj": {}
+    "F:\\hiru\\works\\C#\\Lex-master\\lex\\lex.csproj": {}
   },
   "projects": {
-    "F:\\hiru\\works\\C#\\lex\\lex\\lex.csproj": {
+    "F:\\hiru\\works\\C#\\Lex-master\\lex\\lex.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\hiru\\works\\C#\\lex\\lex\\lex.csproj",
+        "projectUniqueName": "F:\\hiru\\works\\C#\\Lex-master\\lex\\lex.csproj",
         "projectName": "lex",
-        "projectPath": "F:\\hiru\\works\\C#\\lex\\lex\\lex.csproj",
+        "projectPath": "F:\\hiru\\works\\C#\\Lex-master\\lex\\lex.csproj",
         "packagesPath": "C:\\Users\\Danuja Fernando\\.nuget\\packages\\",
-        "outputPath": "F:\\hiru\\works\\C#\\lex\\lex\\obj\\",
+        "outputPath": "F:\\hiru\\works\\C#\\Lex-master\\lex\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Danuja Fernando\\AppData\\Roaming\\NuGet\\NuGet.Config",

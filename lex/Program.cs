@@ -1,4 +1,5 @@
 ﻿using lex.CodeAnalysis;
+using lex.CodeAnalysis.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;

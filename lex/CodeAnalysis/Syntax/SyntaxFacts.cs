@@ -1,4 +1,4 @@
-﻿namespace lex.CodeAnalysis
+﻿namespace lex.CodeAnalysis.Syntax
 {
   
       internal static class SyntaxFacts

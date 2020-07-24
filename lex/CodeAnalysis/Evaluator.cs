@@ -1,3 +1,4 @@
+using lex.CodeAnalysis.Syntax;
 using System;
 
 namespace lex.CodeAnalysis
