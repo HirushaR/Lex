@@ -34,11 +34,13 @@ namespace lex.CodeAnalysis.Binding
             Value = value;
         }
 
+        public override BoundNodeKind Kind => BoundNodeKind.LiteralExpression;
+        public override Type Type => Value.GetType();
         public object Value { get; }
 
-        public override Type Type => Value.GetType();
+     
 
-        public override BoundNodeKind Kind => BoundNodeKind.LiteralExpression;
+        
     }
 
     internal sealed class BoundUnaryExpression : BoundExpression
@@ -72,12 +74,11 @@ namespace lex.CodeAnalysis.Binding
             Left = left;
             OperatorKind = operatorKind;
             Right = right;
-            Left = left;
         }
 
-        public override Type Type => Left.Type;
-        public override BoundNodeKind Kind => BoundNodeKind.UnaryExpression;
 
+        public override BoundNodeKind Kind => BoundNodeKind.UnaryExpression;
+        public override Type Type => Left.Type;
         public BoundExpression Left { get; }
         public BoundBinaryOperatorKind OperatorKind { get; }
         public BoundExpression Right { get; }
@@ -104,7 +105,7 @@ namespace lex.CodeAnalysis.Binding
 
         private BoundExpression BindLiteralExpression(LiteralExpressionSyntax syntax)
         {
-            var value = syntax.LiteralToken.Value as int? ?? 0;
+            var value = syntax.NumberToken.Value as int? ?? 0;
             return new BoundLiteralExpression(value);
         }
         private BoundExpression BindUnaryExpression(UnaryExpressionSyntax syntax)
