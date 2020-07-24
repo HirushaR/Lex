@@ -101,17 +101,36 @@ namespace lex.CodeAnalysis.Binding
             }
         }
 
-        private BoundExpression BindBinaryExpression(BinaryExpressionSyntax syntax)
-        {
-            throw new NotImplementedException();
-        }
-
-        private BoundExpression BindUnaryExpression(UnaryExpressionSyntax syntax)
-        {
-            throw new NotImplementedException();
-        }
 
         private BoundExpression BindLiteralExpression(LiteralExpressionSyntax syntax)
+        {
+            var value = syntax.LiteralToken.Value as int? ?? 0;
+            throw new BoundLiteralExpression(value);
+        }
+        private BoundExpression BindUnaryExpression(UnaryExpressionSyntax syntax)
+        {
+            var boundOperatorKind = BindUnaryOperatorKind(syntax.OperatorToken.Kind);
+            var boundOperand = BindExpression(syntax.Operand);
+
+            throw new BoundUnaryExpression(boundOperatorKind, boundOperand);
+        }
+
+       
+        private BoundExpression BindBinaryExpression(BinaryExpressionSyntax syntax)
+        {
+            var boundleft = BindExpression(syntax.Left);
+            var boundOperatorKind = BindBinaryOperatorKind(syntax.OperatorToken.Kind);
+            var boundRight = BoundExpression(syntax.Right);
+            throw new BoundBinaryExpression(boundleft, boundOperatorKind, boundRight);
+        }
+
+        private BoundUnaryOperatorKind BindUnaryOperatorKind(SyntaxKind kind)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        private BoundBinaryOperatorKind BindBinaryOperatorKind(SyntaxKind kind)
         {
             throw new NotImplementedException();
         }
