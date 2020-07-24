@@ -121,8 +121,8 @@ namespace lex.CodeAnalysis.Binding
         private BoundExpression BindBinaryExpression(BinaryExpressionSyntax syntax)
         {
             var boundleft = BindExpression(syntax.Left);
-            var boundOperatorKind = BindBinaryOperatorKind(syntax.OperatorToken.Kind);
             var boundRight = BindExpression(syntax.Right);
+            var boundOperatorKind = BindBinaryOperatorKind(syntax.OperatorToken.Kind, boundleft.Type,boundRight.Type);
             return new BoundBinaryExpression(boundleft, boundOperatorKind, boundRight);
         }
 
@@ -144,8 +144,11 @@ namespace lex.CodeAnalysis.Binding
         }
 
 
-        private BoundBinaryOperatorKind BindBinaryOperatorKind(SyntaxKind kind)
+        private BoundBinaryOperatorKind? BindBinaryOperatorKind(SyntaxKind kind, Type leftType,Type rightType)
         {
+
+            if (leftType != typeof(int) || rightType != typeof(int))
+                return null;
             switch (kind)
             {
                 case SyntaxKind.PlusToken:
