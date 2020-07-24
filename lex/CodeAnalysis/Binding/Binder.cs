@@ -111,7 +111,7 @@ namespace lex.CodeAnalysis.Binding
         private BoundExpression BindUnaryExpression(UnaryExpressionSyntax syntax)
         {
             var boundOperand = BindExpression(syntax.Operand);
-            var boundOperatorKind = BindUnaryOperatorKind(syntax.OperatorToken.Kind, boundOperand type);
+            var boundOperatorKind = BindUnaryOperatorKind(syntax.OperatorToken.Kind, boundOperand.Type);
 
 
             return new BoundUnaryExpression(boundOperatorKind, boundOperand);
@@ -126,7 +126,7 @@ namespace lex.CodeAnalysis.Binding
             return new BoundBinaryExpression(boundleft, boundOperatorKind, boundRight);
         }
 
-        private BoundUnaryOperatorKind BindUnaryOperatorKind(SyntaxKind kind,Type operandType)
+        private BoundUnaryOperatorKind? BindUnaryOperatorKind(SyntaxKind kind,Type operandType)
         {
 
             if (operandType != typeof(int))
