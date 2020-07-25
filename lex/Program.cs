@@ -31,8 +31,12 @@ namespace lex
                 }
 
                 var parser = new Parser(line);
+
                 var syntaxTree = SyntexTree.Parse(line);
                 var color = Console.ForegroundColor;
+
+               
+                IReadOnlyList<string> diagnostics = syntaxTree.Diagnostics;
 
                 if (showTree)
                 {
@@ -42,7 +46,7 @@ namespace lex
                     Console.ForegroundColor = color;
                 }
 
-                if (!syntaxTree.Diagnostics.Any())
+                if (!diagnostics.Any())
                 {
                     var e = new Evaluator(syntaxTree.Root);
                     var result = e.Evaluate();
