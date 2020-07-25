@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace lex.CodeAnalysis.Syntax
 {
@@ -14,14 +14,14 @@ namespace lex.CodeAnalysis.Syntax
         }
 
         public IEnumerable<string> Diagnostics => _diagnostics;
+
         private char Current
         {
             get
             {
                 if (_position >= _text.Length)
-                {
                     return '\0';
-                }
+
                 return _text[_position];
             }
         }
@@ -31,16 +31,10 @@ namespace lex.CodeAnalysis.Syntax
             _position++;
         }
 
-        // every time we called next token we check next item and keep going
-        public SyntaxToken NextToken()
+        public SyntaxToken Lex()
         {
-            //<numbers>
-            //+-*?()
-            //<whitespace>
-
             if (_position >= _text.Length)
                 return new SyntaxToken(SyntaxKind.EndOfFileToken, _position, "\0", null);
-
 
             if (char.IsDigit(Current))
             {
@@ -52,7 +46,7 @@ namespace lex.CodeAnalysis.Syntax
                 var length = _position - start;
                 var text = _text.Substring(start, length);
                 if (!int.TryParse(text, out var value))
-                    _diagnostics.Add($"ERROR:The number {_text} isn't valid Int32");
+                    _diagnostics.Add($"The number {_text} isn't valid Int32.");
 
                 return new SyntaxToken(SyntaxKind.NumberToken, start, text, value);
             }
@@ -66,27 +60,27 @@ namespace lex.CodeAnalysis.Syntax
 
                 var length = _position - start;
                 var text = _text.Substring(start, length);
-                return new SyntaxToken(SyntaxKind.WhiteSpaceToken, start, text, null);
+                return new SyntaxToken(SyntaxKind.WhitespaceToken, start, text, null);
             }
 
-            if (Current == '+')
-                return new SyntaxToken(SyntaxKind.PlusToken, _position++, "+", null);
-            if (Current == '-')
-                return new SyntaxToken(SyntaxKind.MinusToken, _position++, "-", null);
-            if (Current == '*')
-                return new SyntaxToken(SyntaxKind.StarToken, _position++, "*", null);
-            if (Current == '/')
-                return new SyntaxToken(SyntaxKind.SlashToken, _position++, "/", null);
-            if (Current == '(')
-                return new SyntaxToken(SyntaxKind.OpenParanthesisToken, _position++, "(", null);
-            if (Current == ')')
-                return new SyntaxToken(SyntaxKind.CloseParanthesisToken, _position++, ")", null);
+            switch (Current)
+            {
+                case '+':
+                    return new SyntaxToken(SyntaxKind.PlusToken, _position++, "+", null);
+                case '-':
+                    return new SyntaxToken(SyntaxKind.MinusToken, _position++, "-", null);
+                case '*':
+                    return new SyntaxToken(SyntaxKind.StarToken, _position++, "*", null);
+                case '/':
+                    return new SyntaxToken(SyntaxKind.SlashToken, _position++, "/", null);
+                case '(':
+                    return new SyntaxToken(SyntaxKind.OpenParenthesisToken, _position++, "(", null);
+                case ')':
+                    return new SyntaxToken(SyntaxKind.CloseParenthesisToken, _position++, ")", null);
+            }
 
-            _diagnostics.Add($"ERROR: Bad character in input: '{Current}'");
+            _diagnostics.Add($"ERROR: bad character input: '{Current}'");
             return new SyntaxToken(SyntaxKind.BadToken, _position++, _text.Substring(_position - 1, 1), null);
-
         }
     }
 }
-
-

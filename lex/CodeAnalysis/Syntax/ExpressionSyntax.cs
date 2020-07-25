@@ -1,9 +1,6 @@
-﻿namespace lex.CodeAnalysis.Syntax
+namespace lex.CodeAnalysis.Syntax
 {
-    abstract class BoundExpression : SyntaxNode
+    public abstract class ExpressionSyntax : SyntaxNode
     {
-
     }
 }
-
-

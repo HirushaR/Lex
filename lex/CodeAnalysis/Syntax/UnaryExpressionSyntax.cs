@@ -1,28 +1,24 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace lex.CodeAnalysis.Syntax
 {
-    sealed class UnaryExpressionSyntax : BoundExpression
-    { 
-        public UnaryExpressionSyntax(SyntaxToken operatorToken, BoundExpression operand)
+    public sealed class UnaryExpressionSyntax : ExpressionSyntax
+    {
+        public UnaryExpressionSyntax(SyntaxToken operatorToken, ExpressionSyntax operand)
         {
-    
             OperatorToken = operatorToken;
             Operand = operand;
         }
 
         public override SyntaxKind Kind => SyntaxKind.UnaryExpression;
-
         public SyntaxToken OperatorToken { get; }
-        public BoundExpression Operand { get; }
+        public ExpressionSyntax Operand { get; }
 
-        public override IEnumerable<SyntaxNode> getChildern()
+        public override IEnumerable<SyntaxNode> GetChildren()
         {
             yield return OperatorToken;
             yield return Operand;
-
         }
     }
+
 }
-
-

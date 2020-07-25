@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace lex.CodeAnalysis.Syntax
 {
-    sealed class BinaryExpressionSyntax : BoundExpression
+    public sealed class BinaryExpressionSyntax : ExpressionSyntax
     {
-        public BinaryExpressionSyntax(BoundExpression left, SyntaxToken operatorToken, BoundExpression right)
+        public BinaryExpressionSyntax(ExpressionSyntax left, SyntaxToken operatorToken, ExpressionSyntax right)
         {
             Left = left;
             OperatorToken = operatorToken;
@@ -12,11 +12,11 @@ namespace lex.CodeAnalysis.Syntax
         }
 
         public override SyntaxKind Kind => SyntaxKind.BinaryExpression;
-        public BoundExpression Left { get; }
+        public ExpressionSyntax Left { get; }
         public SyntaxToken OperatorToken { get; }
-        public BoundExpression Right { get; }
+        public ExpressionSyntax Right { get; }
 
-        public override IEnumerable<SyntaxNode> getChildern()
+        public override IEnumerable<SyntaxNode> GetChildren()
         {
             yield return Left;
             yield return OperatorToken;
@@ -24,5 +24,3 @@ namespace lex.CodeAnalysis.Syntax
         }
     }
 }
-
-

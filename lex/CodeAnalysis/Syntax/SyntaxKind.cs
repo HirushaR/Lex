@@ -1,26 +1,23 @@
-﻿namespace lex.CodeAnalysis.Syntax
+namespace lex.CodeAnalysis.Syntax
 {
     public enum SyntaxKind
     {
-        //Tokens
+        // Tokens
+        BadToken,
+        EndOfFileToken,
+        WhitespaceToken,
         NumberToken,
-        WhiteSpaceToken,
         PlusToken,
         MinusToken,
         StarToken,
         SlashToken,
-        OpenParanthesisToken,
-        CloseParanthesisToken,
-        BadToken,
-        EndOfFileToken,
+        OpenParenthesisToken,
+        CloseParenthesisToken,
 
-        //Expression
-        NumberExpression,
+        // Expressions
+        LiteralExpression,
+        UnaryExpression,
         BinaryExpression,
         ParenthesizedExpression,
-        UnaryExpression,
-        LiteralExpression
     }
 }
-
-

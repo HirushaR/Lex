@@ -1,27 +1,29 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace lex.CodeAnalysis.Syntax
 {
-    internal sealed partial class Parser
+    internal sealed class Parser
     {
-
         private readonly SyntaxToken[] _tokens;
-        private int _position;
+
         private List<string> _diagnostics = new List<string>();
+        private int _position;
+
         public Parser(string text)
         {
             var tokens = new List<SyntaxToken>();
+
             var lexer = new Lexer(text);
             SyntaxToken token;
             do
             {
-                token = lexer.NextToken();
-                if (token.Kind != SyntaxKind.WhiteSpaceToken &&
+                token = lexer.Lex();
+
+                if (token.Kind != SyntaxKind.WhitespaceToken &&
                     token.Kind != SyntaxKind.BadToken)
                 {
-                    tokens.Add(token);
+                    tokens.Add(token);   
                 }
-
             } while (token.Kind != SyntaxKind.EndOfFileToken);
 
             _tokens = tokens.ToArray();
@@ -32,7 +34,6 @@ namespace lex.CodeAnalysis.Syntax
 
         private SyntaxToken Peek(int offset)
         {
-
             var index = _position + offset;
             if (index >= _tokens.Length)
                 return _tokens[_tokens.Length - 1];
@@ -47,7 +48,6 @@ namespace lex.CodeAnalysis.Syntax
             var current = Current;
             _position++;
             return current;
-
         }
 
         private SyntaxToken MatchToken(SyntaxKind kind)
@@ -55,26 +55,22 @@ namespace lex.CodeAnalysis.Syntax
             if (Current.Kind == kind)
                 return NextToken();
 
-            _diagnostics.Add($"ERROR:Unexpected token <{Current.Kind}>, expected <{kind}>");
+            _diagnostics.Add($"ERROR: Unexpected token <{Current.Kind}>, expected <{kind}>");
             return new SyntaxToken(kind, Current.Position, null, null);
-
         }
 
-        public SyntexTree Parse()
+        public SyntaxTree Parse()
         {
-            var expression = ParseExpression();
+            var expresion = ParseExpression();
             var endOfFileToken = MatchToken(SyntaxKind.EndOfFileToken);
-            return new SyntexTree(_diagnostics, expression, endOfFileToken);
+            return new SyntaxTree(_diagnostics, expresion, endOfFileToken);
         }
 
-        // make tree struture
-
-        private BoundExpression ParseExpression(int parentPrecedence =0)
+        private ExpressionSyntax ParseExpression(int parentPrecedence = 0)
         {
-            BoundExpression left;
+            ExpressionSyntax left;
             var unaryOperatorPrecedence = Current.Kind.GetUnaryOperatorPrecedence();
-
-            if(unaryOperatorPrecedence !=0 && unaryOperatorPrecedence >= parentPrecedence)
+            if (unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
             {
                 var operatorToken = NextToken();
                 var operand = ParseExpression(unaryOperatorPrecedence);
@@ -82,46 +78,35 @@ namespace lex.CodeAnalysis.Syntax
             }
             else
             {
-                 left = ParsePrimaryExpression();
+                left = ParsePrimaryExpression();
             }
 
-
-            while(true)
+            while (true)
             {
                 var precedence = Current.Kind.GetBinaryOperatorPrecedence();
-
                 if (precedence == 0 || precedence <= parentPrecedence)
                     break;
 
-                var operaterToken = NextToken();
+                var operatorToken = NextToken();
                 var right = ParseExpression(precedence);
-                left = new BinaryExpressionSyntax(left, operaterToken, right);
-
+                left = new BinaryExpressionSyntax(left, operatorToken, right);
             }
+
             return left;
         }
 
-
-       
-        // handle +- operations
-
-       
-
-
-        private BoundExpression ParsePrimaryExpression()
+        private ExpressionSyntax ParsePrimaryExpression()
         {
-
-            if (Current.Kind == SyntaxKind.OpenParanthesisToken)
+            if (Current.Kind == SyntaxKind.OpenParenthesisToken)
             {
                 var left = NextToken();
                 var expression = ParseExpression();
-                var right = MatchToken(SyntaxKind.CloseParanthesisToken);
+                var right = MatchToken(SyntaxKind.CloseParenthesisToken);
                 return new ParenthesizedExpressionSyntax(left, expression, right);
             }
+
             var numberToken = MatchToken(SyntaxKind.NumberToken);
             return new LiteralExpressionSyntax(numberToken);
         }
     }
 }
-
-

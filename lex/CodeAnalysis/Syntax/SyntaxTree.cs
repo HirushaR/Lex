@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace lex.CodeAnalysis.Syntax
 {
-     sealed class SyntexTree
+    public sealed class SyntaxTree
     {
-        public SyntexTree(IEnumerable<string> diagnostics, BoundExpression root, SyntaxToken endOfFileToken)
+        public SyntaxTree(IEnumerable<string> diagnostics, ExpressionSyntax root, SyntaxToken endOfFileToken)
         {
             Diagnostics = diagnostics.ToArray();
             Root = root;
@@ -13,15 +13,13 @@ namespace lex.CodeAnalysis.Syntax
         }
 
         public IReadOnlyList<string> Diagnostics { get; }
-        public BoundExpression Root { get; }
+        public ExpressionSyntax Root { get; }
         public SyntaxToken EndOfFileToken { get; }
 
-        public static SyntexTree Parse(string text)
+        public static SyntaxTree Parse(string text)
         {
             var parser = new Parser(text);
             return parser.Parse();
         }
     }
 }
-
-

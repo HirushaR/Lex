@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace lex.CodeAnalysis.Syntax
 {
@@ -6,8 +6,6 @@ namespace lex.CodeAnalysis.Syntax
     {
         public abstract SyntaxKind Kind { get; }
 
-        public abstract IEnumerable<SyntaxNode> getChildern();
+        public abstract IEnumerable<SyntaxNode> GetChildren();
     }
 }
-
-

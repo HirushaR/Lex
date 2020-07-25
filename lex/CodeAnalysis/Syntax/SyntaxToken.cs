@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace lex.CodeAnalysis.Syntax
@@ -18,11 +18,9 @@ namespace lex.CodeAnalysis.Syntax
         public string Text { get; }
         public object Value { get; }
 
-        public override IEnumerable<SyntaxNode> getChildern()
+        public override IEnumerable<SyntaxNode> GetChildren()
         {
             return Enumerable.Empty<SyntaxNode>();
         }
     }
 }
-
-

@@ -1,0 +1,8 @@
+namespace lex.CodeAnalysis.Binding
+{
+    internal enum BoundUnaryOperatorKind
+    {
+        Identity,
+        Negation
+    }
+}
