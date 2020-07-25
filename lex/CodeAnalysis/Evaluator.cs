@@ -7,7 +7,7 @@ using BoundExpression = lex.CodeAnalysis.Binding.BoundExpression;
 namespace lex.CodeAnalysis
 {
 
-     sealed class Evaluator
+    internal sealed class Evaluator
     {
         private readonly BoundExpression _root;
 
@@ -66,8 +66,7 @@ namespace lex.CodeAnalysis
                 }
             }
 
-            if (node is ParenthesizedExpressionSyntax p)
-                return EvaluateExpression(p.Expression);
+        
 
             throw new Exception($"Unexpedcted node {node.Kind}");
 
