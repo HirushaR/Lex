@@ -118,8 +118,12 @@ namespace lex.CodeAnalysis.Binding
             var boundOperand = BindExpression(syntax.Operand);
             var boundOperatorKind = BindUnaryOperatorKind(syntax.OperatorToken.Kind, boundOperand.Type);
 
-
-            return new BoundUnaryExpression(boundOperatorKind, boundOperand);
+            if(boundOperatorKind == null)
+            {
+                _diagnostics.Add($"Unary Operator '{syntax.OperatorToken.Text}' it's not design for type {boundOperand.Type}");
+                return boundOperand;
+            }
+            return new BoundUnaryExpression(boundOperatorKind.Value, boundOperand);
         }
 
       
