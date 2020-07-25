@@ -69,9 +69,9 @@ namespace lex.CodeAnalysis.Syntax
 
         // make tree struture
 
-        private ExpressionSyntax ParseExpression(int parentPrecedence =0)
+        private BoundExpression ParseExpression(int parentPrecedence =0)
         {
-            ExpressionSyntax left;
+            BoundExpression left;
             var unaryOperatorPrecedence = Current.Kind.GetUnaryOperatorPrecedence();
 
             if(unaryOperatorPrecedence !=0 && unaryOperatorPrecedence >= parentPrecedence)
@@ -108,7 +108,7 @@ namespace lex.CodeAnalysis.Syntax
        
 
 
-        private ExpressionSyntax ParsePrimaryExpression()
+        private BoundExpression ParsePrimaryExpression()
         {
 
             if (Current.Kind == SyntaxKind.OpenParanthesisToken)

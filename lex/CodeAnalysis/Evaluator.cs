@@ -1,14 +1,17 @@
+
 using lex.CodeAnalysis.Syntax;
+using lex.CodeAnalysis.Binding;
 using System;
+using BoundExpression = lex.CodeAnalysis.Binding.BoundExpression;
 
 namespace lex.CodeAnalysis
 {
 
      sealed class Evaluator
     {
-        private readonly ExpressionSyntax _root;
+        private readonly BoundExpression _root;
 
-        public Evaluator(ExpressionSyntax root)
+        public Evaluator(BoundExpression root)
         {
             _root = root;
         }
@@ -20,24 +23,27 @@ namespace lex.CodeAnalysis
             return EvaluateExpression(_root);
         }
 
-        private int EvaluateExpression(ExpressionSyntax node)
+        private int EvaluateExpression(BoundExpression node)
         {
             // BinaryExpression
             //NumberExpression
 
-            if (node is LiteralExpressionSyntax n)
-                return (int)n.NumberToken.Value;
+            if (node is BoundLiteralExpression n)
+                return (int)n.Value;
 
-            if( node is UnaryExpressionSyntax u)
+            if( node is BoundUnaryExpression u)
             {
                 var operand = EvaluateExpression(u.Operand);
 
-                if (u.OperatorToken.Kind == SyntaxKind.PlusToken)
-                    return operand;
-                else if (u.OperatorToken.Kind == SyntaxKind.MinusToken)
-                    return -operand;
-                else
-                    throw new Exception($"Unexpected Unary operator {u.OperatorToken.Kind}");
+                switch (u.OperatorKind)
+                {
+                    case BoundUnaryOperatorKind.Identity:
+                        return operand;
+                    case BoundUnaryOperatorKind.Negation:
+                        return -operand;
+                    default:
+                        throw new Exception($"Unexpected Unary operator {u.OperatorKind.Kind}");
+                }
             }
 
             if (node is BinaryExpressionSyntax b)

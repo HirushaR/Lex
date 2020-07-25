@@ -5,7 +5,7 @@ namespace lex.CodeAnalysis.Syntax
 {
      sealed class SyntexTree
     {
-        public SyntexTree(IEnumerable<string> diagnostics, ExpressionSyntax root, SyntaxToken endOfFileToken)
+        public SyntexTree(IEnumerable<string> diagnostics, BoundExpression root, SyntaxToken endOfFileToken)
         {
             Diagnostics = diagnostics.ToArray();
             Root = root;
@@ -13,7 +13,7 @@ namespace lex.CodeAnalysis.Syntax
         }
 
         public IReadOnlyList<string> Diagnostics { get; }
-        public ExpressionSyntax Root { get; }
+        public BoundExpression Root { get; }
         public SyntaxToken EndOfFileToken { get; }
 
         public static SyntexTree Parse(string text)

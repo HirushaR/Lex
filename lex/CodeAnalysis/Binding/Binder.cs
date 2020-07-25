@@ -92,7 +92,7 @@ namespace lex.CodeAnalysis.Binding
 
         public IEnumerable<string> Diagnostics => _diagnostics;
 
-        public BoundExpression BindExpression(ExpressionSyntax syntax)
+        public BoundExpression BindExpression(Syntax.BoundExpression syntax)
         {
             switch(syntax.Kind)
             {

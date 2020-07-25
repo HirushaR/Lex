@@ -2,9 +2,9 @@
 
 namespace lex.CodeAnalysis.Syntax
 {
-    sealed class ParenthesizedExpressionSyntax : ExpressionSyntax
+    sealed class ParenthesizedExpressionSyntax : BoundExpression
     {
-        public ParenthesizedExpressionSyntax(SyntaxToken openParanthesizedToken, ExpressionSyntax expression, SyntaxToken closeParanthesizedToken)
+        public ParenthesizedExpressionSyntax(SyntaxToken openParanthesizedToken, BoundExpression expression, SyntaxToken closeParanthesizedToken)
         {
             OpenParanthesizedToken = openParanthesizedToken;
             Expression = expression;
@@ -13,7 +13,7 @@ namespace lex.CodeAnalysis.Syntax
 
         public override SyntaxKind Kind => SyntaxKind.ParenthesizedExpression;
         public SyntaxToken OpenParanthesizedToken { get; }
-        public ExpressionSyntax Expression { get; }
+        public BoundExpression Expression { get; }
         public SyntaxToken CloseParanthesizedToken { get; }
 
 

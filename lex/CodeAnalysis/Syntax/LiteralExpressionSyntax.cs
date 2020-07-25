@@ -2,7 +2,7 @@
 
 namespace lex.CodeAnalysis.Syntax
 {
-    sealed class LiteralExpressionSyntax : ExpressionSyntax
+    sealed class LiteralExpressionSyntax : BoundExpression
     {
         public LiteralExpressionSyntax(SyntaxToken numberToken)
         {

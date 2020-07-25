@@ -2,9 +2,9 @@
 
 namespace lex.CodeAnalysis.Syntax
 {
-    sealed class UnaryExpressionSyntax : ExpressionSyntax
+    sealed class UnaryExpressionSyntax : BoundExpression
     { 
-        public UnaryExpressionSyntax(SyntaxToken operatorToken, ExpressionSyntax operand)
+        public UnaryExpressionSyntax(SyntaxToken operatorToken, BoundExpression operand)
         {
     
             OperatorToken = operatorToken;
@@ -14,7 +14,7 @@ namespace lex.CodeAnalysis.Syntax
         public override SyntaxKind Kind => SyntaxKind.UnaryExpression;
 
         public SyntaxToken OperatorToken { get; }
-        public ExpressionSyntax Operand { get; }
+        public BoundExpression Operand { get; }
 
         public override IEnumerable<SyntaxNode> getChildern()
         {
