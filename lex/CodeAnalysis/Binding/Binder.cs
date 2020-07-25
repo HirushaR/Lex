@@ -90,6 +90,8 @@ namespace lex.CodeAnalysis.Binding
 
         private readonly List<string> _diagnostics = new List<string>();
 
+        public IEnumerable<string> Diagnostics => _diagnostics;
+
         public BoundExpression BindExpression(ExpressionSyntax syntax)
         {
             switch(syntax.Kind)
