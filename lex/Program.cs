@@ -1,4 +1,5 @@
 ﻿using lex.CodeAnalysis;
+using lex.CodeAnalysis.Binding;
 using lex.CodeAnalysis.Syntax;
 using System;
 using System.Collections.Generic;
@@ -30,14 +31,16 @@ namespace lex
                     continue;
                 }
 
-                var parser = new Parser(line);
-
-                var syntaxTree = SyntexTree.Parse(line);
                 var color = Console.ForegroundColor;
+                var parser = new Parser(line);
+                var binder = new Binder();
+                var syntaxTree = SyntexTree.Parse(line);
+                var boundExpression = binder.BindExpression(syntaxTree.Root);
+                var diagnostics = syntaxTree.Diagnostics.Concat(binder.Diagnostics).ToArray();
+     
 
                
-                IReadOnlyList<string> diagnostics = syntaxTree.Diagnostics;
-
+            
                 if (showTree)
                 {
 
