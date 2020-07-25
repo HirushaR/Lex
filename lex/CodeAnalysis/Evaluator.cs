@@ -42,25 +42,28 @@ namespace lex.CodeAnalysis
                     case BoundUnaryOperatorKind.Negation:
                         return -operand;
                     default:
-                        throw new Exception($"Unexpected Unary operator {u.OperatorKind.Kind}");
+                        throw new Exception($"Unexpected Unary operator {u.OperatorKind}");
                 }
             }
 
-            if (node is BinaryExpressionSyntax b)
+            if (node is BoundBinaryExpression b)
             {
                 var left = EvaluateExpression(b.Left);
                 var right = EvaluateExpression(b.Right);
 
-                if (b.OperatorToken.Kind == SyntaxKind.PlusToken)
-                    return left + right;
-                else if (b.OperatorToken.Kind == SyntaxKind.MinusToken)
-                    return left - right;
-                else if (b.OperatorToken.Kind == SyntaxKind.StarToken)
-                    return left * right;
-                else if (b.OperatorToken.Kind == SyntaxKind.SlashToken)
-                    return left / right;
-                else
-                    throw new Exception($"Unexpected binary Operator {b.OperatorToken.Kind}");
+                switch (b.OperatorKind)
+                {
+                    case BoundBinaryOperatorKind.Addition:
+                        return left + right;
+                    case BoundBinaryOperatorKind.Subtraction:
+                        return left - right;
+                    case BoundBinaryOperatorKind.Multiplication:
+                        return left * right;
+                    case BoundBinaryOperatorKind.Division:
+                        return left / right;
+                    default:
+                        throw new Exception($"Unexpected binary Operator {b.OperatorKind}");
+                }
             }
 
             if (node is ParenthesizedExpressionSyntax p)
