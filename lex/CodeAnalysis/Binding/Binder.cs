@@ -120,7 +120,7 @@ namespace lex.CodeAnalysis.Binding
 
             if(boundOperatorKind == null)
             {
-                _diagnostics.Add($"Unary Operator '{syntax.OperatorToken.Text}' it's not design for type {boundOperand.Type}");
+                _diagnostics.Add($"Unary Operator '{syntax.OperatorToken.Text}' it's not design for type {boundOperand.Type}.");
                 return boundOperand;
             }
             return new BoundUnaryExpression(boundOperatorKind.Value, boundOperand);
@@ -132,7 +132,13 @@ namespace lex.CodeAnalysis.Binding
             var boundleft = BindExpression(syntax.Left);
             var boundRight = BindExpression(syntax.Right);
             var boundOperatorKind = BindBinaryOperatorKind(syntax.OperatorToken.Kind, boundleft.Type,boundRight.Type);
-            return new BoundBinaryExpression(boundleft, boundOperatorKind, boundRight);
+            if (boundOperatorKind == null)
+            {
+                _diagnostics.Add($"Unary Operator '{syntax.OperatorToken.Text}' it's not design for type {boundleft.Type} and {boundRight.Type}.");
+                return boundleft;
+            }
+
+            return new BoundBinaryExpression(boundleft, boundOperatorKind.Value, boundRight);
         }
 
         private BoundUnaryOperatorKind? BindUnaryOperatorKind(SyntaxKind kind,Type operandType)
