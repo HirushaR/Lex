@@ -87,6 +87,9 @@ namespace lex.CodeAnalysis.Binding
 
     internal sealed class Binder
     {
+
+        private readonly List<string> _diagnostics = new List<string>();
+
         public BoundExpression BindExpression(ExpressionSyntax syntax)
         {
             switch(syntax.Kind)
