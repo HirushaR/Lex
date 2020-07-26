@@ -1,7 +1,33 @@
+using lex.CodeAnalysis.Syntax;
 using System;
 
 namespace lex.CodeAnalysis.Binding
 {
+
+    internal sealed class BoundUnaryOperator
+    {
+
+
+        public BoundUnaryOperator(SyntaxKind syntaxkind, BoundUnaryOperatorKind kind, Type OperandType)
+            : this(syntaxkind,kind,OperandType,OperandType)
+        {
+            
+        }
+
+        public BoundUnaryOperator(SyntaxKind syntaxkind, BoundUnaryOperatorKind kind, Type operandType, Type resultType)
+        {
+            Syntaxkind = syntaxkind;
+            Kind = kind;
+            OperandType = operandType;
+            ResultType = resultType;
+        }
+
+        public SyntaxKind Syntaxkind { get; }
+        public BoundUnaryOperatorKind Kind { get; }
+        public Type OperandType { get; }
+        public Type ResultType { get; }
+    }
+
     internal sealed class BoundBinaryExpression : BoundExpression
     {
         public BoundBinaryExpression(BoundExpression left, BoundBinaryOperatorKind operatorKind, BoundExpression right)
