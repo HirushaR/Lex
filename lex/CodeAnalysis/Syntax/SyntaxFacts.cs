@@ -35,7 +35,6 @@ namespace lex.CodeAnalysis.Syntax
                 case SyntaxKind.BangEaqlesToken:
                     return 3;
 
-
                 case SyntaxKind.AmpersandAmpersandToken:
                     return 2;
 

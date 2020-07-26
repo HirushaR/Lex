@@ -12,7 +12,7 @@ namespace lex.CodeAnalysis.Binding
         }
 
         public override BoundNodeKind Kind => BoundNodeKind.UnaryExpression;
-        public override Type Type => Operand.Type;
+        public override Type Type => op.ResultType;
         public BoundUnaryOperator op { get; }
         public BoundExpression Operand { get; }
     }
