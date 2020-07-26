@@ -28,6 +28,7 @@ namespace lex.CodeAnalysis.Syntax
         UnaryExpression,
         BinaryExpression,
         ParenthesizedExpression,
-
+        EaqulesEaqlesToken,
+        BangEaqlesToken,
     }
 }

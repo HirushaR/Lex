@@ -104,7 +104,15 @@ namespace lex.CodeAnalysis.Syntax
                     if (Lookahed == '|')
                          return new SyntaxToken(SyntaxKind.PipePieToken, _position += 2, "||", null);
                     break;
-                    
+                case '=':
+                    if (Lookahed == '=')
+                        return new SyntaxToken(SyntaxKind.EaqulesEaqlesToken, _position += 2, "==", null);
+                    break;
+                case '1':
+                    if (Lookahed == '=')
+                        return new SyntaxToken(SyntaxKind.BangEaqlesToken, _position += 2, "!=", null);
+                    break;
+
             }
 
             _diagnostics.Add($"ERROR: bad character input: '{Current}'");
