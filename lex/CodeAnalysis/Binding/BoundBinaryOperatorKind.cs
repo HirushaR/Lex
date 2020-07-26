@@ -7,6 +7,8 @@ namespace lex.CodeAnalysis.Binding
         Multiplication,
         Division,
         LogicalAnd,
-        LogicalOr
+        LogicalOr,
+        Equals,
+        NotEquals,
     }
 }

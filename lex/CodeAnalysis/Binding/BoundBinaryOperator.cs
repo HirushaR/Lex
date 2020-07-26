@@ -11,8 +11,13 @@ namespace lex.CodeAnalysis.Binding
             {
 
             }
+            private BoundBinaryOperator(SyntaxKind syntaxkind, BoundBinaryOperatorKind kind, Type operandType,Type resultType)
+                  : this(syntaxkind, kind, operandType, operandType, resultType)
+            {
 
-            private BoundBinaryOperator(SyntaxKind syntaxkind, BoundBinaryOperatorKind kind, Type leftType, Type rightType, Type resultType)
+            }
+
+        private BoundBinaryOperator(SyntaxKind syntaxkind, BoundBinaryOperatorKind kind, Type leftType, Type rightType, Type resultType)
             {
                 Syntaxkind = syntaxkind;
                 Kind = kind;
@@ -34,9 +39,13 @@ namespace lex.CodeAnalysis.Binding
             new BoundBinaryOperator(SyntaxKind.MinusToken,BoundBinaryOperatorKind.Subtraction, typeof(int)),
             new BoundBinaryOperator(SyntaxKind.StarToken,BoundBinaryOperatorKind.Multiplication, typeof(int)),
             new BoundBinaryOperator(SyntaxKind.SlashToken,BoundBinaryOperatorKind.Division, typeof(int)),
+            new BoundBinaryOperator(SyntaxKind.EaqulesEaqlesToken,BoundBinaryOperatorKind.Equals, typeof(int), typeof(bool)),
+            new BoundBinaryOperator(SyntaxKind.BangEaqlesToken,BoundBinaryOperatorKind.NotEquals, typeof(int), typeof(bool)),
 
             new BoundBinaryOperator(SyntaxKind.AmpersandAmpersandToken,BoundBinaryOperatorKind.LogicalAnd, typeof(bool)),
             new BoundBinaryOperator(SyntaxKind.PipePieToken,BoundBinaryOperatorKind.LogicalOr, typeof(bool)),
+            new BoundBinaryOperator(SyntaxKind.EaqulesEaqlesToken,BoundBinaryOperatorKind.Equals, typeof(bool)),
+            new BoundBinaryOperator(SyntaxKind.BangEaqlesToken,BoundBinaryOperatorKind.NotEquals, typeof(bool)),
         };
 
             public static BoundBinaryOperator Bind(SyntaxKind syntaxkind, Type leftType, Type rightType)
