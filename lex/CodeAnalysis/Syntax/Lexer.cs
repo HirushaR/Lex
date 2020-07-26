@@ -92,9 +92,7 @@ namespace lex.CodeAnalysis.Syntax
                 case '(':
                     return new SyntaxToken(SyntaxKind.OpenParenthesisToken, _position++, "(", null);
                 case ')':
-                    return new SyntaxToken(SyntaxKind.CloseParenthesisToken, _position++, ")", null);
-                case '!':
-                    return new SyntaxToken(SyntaxKind.BangToken, _position++, "!", null);
+                    return new SyntaxToken(SyntaxKind.CloseParenthesisToken, _position++, ")", null);                    
                 case '&':
                     if (Lookahed == '&')
                         return new SyntaxToken(SyntaxKind.AmpersandAmpersandToken, _position +=2, "&&", null);
@@ -108,10 +106,11 @@ namespace lex.CodeAnalysis.Syntax
                     if (Lookahed == '=')
                         return new SyntaxToken(SyntaxKind.EaqulesEaqlesToken, _position += 2, "==", null);
                     break;
-                case '1':
+                case '!':
                     if (Lookahed == '=')
                         return new SyntaxToken(SyntaxKind.BangEaqlesToken, _position += 2, "!=", null);
-                    break;
+                    else
+                        return new SyntaxToken(SyntaxKind.BangToken, _position++, "!", null);
 
             }
 

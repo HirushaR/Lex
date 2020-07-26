@@ -12,6 +12,8 @@ namespace lex.CodeAnalysis.Syntax
         StarToken,
         SlashToken,
         BangToken,
+        EaqulesEaqlesToken,
+        BangEaqlesToken,
         AmpersandAmpersandToken,
         PipePieToken,
         OpenParenthesisToken,
@@ -28,7 +30,6 @@ namespace lex.CodeAnalysis.Syntax
         UnaryExpression,
         BinaryExpression,
         ParenthesizedExpression,
-        EaqulesEaqlesToken,
-        BangEaqlesToken,
+
     }
 }
