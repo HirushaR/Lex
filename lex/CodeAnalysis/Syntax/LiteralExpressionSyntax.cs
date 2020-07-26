@@ -4,6 +4,12 @@ namespace lex.CodeAnalysis.Syntax
 {
     public sealed class LiteralExpressionSyntax : ExpressionSyntax
     {
+        public LiteralExpressionSyntax(SyntaxToken literalToken)
+            : this(literalToken, literalToken.Value)
+        {
+          
+        }
+
         public LiteralExpressionSyntax(SyntaxToken literalToken, object value)
         {
             LiteralToken = literalToken;
