@@ -25,15 +25,17 @@ namespace lex.CodeAnalysis
 
             if (node is BoundUnaryExpression u)
             {
-                var operand = (int)EvaluateExpression(u.Operand);
+                var operand =EvaluateExpression(u.Operand);
 
 
                 switch (u.OperatorKind)
                 {
                     case BoundUnaryOperatorKind.Identity:
-                        return operand;
+                        return (int)operand;
                     case BoundUnaryOperatorKind.Negation:
-                        return -operand;
+                        return -(int)operand;
+                    case BoundUnaryOperatorKind.LogicalNegation:
+                        return !(bool)operand;
                     default:
                         throw new Exception($"Unexpected unary operator {u.OperatorKind}");
                 }
