@@ -4,17 +4,15 @@ using System;
 namespace lex.CodeAnalysis.Binding
 {
 
-    internal sealed partial class BoundBinaryExpression
-    {
         internal sealed class BoundBinaryOperator
         {
-            public BoundBinaryOperator(SyntaxKind syntaxkind, BoundBinaryOperatorKind kind, Type type)
+            private BoundBinaryOperator(SyntaxKind syntaxkind, BoundBinaryOperatorKind kind, Type type)
                 :this(syntaxkind, kind,type,type,type)
             {
 
             }
 
-            public BoundBinaryOperator(SyntaxKind syntaxkind, BoundBinaryOperatorKind kind, Type leftType, Type rightType, Type resultType)
+            private BoundBinaryOperator(SyntaxKind syntaxkind, BoundBinaryOperatorKind kind, Type leftType, Type rightType, Type resultType)
             {
                 Syntaxkind = syntaxkind;
                 Kind = kind;
@@ -53,5 +51,5 @@ namespace lex.CodeAnalysis.Binding
             }
 
         }
-    }
+    
 }

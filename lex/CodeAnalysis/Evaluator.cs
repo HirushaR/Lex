@@ -28,7 +28,7 @@ namespace lex.CodeAnalysis
                 var operand =EvaluateExpression(u.Operand);
 
 
-                switch (u.OperatorKind)
+                switch (u.op.Kind)
                 {
                     case BoundUnaryOperatorKind.Identity:
                         return (int)operand;
@@ -37,7 +37,7 @@ namespace lex.CodeAnalysis
                     case BoundUnaryOperatorKind.LogicalNegation:
                         return !(bool)operand;
                     default:
-                        throw new Exception($"Unexpected unary operator {u.OperatorKind}");
+                        throw new Exception($"Unexpected unary operator {u.op.Kind}");
                 }
             }
 
@@ -46,7 +46,7 @@ namespace lex.CodeAnalysis
                 var left = EvaluateExpression(b.Left);
                 var right = EvaluateExpression(b.Right);
 
-                switch (b.OperatorKind)
+                switch (b.Op.Kind)
                 {
                     case BoundBinaryOperatorKind.Addition:
                         return (int)left + (int)right;
@@ -61,7 +61,7 @@ namespace lex.CodeAnalysis
                     case BoundBinaryOperatorKind.LogicalOr:
                         return (bool)left || (bool)right;
                     default:
-                        throw new Exception($"Unexpected binary operator {b.OperatorKind}");
+                        throw new Exception($"Unexpected binary operator {b.Op.Kind}");
                 }
             }
 
