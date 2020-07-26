@@ -1,3 +1,5 @@
+using System;
+
 namespace lex.CodeAnalysis.Syntax
 {
     internal static class SyntaxFacts
@@ -29,6 +31,19 @@ namespace lex.CodeAnalysis.Syntax
 
                 default:
                     return 0;
+            }
+        }
+
+        internal static SyntaxKind GetKeyworkKind(string text)
+        {
+            switch(text)
+            {
+                case "true":
+                    return SyntaxKind.TrueKeyword;
+                case "false":
+                    return SyntaxKind.FalseKeyword;
+                default:
+                    return SyntaxKind.IdentifierToken;
             }
         }
     }

@@ -19,5 +19,8 @@ namespace lex.CodeAnalysis.Syntax
         UnaryExpression,
         BinaryExpression,
         ParenthesizedExpression,
+        TrueKeyword,
+        FalseKeyword,
+        IdentifierToken,
     }
 }

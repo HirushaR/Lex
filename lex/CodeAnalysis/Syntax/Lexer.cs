@@ -63,6 +63,22 @@ namespace lex.CodeAnalysis.Syntax
                 return new SyntaxToken(SyntaxKind.WhitespaceToken, start, text, null);
             }
 
+            //true 
+            //flase
+            if (char.IsLetter(Current))
+            {
+                var start = _position;
+
+                while (char.IsWhiteSpace(Current))
+                    Next();
+
+                var length = _position - start;
+                var text = _text.Substring(start, length);
+                var kind = SyntaxFacts.GetKeyworkKind(text);
+                return new SyntaxToken(kind, start, text, null);
+
+            }
+
             switch (Current)
             {
                 case '+':
