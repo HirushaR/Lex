@@ -85,10 +85,6 @@ namespace lex.CodeAnalysis.Binding
             }
 
             return null;
-
-              
-
-           
         }
 
         private BoundBinaryOperatorKind? BindBinaryOperatorKind(SyntaxKind kind, Type leftType, Type rightType)
@@ -118,7 +114,6 @@ namespace lex.CodeAnalysis.Binding
                         return BoundBinaryOperatorKind.LogicalAnd;
                     case SyntaxKind.PipePieToken:
                         return BoundBinaryOperatorKind.LogicalOr;
-                 
                 }
             }
 

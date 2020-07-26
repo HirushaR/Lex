@@ -1,2 +1,4 @@
 .vs
 lex.sln
+lex/bin/
+lex/obj/
