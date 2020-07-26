@@ -34,7 +34,7 @@ namespace lex.CodeAnalysis.Syntax
             }
         }
 
-        internal static SyntaxKind GetKeyworkKind(string text)
+        public static SyntaxKind GetKeyworkKind(string text)
         {
             switch(text)
             {

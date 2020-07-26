@@ -69,7 +69,7 @@ namespace lex.CodeAnalysis.Syntax
             {
                 var start = _position;
 
-                while (char.IsWhiteSpace(Current))
+                while (char.IsLetter(Current))
                     Next();
 
                 var length = _position - start;
