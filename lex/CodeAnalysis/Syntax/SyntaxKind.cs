@@ -13,14 +13,18 @@ namespace lex.CodeAnalysis.Syntax
         SlashToken,
         OpenParenthesisToken,
         CloseParenthesisToken,
+        IdentifierToken,
+
+
+        //keywords
+        TrueKeyword,
+        FalseKeyword,
 
         // Expressions
         LiteralExpression,
         UnaryExpression,
         BinaryExpression,
         ParenthesizedExpression,
-        TrueKeyword,
-        FalseKeyword,
-        IdentifierToken,
+
     }
 }
