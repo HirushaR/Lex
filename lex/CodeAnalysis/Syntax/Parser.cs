@@ -105,6 +105,13 @@ namespace lex.CodeAnalysis.Syntax
                 return new ParenthesizedExpressionSyntax(left, expression, right);
             }
 
+            else if(Current.Kind == SyntaxKind.TrueKeyword ||
+                    Current.Kind == SyntaxKind.FalseKeyword)
+            {
+                var value = Current.Kind == SyntaxKind.TrueKeyword;
+                return new LiteralExpressionSyntax(Current, value);
+            }
+
             var numberToken = MatchToken(SyntaxKind.NumberToken);
             return new LiteralExpressionSyntax(numberToken);
         }
