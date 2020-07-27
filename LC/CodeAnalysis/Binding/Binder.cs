@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using lex.CodeAnalysis.Syntax;
+using Lex.CodeAnalysis.Syntax;
 
 
-namespace lex.CodeAnalysis.Binding
+namespace Lex.CodeAnalysis.Binding
 {
     internal sealed class Binder
     {

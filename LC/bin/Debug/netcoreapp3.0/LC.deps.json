@@ -6,15 +6,15 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v3.0": {
-      "lex/1.0.0": {
+      "LC/1.0.0": {
         "runtime": {
-          "lex.dll": {}
+          "LC.dll": {}
         }
       }
     }
   },
   "libraries": {
-    "lex/1.0.0": {
+    "LC/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

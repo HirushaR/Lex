@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace lex.CodeAnalysis.Syntax
+namespace Lex.CodeAnalysis.Syntax
 {
     public abstract class SyntaxNode
     {

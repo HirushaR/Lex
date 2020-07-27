@@ -1,6 +1,6 @@
 using System;
 
-namespace lex.CodeAnalysis.Binding
+namespace Lex.CodeAnalysis.Binding
 {
     internal abstract class BoundExpression : BoundNode
     {

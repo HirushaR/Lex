@@ -1,6 +1,6 @@
 using System;
 
-namespace lex.CodeAnalysis.Syntax
+namespace Lex.CodeAnalysis.Syntax
 {
     internal static class SyntaxFacts
     {

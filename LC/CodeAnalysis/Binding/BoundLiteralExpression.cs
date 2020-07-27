@@ -1,6 +1,6 @@
 using System;
 
-namespace lex.CodeAnalysis.Binding
+namespace Lex.CodeAnalysis.Binding
 {
     internal sealed class BoundLiteralExpression : BoundExpression
     {

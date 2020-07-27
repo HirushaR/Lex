@@ -1,7 +1,7 @@
-﻿using lex.CodeAnalysis.Syntax;
+﻿using Lex.CodeAnalysis.Syntax;
 using System;
 
-namespace lex.CodeAnalysis.Binding
+namespace Lex.CodeAnalysis.Binding
 {
     internal sealed class BoundUnaryOperator
     {

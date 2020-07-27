@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "F:\\hiru\\works\\C#\\Lex\\LC\\lex.csproj": {}
+    "F:\\hiru\\works\\C#\\Lex\\LC\\LC.csproj": {}
   },
   "projects": {
-    "F:\\hiru\\works\\C#\\Lex\\LC\\lex.csproj": {
+    "F:\\hiru\\works\\C#\\Lex\\LC\\LC.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\hiru\\works\\C#\\Lex\\LC\\lex.csproj",
-        "projectName": "lex",
-        "projectPath": "F:\\hiru\\works\\C#\\Lex\\LC\\lex.csproj",
+        "projectUniqueName": "F:\\hiru\\works\\C#\\Lex\\LC\\LC.csproj",
+        "projectName": "LC",
+        "projectPath": "F:\\hiru\\works\\C#\\Lex\\LC\\LC.csproj",
         "packagesPath": "C:\\Users\\Danuja Fernando\\.nuget\\packages\\",
         "outputPath": "F:\\hiru\\works\\C#\\Lex\\LC\\obj\\",
         "projectStyle": "PackageReference",

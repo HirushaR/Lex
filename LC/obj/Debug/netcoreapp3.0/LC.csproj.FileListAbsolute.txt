@@ -1,0 +1,10 @@
+F:\hiru\works\C#\Lex\LC\bin\Debug\netcoreapp3.0\LC.exe
+F:\hiru\works\C#\Lex\LC\bin\Debug\netcoreapp3.0\LC.deps.json
+F:\hiru\works\C#\Lex\LC\bin\Debug\netcoreapp3.0\LC.runtimeconfig.json
+F:\hiru\works\C#\Lex\LC\bin\Debug\netcoreapp3.0\LC.runtimeconfig.dev.json
+F:\hiru\works\C#\Lex\LC\bin\Debug\netcoreapp3.0\LC.dll
+F:\hiru\works\C#\Lex\LC\bin\Debug\netcoreapp3.0\LC.pdb
+F:\hiru\works\C#\Lex\LC\obj\Debug\netcoreapp3.0\LC.AssemblyInfoInputs.cache
+F:\hiru\works\C#\Lex\LC\obj\Debug\netcoreapp3.0\LC.AssemblyInfo.cs
+F:\hiru\works\C#\Lex\LC\obj\Debug\netcoreapp3.0\LC.dll
+F:\hiru\works\C#\Lex\LC\obj\Debug\netcoreapp3.0\LC.pdb

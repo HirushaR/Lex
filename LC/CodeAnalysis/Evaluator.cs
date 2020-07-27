@@ -1,8 +1,8 @@
 ﻿using System;
-using lex.CodeAnalysis.Binding;
-using lex.CodeAnalysis.Syntax;
+using Lex.CodeAnalysis.Binding;
+using Lex.CodeAnalysis.Syntax;
 
-namespace lex.CodeAnalysis
+namespace Lex.CodeAnalysis
 {
     internal sealed class Evaluator
     {

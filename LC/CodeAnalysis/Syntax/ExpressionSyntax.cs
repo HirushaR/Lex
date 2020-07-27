@@ -1,4 +1,4 @@
-namespace lex.CodeAnalysis.Syntax
+namespace Lex.CodeAnalysis.Syntax
 {
     public abstract class ExpressionSyntax : SyntaxNode
     {

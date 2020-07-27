@@ -1,11 +1,11 @@
-﻿using lex.CodeAnalysis;
-using lex.CodeAnalysis.Binding;
-using lex.CodeAnalysis.Syntax;
+﻿using Lex.CodeAnalysis;
+using Lex.CodeAnalysis.Binding;
+using Lex.CodeAnalysis.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace lex
+namespace Lex
 {
     internal static class Program
     {

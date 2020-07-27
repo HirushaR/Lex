@@ -1,4 +1,4 @@
-namespace lex.CodeAnalysis.Binding
+namespace Lex.CodeAnalysis.Binding
 {
     internal enum BoundNodeKind
     {
