@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\hiru\\works\\C#\\Lex-master\\lex\\lex.csproj",
+      "projectUniqueName": "F:\\hiru\\works\\C#\\Lex-master\\LC\\lex.csproj",
       "projectName": "lex",
-      "projectPath": "F:\\hiru\\works\\C#\\Lex-master\\lex\\lex.csproj",
+      "projectPath": "F:\\hiru\\works\\C#\\Lex-master\\LC\\lex.csproj",
       "packagesPath": "C:\\Users\\Danuja Fernando\\.nuget\\packages\\",
-      "outputPath": "F:\\hiru\\works\\C#\\Lex-master\\lex\\obj\\",
+      "outputPath": "F:\\hiru\\works\\C#\\Lex-master\\LC\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Danuja Fernando\\AppData\\Roaming\\NuGet\\NuGet.Config",
