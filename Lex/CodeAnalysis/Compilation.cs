@@ -20,7 +20,7 @@ namespace Lex.CodeAnalysis
             var boundExpression = binder.BindExpression(Syntax.Root);
 
             var diagnostics = Syntax.Diagnostics.Concat(binder.Diagnostics).ToArray();
-            if(diagnostics.Any())
+            if (diagnostics.Any())
             {
                 return new EvaluationResult(diagnostics, null);
             }
@@ -32,22 +32,6 @@ namespace Lex.CodeAnalysis
         }
         
     }
-
-    public sealed class Diagnostic
-    {
-        public Diagnostic(TextSpan span, string message)
-        {
-            Span = span;
-            Message = message;
-        }
-
-        public TextSpan Span { get; }
-        public string Message { get; }
-
-        public override string ToString() => Message;
-
-    }
-
 
 
 }
