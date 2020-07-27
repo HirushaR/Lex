@@ -26,7 +26,11 @@
         },
         "frameworks": {
           "netcoreapp3.0": {
-            "projectReferences": {}
+            "projectReferences": {
+              "F:\\hiru\\works\\C#\\Lex\\Lex\\Lex.csproj": {
+                "projectPath": "F:\\hiru\\works\\C#\\Lex\\Lex\\Lex.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

@@ -5,7 +5,9 @@
   },
   "libraries": {},
   "projectFileDependencyGroups": {
-    ".NETCoreApp,Version=v3.0": []
+    ".NETCoreApp,Version=v3.0": [
+      "F:\\hiru\\works\\C#\\Lex\\Lex\\Lex.csproj"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\Danuja Fernando\\.nuget\\packages\\": {}
@@ -32,7 +34,11 @@
       },
       "frameworks": {
         "netcoreapp3.0": {
-          "projectReferences": {}
+          "projectReferences": {
+            "F:\\hiru\\works\\C#\\Lex\\Lex\\Lex.csproj": {
+              "projectPath": "F:\\hiru\\works\\C#\\Lex\\Lex\\Lex.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -61,5 +67,16 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1105",
+      "level": "Error",
+      "message": "Unable to find project information for 'F:\\hiru\\works\\C#\\Lex\\Lex\\Lex.csproj'. If you are using Visual Studio, this may be because the project is unloaded or not part of the current solution so please run a restore from the command-line. Otherwise, the project file may be invalid or missing targets required for restore.",
+      "libraryId": "F:\\hiru\\works\\C#\\Lex\\Lex\\Lex.csproj",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.0"
+      ]
+    }
+  ]
 }
