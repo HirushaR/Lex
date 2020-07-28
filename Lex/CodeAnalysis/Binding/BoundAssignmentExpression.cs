@@ -7,17 +7,16 @@ namespace Lex.CodeAnalysis.Binding
     {
 
 
-        public BoundAssignmentExpression(string name, BoundExpression expression)
+        public BoundAssignmentExpression(VariableSymble variable, BoundExpression expression)
         {
-            Name = name;
+
+            Variable = variable;
             Expression = expression;
         }
 
         public override Type Type => Expression.Type;
-
         public override BoundNodeKind Kind => BoundNodeKind.AssignmentExpression;
-
-        public string Name { get; }
+        public VariableSymble Variable { get; }
         public BoundExpression Expression { get; }
     }
 }
