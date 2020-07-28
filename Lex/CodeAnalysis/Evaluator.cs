@@ -1,19 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 using Lex.CodeAnalysis.Binding;
 
 namespace Lex.CodeAnalysis
 {
 
-
-
     internal sealed class Evaluator
     {
         private readonly BoundExpression _root;
+        private readonly Dictionary<string, object> _variables;
 
         public Evaluator(BoundExpression root)
         {
             _root = root;
         }
+
+        public Evaluator(BoundExpression root, Dictionary<string, object> variables) 
+        {
+            _root = root;
+            _variables = variables;
+        }
+
+   
 
         public object Evaluate()
         {
