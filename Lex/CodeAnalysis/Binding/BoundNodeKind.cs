@@ -4,7 +4,9 @@ namespace Lex.CodeAnalysis.Binding
     {
         LiteralExpression,
         UnaryExpression,
+        AssignmentExpression,
         BinaryExpression,
         VariableExpression,
+
     }
 }

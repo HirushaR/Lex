@@ -30,7 +30,7 @@ namespace Lex.CodeAnalysis.Binding
                 case SyntaxKind.NameExpression:
                     return BindNameExpression((NameExpressionSyntax)syntax);
                 case SyntaxKind.AssigmentExpression:
-                    return BindAssigmentExpression((AssigmentExpressionSyntax)syntax);
+                    return BindAssignmentExpression((AssigmentExpressionSyntax)syntax);
                 case SyntaxKind.UnaryExpression:
                     return BindUnaryExpression((UnaryExpressionSyntax)syntax);
                 case SyntaxKind.BinaryExpression:
@@ -66,12 +66,12 @@ namespace Lex.CodeAnalysis.Binding
             return new BoundVariableExpression(name, type);
         }
 
-        private BoundExpression BindAssigmentExpression(AssigmentExpressionSyntax syntax)
+        private BoundExpression BindAssignmentExpression(AssigmentExpressionSyntax syntax)
         {
-            
+            var name = syntax.IdentifierToken.Text;
+            var boundExpression = BindExpression(syntax.Expression);
+            return new BoundAssignmentExpression(name, boundExpression);
         }
-
-
 
         private BoundExpression BindUnaryExpression(UnaryExpressionSyntax syntax)
         {
