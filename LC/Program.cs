@@ -12,6 +12,7 @@ namespace Lex
         private static void Main()
         {
             var showTree = false;
+            var variables = new Dictionary<string, object>();
 
             while (true)
             {
@@ -34,7 +35,7 @@ namespace Lex
 
                 var syntaxTree = SyntaxTree.Parse(line);
                 var compilation = new Compilation(syntaxTree);
-                var result = compilation.Evaluate();
+                var result = compilation.Evaluate(variables);
               //  var boundExpression = binder.BindExpression(syntaxTree.Root);
 
                 var diagnostics = result.Diagnostics;

@@ -121,10 +121,8 @@ namespace Lex.CodeAnalysis.Syntax
                     {
                         _position += 1;
                         return new SyntaxToken(SyntaxKind.EaqlesToken, start, "=", null);
-
                     }
 
-                    break;
                 case '!':
                     if (Lookahed == '=')
                     {

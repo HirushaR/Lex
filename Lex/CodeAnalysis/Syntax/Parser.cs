@@ -72,7 +72,7 @@ namespace Lex.CodeAnalysis.Syntax
         {
 
             if(Peek(0).Kind == SyntaxKind.IdentifierToken &&
-                Peek(1).Kind == SyntaxKind.EaqulesEaqlesToken)
+                Peek(1).Kind == SyntaxKind.EaqlesToken)
             {
                 var identifierToken = NextToken();
                 var operatorToken = NextToken();
