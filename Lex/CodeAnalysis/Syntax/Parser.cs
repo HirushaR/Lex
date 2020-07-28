@@ -58,22 +58,40 @@ namespace Lex.CodeAnalysis.Syntax
             _diagnostics.ReportUnexpectedToken(Current.Span,Current.Kind,kind);
             return new SyntaxToken(kind, Current.Position, null, null);
         }
-
         public SyntaxTree Parse()
         {
             var expresion = ParseExpression();
             var endOfFileToken = MatchToken(SyntaxKind.EndOfFileToken);
             return new SyntaxTree(_diagnostics, expresion, endOfFileToken);
         }
+        private ExpressionSyntax ParseExpression()
+        {
+            return ParsAssigmentExpression();
+        }
+        private ExpressionSyntax ParsAssigmentExpression()
+        {
 
-        private ExpressionSyntax ParseExpression(int parentPrecedence = 0)
+            if(Peek(0).Kind == SyntaxKind.IdentifierToken &&
+                Peek(1).Kind == SyntaxKind.EaqulesEaqlesToken)
+            {
+                var identifierToken = NextToken();
+                var operatorToken = NextToken();
+                var right = ParsAssigmentExpression();
+                return new AssigmentExpressionSyntax(identifierToken, operatorToken, right);
+            }
+
+
+            return ParseBinaryExpression();
+        }
+
+        private ExpressionSyntax ParseBinaryExpression(int parentPrecedence = 0)
         {
             ExpressionSyntax left;
             var unaryOperatorPrecedence = Current.Kind.GetUnaryOperatorPrecedence();
             if (unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
             {
                 var operatorToken = NextToken();
-                var operand = ParseExpression(unaryOperatorPrecedence);
+                var operand = ParseBinaryExpression(unaryOperatorPrecedence);
                 left = new UnaryExpressionSyntax(operatorToken, operand);
             }
             else
@@ -88,7 +106,7 @@ namespace Lex.CodeAnalysis.Syntax
                     break;
 
                 var operatorToken = NextToken();
-                var right = ParseExpression(precedence);
+                var right = ParseBinaryExpression(precedence);
                 left = new BinaryExpressionSyntax(left, operatorToken, right);
             }
 
@@ -114,10 +132,20 @@ namespace Lex.CodeAnalysis.Syntax
                      var value = keywordToken.Kind == SyntaxKind.TrueKeyword;
                      return new LiteralExpressionSyntax(keywordToken, value);
                 }
-            }
+                case SyntaxKind.IdentifierToken:
+                {
+                        var identifierToken = NextToken();
+                        return new NameExpressionSyntax(identifierToken);
+                }
 
-            var numberToken = MatchToken(SyntaxKind.NumberToken);
-            return new LiteralExpressionSyntax(numberToken);
+                default:
+                {
+                    var numberToken = MatchToken(SyntaxKind.NumberToken);
+                    return new LiteralExpressionSyntax(numberToken);
+                }
+            }
+            
+            
         }
     }
 }
