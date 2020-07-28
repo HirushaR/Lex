@@ -13,6 +13,4 @@
         public int End => Start + Length;
     }
 
-
-
 }

@@ -62,7 +62,7 @@ namespace Lex.CodeAnalysis.Binding
                 return new BoundLiteralExpression(0);
             }
             // var type = value?.GetType() ?? typeof(object);
-            var type = typeof(int);
+            var type = value.GetType();
             return new BoundVariableExpression(name, type);
         }
 
@@ -70,6 +70,19 @@ namespace Lex.CodeAnalysis.Binding
         {
             var name = syntax.IdentifierToken.Text;
             var boundExpression = BindExpression(syntax.Expression);
+
+            var defultValue =
+                boundExpression.Type == typeof(int)
+                 ? (object)0 :
+                 boundExpression.Type == typeof(bool)
+                    ? (object)false
+                    : null;
+
+            if (defultValue == null)
+                throw new Exception($"Unsupoorted Variable type :{boundExpression.Type}");
+
+            _variables[name] = defultValue;
+
             return new BoundAssignmentExpression(name, boundExpression);
         }
 
