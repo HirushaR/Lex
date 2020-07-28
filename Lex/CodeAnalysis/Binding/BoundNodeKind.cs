@@ -5,5 +5,6 @@ namespace Lex.CodeAnalysis.Binding
         LiteralExpression,
         UnaryExpression,
         BinaryExpression,
+        VariableExpression,
     }
 }

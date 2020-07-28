@@ -5,6 +5,7 @@ using Lex.CodeAnalysis.Syntax;
 
 namespace Lex.CodeAnalysis.Binding
 {
+
     internal sealed class Binder
     {
 
