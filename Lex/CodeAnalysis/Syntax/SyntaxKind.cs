@@ -27,9 +27,10 @@ namespace Lex.CodeAnalysis.Syntax
 
         // Expressions
         LiteralExpression,
+        NameExpression,
         UnaryExpression,
         BinaryExpression,
         ParenthesizedExpression,
-
+        AssigmentExpression,
     }
 }

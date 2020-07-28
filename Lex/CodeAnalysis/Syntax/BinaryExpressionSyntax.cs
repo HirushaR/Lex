@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 namespace Lex.CodeAnalysis.Syntax
 {
+
     public sealed class BinaryExpressionSyntax : ExpressionSyntax
     {
         public BinaryExpressionSyntax(ExpressionSyntax left, SyntaxToken operatorToken, ExpressionSyntax right)
