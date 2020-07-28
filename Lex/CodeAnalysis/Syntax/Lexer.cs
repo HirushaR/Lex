@@ -36,9 +36,11 @@ namespace Lex.CodeAnalysis.Syntax
             if (_position >= _text.Length)
                 return new SyntaxToken(SyntaxKind.EndOfFileToken, _position, "\0", null);
 
+             var start = _position;
+
             if (char.IsDigit(Current))
             {
-                var start = _position;
+               
 
                 while (char.IsDigit(Current))
                     Next();
@@ -53,7 +55,7 @@ namespace Lex.CodeAnalysis.Syntax
 
             if (char.IsWhiteSpace(Current))
             {
-                var start = _position;
+                
 
                 while (char.IsWhiteSpace(Current))
                     Next();
@@ -67,7 +69,7 @@ namespace Lex.CodeAnalysis.Syntax
             //flase
             if (char.IsLetter(Current))
             {
-                var start = _position;
+                
 
                 while (char.IsLetter(Current))
                     Next();
@@ -95,22 +97,42 @@ namespace Lex.CodeAnalysis.Syntax
                     return new SyntaxToken(SyntaxKind.CloseParenthesisToken, _position++, ")", null);                    
                 case '&':
                     if (Lookahed == '&')
-                        return new SyntaxToken(SyntaxKind.AmpersandAmpersandToken, _position +=2, "&&", null);
+                    {  
+                        _position += 2;
+                        return new SyntaxToken(SyntaxKind.AmpersandAmpersandToken, start, "&&", null);                       
+                    }
                     break;
                     
                 case '|':
                     if (Lookahed == '|')
-                         return new SyntaxToken(SyntaxKind.PipePieToken, _position += 2, "||", null);
+                    {
+                         _position += 2;
+                         return new SyntaxToken(SyntaxKind.PipePieToken, start, "||", null);
+                    }
+                        
                     break;
                 case '=':
                     if (Lookahed == '=')
-                        return new SyntaxToken(SyntaxKind.EaqulesEaqlesToken, _position += 2, "==", null);
+                    {
+                         _position += 2;
+                         return new SyntaxToken(SyntaxKind.EaqulesEaqlesToken, start, "==", null);
+                    }
+                       
                     break;
                 case '!':
                     if (Lookahed == '=')
-                        return new SyntaxToken(SyntaxKind.BangEaqlesToken, _position += 2, "!=", null);
+                    {
+                        _position += 2;
+                        return new SyntaxToken(SyntaxKind.BangEaqlesToken, start, "!=", null);
+                    }
                     else
-                        return new SyntaxToken(SyntaxKind.BangToken, _position++, "!", null);
+                    {
+                         _position += 1;
+                         return new SyntaxToken(SyntaxKind.BangToken, start, "!", null);
+                    }
+
+
+                       
 
             }
 

@@ -56,6 +56,8 @@ namespace Lex
 
                     foreach (var diagnostic in diagnostics)
                     {
+
+                        Console.WriteLine();
                         Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.WriteLine(diagnostic);
                         Console.ResetColor();
@@ -68,7 +70,7 @@ namespace Lex
                         Console.Write(prefix);
 
                         Console.ForegroundColor = ConsoleColor.DarkRed;
-                        Console.WriteLine(error);
+                        Console.Write(error);
                         Console.ResetColor();
 
                         Console.Write(suffix);
