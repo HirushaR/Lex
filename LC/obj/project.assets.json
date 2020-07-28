@@ -1,12 +1,29 @@
 {
   "version": 3,
   "targets": {
-    ".NETCoreApp,Version=v3.0": {}
+    ".NETCoreApp,Version=v3.0": {
+      "Lex/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "compile": {
+          "bin/placeholder/Lex.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Lex.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "Lex/1.0.0": {
+      "type": "project",
+      "path": "../Lex/Lex.csproj",
+      "msbuildProject": "../Lex/Lex.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.0": [
-      "F:\\hiru\\works\\C#\\Lex\\Lex\\Lex.csproj"
+      "Lex >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -67,16 +84,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1105",
-      "level": "Error",
-      "message": "Unable to find project information for 'F:\\hiru\\works\\C#\\Lex\\Lex\\Lex.csproj'. If you are using Visual Studio, this may be because the project is unloaded or not part of the current solution so please run a restore from the command-line. Otherwise, the project file may be invalid or missing targets required for restore.",
-      "libraryId": "F:\\hiru\\works\\C#\\Lex\\Lex\\Lex.csproj",
-      "targetGraphs": [
-        ".NETCoreApp,Version=v3.0"
-      ]
-    }
-  ]
+  }
 }

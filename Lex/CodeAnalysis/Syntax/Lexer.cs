@@ -6,13 +6,13 @@ namespace Lex.CodeAnalysis.Syntax
     {
         private readonly string _text;
         private int _position;
-        private DiagnosticBag _diagnostics = new DiagnosticBag;
+        private DiagnosticBag _diagnostics = new DiagnosticBag();
 
         public Lexer(string text)
         {
             _text = text;
         }
-
+  
         public DiagnosticBag Diagnostics => _diagnostics;
 
         private char Current => Peek(0);

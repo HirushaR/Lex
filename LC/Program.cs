@@ -1,7 +1,7 @@
-﻿using Lex.CodeAnalysis;
+﻿using System;
+using Lex.CodeAnalysis;
 using Lex.CodeAnalysis.Binding;
 using Lex.CodeAnalysis.Syntax;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -33,9 +33,9 @@ namespace Lex
                 }
 
                 var syntaxTree = SyntaxTree.Parse(line);
-                var compilation = new Compilation();
+                var compilation = new Compilation(syntaxTree);
                 var result = compilation.Evaluate();
-                var boundExpression = binder.BindExpression(syntaxTree.Root);
+              //  var boundExpression = binder.BindExpression(syntaxTree.Root);
 
                 var diagnostics = result.Diagnostics;
 
@@ -52,12 +52,34 @@ namespace Lex
                 }
                 else
                 {
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    
 
                     foreach (var diagnostic in diagnostics)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.WriteLine(diagnostic);
+                        Console.ResetColor();
 
-                    Console.ResetColor();
+                        var prefix = line.Substring(0, diagnostic.Span.Start);
+                        var error = line.Substring(diagnostic.Span.Start, diagnostic.Span.Length);
+                        var suffix = line.Substring(diagnostic.Span.End);
+
+                        Console.Write("    ");
+                        Console.Write(prefix);
+
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine(error);
+                        Console.ResetColor();
+
+                        Console.Write(suffix);
+
+                        Console.WriteLine();
+                    }
+
+
+                     
+
+                    
                 }
             }
         }

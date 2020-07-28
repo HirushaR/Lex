@@ -7,14 +7,27 @@
   "targets": {
     ".NETCoreApp,Version=v3.0": {
       "LC/1.0.0": {
+        "dependencies": {
+          "Lex": "1.0.0"
+        },
         "runtime": {
           "LC.dll": {}
+        }
+      },
+      "Lex/1.0.0": {
+        "runtime": {
+          "Lex.dll": {}
         }
       }
     }
   },
   "libraries": {
     "LC/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Lex/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
