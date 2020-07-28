@@ -61,7 +61,8 @@ namespace Lex.CodeAnalysis.Binding
                 _diagnostics.ReportUndefinedName(syntax.IdentifierToken.Span, name);
                 return new BoundLiteralExpression(0);
             }
-            var type = value?.GetType() ?? typeof(object);
+            // var type = value?.GetType() ?? typeof(object);
+            var type = typeof(int);
             return new BoundVariableExpression(name, type);
         }
 
