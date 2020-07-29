@@ -22,7 +22,7 @@ namespace Lex.CodeAnalysis.Syntax
             return parser.Parse();
         }
 
-        public static IEnumerable<SyntaxToken> ParseToken(string text)
+        public static IEnumerable<SyntaxToken> ParseTokens(string text)
         {
             var lexer = new Lexer(text);
             while(true)
