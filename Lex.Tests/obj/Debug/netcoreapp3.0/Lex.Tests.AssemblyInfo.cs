@@ -7,10 +7,10 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("LC")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("Lex.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
-[assembly: System.Reflection.AssemblyProductAttribute("LC")]
-[assembly: System.Reflection.AssemblyTitleAttribute("LC")]
+[assembly: System.Reflection.AssemblyProductAttribute("Lex.Tests")]
+[assembly: System.Reflection.AssemblyTitleAttribute("Lex.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
