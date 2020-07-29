@@ -65,11 +65,11 @@ namespace Lex.Tests.CodeAnalysis.Syntax
                 (SyntaxKind.CloseParenthesisToken, ")"),
                 (SyntaxKind.TrueKeyword, "true"),
                 (SyntaxKind.FalseKeyword, "false"),
-                (SyntaxKind.WhitespaceToken, " "),
-                (SyntaxKind.WhitespaceToken, "  "),
-                (SyntaxKind.WhitespaceToken, "\r"),
-                (SyntaxKind.WhitespaceToken, "\n"),
-                (SyntaxKind.WhitespaceToken, "\r\n"),
+                //(SyntaxKind.WhitespaceToken, " "),
+                //(SyntaxKind.WhitespaceToken, "  "),
+                //(SyntaxKind.WhitespaceToken, "\r"),
+                //(SyntaxKind.WhitespaceToken, "\n"),
+                //(SyntaxKind.WhitespaceToken, "\r\n"),
                 (SyntaxKind.NumberToken, "1"),
                 (SyntaxKind.NumberToken, "123"),
                 (SyntaxKind.IdentifierToken, "a"),
@@ -77,24 +77,28 @@ namespace Lex.Tests.CodeAnalysis.Syntax
             };
         }
 
-        private static bool RequireSeparator(SyntaxKind t1kind, SyntaxKind t2kind)
+        private static bool RequiresSeparator(SyntaxKind t1Kind, SyntaxKind t2Kind)
         {
-            var t1IsKeyword = t1kind.ToString().EndsWith("Keyword");
-            var t2IsKeyword = t2kind.ToString().EndsWith("Keyword");
-
-            if (t1kind == SyntaxKind.IdentifierToken || t2kind == SyntaxKind.IdentifierToken)
+            var t1IsKeyword = t1Kind.ToString().EndsWith("Keyword");
+            var t2IsKeyword = t2Kind.ToString().EndsWith("Keyword");
+            if (t1Kind == SyntaxKind.IdentifierToken && t2Kind == SyntaxKind.IdentifierToken)
                 return true;
-
             if (t1IsKeyword && t2IsKeyword)
                 return true;
-            if (t1IsKeyword && t2kind == SyntaxKind.IdentifierToken)
+            if (t1IsKeyword && t2Kind == SyntaxKind.IdentifierToken)
                 return true;
-            if (t2kind == SyntaxKind.IdentifierToken && t2IsKeyword)
+            if (t1Kind == SyntaxKind.IdentifierToken && t2IsKeyword)
                 return true;
-
-
-            //TODO: More cases
-
+            if (t1Kind == SyntaxKind.NumberToken && t2Kind == SyntaxKind.NumberToken)
+                return true;
+            if (t1Kind == SyntaxKind.BangToken && t2Kind == SyntaxKind.EaqlesToken)
+                return true;
+            if (t1Kind == SyntaxKind.BangToken && t2Kind == SyntaxKind.EaqulesEaqlesToken)
+                return true;
+            if (t1Kind == SyntaxKind.EaqlesToken && t2Kind == SyntaxKind.EaqlesToken)
+                return true;
+            if (t1Kind == SyntaxKind.EaqlesToken && t2Kind == SyntaxKind.EaqulesEaqlesToken)
+                return true;
             return false;
         }
 
@@ -104,7 +108,8 @@ namespace Lex.Tests.CodeAnalysis.Syntax
             {
                 foreach(var t2 in GetTokens())
                 {
-                    if(!RequireSeparator(t1.kind,t2.kind))
+
+                    if(!RequiresSeparator(t1.kind,t2.kind))
                         yield return (t1.kind, t1.text, t2.kind, t2.text);
                 }
             }
