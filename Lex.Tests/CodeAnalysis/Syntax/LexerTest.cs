@@ -1,5 +1,6 @@
 using Lex.CodeAnalysis.Syntax;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace Lex.Tests.CodeAnalysis.Syntax
@@ -16,10 +17,32 @@ namespace Lex.Tests.CodeAnalysis.Syntax
             Assert.Equal(text, token.Text);
         }
 
+        [Theory]
+        [MemberData(nameof(GetTokenPairsData))]
+        public void Lexer_lexes_token_Pairs(SyntaxKind t1kind, string t1text, SyntaxKind t2kind, string t2text)
+        {
+            var text = t1text + t2text;
+            var tokens = SyntaxTree.ParseTokens(text).ToArray();
+
+            Assert.Equal(2, tokens.Length);
+
+            Assert.Equal(tokens[0].Kind, t1kind);
+            Assert.Equal(tokens[0].Text, t1text);
+
+            Assert.Equal(tokens[1].Kind, t2kind);
+            Assert.Equal(tokens[1].Text, t2text);
+        }
+
         public static IEnumerable<object[]> GetTokensData()
         {
             foreach (var t in GetTokens())
                 yield return new object[] { t.kind, t.text };
+        }
+
+        public static IEnumerable<object[]> GetTokenPairsData()
+        {
+            foreach (var t in GetTokenPairs()) 
+                yield return new object[] { t.t1Kind, t.t1Text, t.t2Kind, t.t2Text};
         }
 
         private static IEnumerable<(SyntaxKind kind, string text)> GetTokens()
@@ -51,16 +74,19 @@ namespace Lex.Tests.CodeAnalysis.Syntax
                 (SyntaxKind.NumberToken, "123"),
                 (SyntaxKind.IdentifierToken, "a"),
                 (SyntaxKind.IdentifierToken, "abc"),
-
-
-
             };
-
-
-          
-               
-               
-
         }
+
+        private static IEnumerable<(SyntaxKind t1Kind, string t1Text, SyntaxKind t2Kind, string t2Text)> GetTokenPairs()
+        {
+            foreach( var t1 in GetTokens())
+            {
+                foreach(var t2 in GetTokens())
+                {
+                    yield return (t1.kind, t1.text, t2.kind, t2.text);
+                }
+            }
+        }
+
     }
 }
