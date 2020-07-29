@@ -1,5 +1,4 @@
 using Lex.CodeAnalysis.Syntax;
-using System;
 using System.Collections.Generic;
 using Xunit;
 
@@ -27,9 +26,40 @@ namespace Lex.Tests.CodeAnalysis.Syntax
         {
             return new[]
             {
+                
+
+                (SyntaxKind.PlusToken, "+"),
+                (SyntaxKind.MinusToken, "-"),
+                (SyntaxKind.StarToken, "*"),
+                (SyntaxKind.SlashToken, "/"),
+                (SyntaxKind.EaqlesToken, "="),
+                (SyntaxKind.BangToken, "!"),
+                (SyntaxKind.EaqulesEaqlesToken, "=="),
+                (SyntaxKind.BangEaqlesToken, "!="),
+                (SyntaxKind.AmpersandAmpersandToken, "&&"),
+                (SyntaxKind.PipePieToken, "||"),
+                (SyntaxKind.OpenParenthesisToken, "("),
+                (SyntaxKind.CloseParenthesisToken, ")"),
+                (SyntaxKind.TrueKeyword, "true"),
+                (SyntaxKind.FalseKeyword, "false"),
+                (SyntaxKind.WhitespaceToken, " "),
+                (SyntaxKind.WhitespaceToken, "  "),
+                (SyntaxKind.WhitespaceToken, "\r"),
+                (SyntaxKind.WhitespaceToken, "\n"),
+                (SyntaxKind.WhitespaceToken, "\r\n"),
+                (SyntaxKind.NumberToken, "1"),
+                (SyntaxKind.NumberToken, "123"),
                 (SyntaxKind.IdentifierToken, "a"),
                 (SyntaxKind.IdentifierToken, "abc"),
+
+
+
             };
+
+
+          
+               
+               
 
         }
     }
