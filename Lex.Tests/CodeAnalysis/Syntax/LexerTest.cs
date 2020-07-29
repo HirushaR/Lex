@@ -77,13 +77,35 @@ namespace Lex.Tests.CodeAnalysis.Syntax
             };
         }
 
+        private static bool RequireSeparator(SyntaxKind t1kind, SyntaxKind t2kind)
+        {
+            var t1IsKeyword = t1kind.ToString().EndsWith("Keyword");
+            var t2IsKeyword = t2kind.ToString().EndsWith("Keyword");
+
+            if (t1kind == SyntaxKind.IdentifierToken || t2kind == SyntaxKind.IdentifierToken)
+                return true;
+
+            if (t1IsKeyword && t2IsKeyword)
+                return true;
+            if (t1IsKeyword && t2kind == SyntaxKind.IdentifierToken)
+                return true;
+            if (t2kind == SyntaxKind.IdentifierToken && t2IsKeyword)
+                return true;
+
+
+            //TODO: More cases
+
+            return false;
+        }
+
         private static IEnumerable<(SyntaxKind t1Kind, string t1Text, SyntaxKind t2Kind, string t2Text)> GetTokenPairs()
         {
             foreach( var t1 in GetTokens())
             {
                 foreach(var t2 in GetTokens())
                 {
-                    yield return (t1.kind, t1.text, t2.kind, t2.text);
+                    if(!RequireSeparator(t1.kind,t2.kind))
+                        yield return (t1.kind, t1.text, t2.kind, t2.text);
                 }
             }
         }
