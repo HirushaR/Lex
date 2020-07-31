@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Lex.CodeAnalysis.Syntax
 {
@@ -15,6 +16,17 @@ namespace Lex.CodeAnalysis.Syntax
 
                 default:
                     return 0;
+            }
+        }
+
+        public static IEnumerable<SyntaxKind> GetBinaryOperators()
+        {
+            
+            var kinds =(SyntaxKind[]) Enum.GetValues(typeof(SyntaxKind));
+            foreach(var kind in kinds)
+            {
+                if(GetBinaryOperatorPrecedence(kind) > 0)
+                    yield return kind;
             }
         }
 

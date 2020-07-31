@@ -1,15 +1,21 @@
-//using System;
+using Lex.CodeAnalysis.Syntax;
+using System;
+using System.Collections.Generic;
+using Xunit;
 
-//namespace Lex.Tests.CodeAnalysis.Syntax
-//{
+namespace Lex.Tests.CodeAnalysis.Syntax
+{
 
 
-//    public class ParserTests
-//    {
-//        [Theory]
-//        public void Parser_BinaryExpression_honorsPrecedences(SyntaxKind op1, SyntaxKind op2)
-//        {
+    public class ParserTests
+    {
+        [Theory]
+        [MemberData(GetBinaryOperatorPairsData)]
+        public void Parser_BinaryExpression_honorsPrecedences(SyntaxKind op1, SyntaxKind op2)
+        {
 
-//        }
-//    }
-//}
+        }
+
+     
+    }
+}
