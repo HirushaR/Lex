@@ -1,86 +1,9 @@
 using Lex.CodeAnalysis.Syntax;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace Lex.Tests.CodeAnalysis.Syntax
 {
-
-    internal sealed class AssertingEnumerator: IDisposable
-    {
-
-        private IEnumerator<SyntaxNode> _enumerator;
-        private bool _hasError;
-        public AssertingEnumerator(SyntaxNode node)
-        {
-            _enumerator = Flatten(node).GetEnumerator();
-        }
-
-        private bool MarkFailed()
-        {
-            _hasError = true;
-            return false;
-        }
-        public void Dispose()
-        {
-            if(!_hasError)
-                Assert.False(_enumerator.MoveNext());
-            _enumerator.Dispose();
-        }
-
-        private static IEnumerable<SyntaxNode> Flatten(SyntaxNode node)
-        {
-            var stack = new Stack<SyntaxNode>();
-            stack.Push(node);
-
-            while(stack.Count > 0)
-            {
-                var n = stack.Pop();
-                yield return n;
-
-                foreach (var child in n.GetChildren().Reverse())
-                    stack.Push(child);
-            }
-        }
-
-        public void AssertNode(SyntaxKind kind)
-        {
-            try
-            {
-                Assert.True(_enumerator.MoveNext());
-                Assert.IsNotType<SyntaxToken>(_enumerator.Current);
-                Assert.Equal(kind, _enumerator.Current.Kind);
-            }
-            catch when(MarkFailed())
-            {
-              
-                throw;
-            }
-
-        }
-        public void AssertToken(SyntaxKind kind, string text)
-        {
-            try
-            {
-                Assert.True(_enumerator.MoveNext());
-                var token = Assert.IsType<SyntaxToken>(_enumerator.Current);
-                Assert.Equal(kind, token.Kind);
-                Assert.Equal(text, token.Text);
-            }
-            catch when (MarkFailed())
-            {
-
-                throw;
-            }
-            
-        }
-
-        
-
-
-    }
-
 
     public class ParserTests
     {
@@ -100,13 +23,18 @@ namespace Lex.Tests.CodeAnalysis.Syntax
                using(var e = new AssertingEnumerator(expression))
                 {
                     e.AssertNode(SyntaxKind.BinaryExpression);
+
                     e.AssertNode(SyntaxKind.BinaryExpression);
                     e.AssertNode(SyntaxKind.NameExpression);
                     e.AssertToken(SyntaxKind.IdentifierToken, "a");
+
+                    e.AssertToken(op1, op1Text);
                     e.AssertNode(SyntaxKind.NameExpression);
                     e.AssertToken(SyntaxKind.IdentifierToken, "b");
+                    e.AssertToken(op2, op2Text);
                     e.AssertNode(SyntaxKind.NameExpression);
                     e.AssertToken(SyntaxKind.IdentifierToken, "c");
+
                 }
             }
             else
@@ -116,8 +44,10 @@ namespace Lex.Tests.CodeAnalysis.Syntax
                     e.AssertNode(SyntaxKind.BinaryExpression);
                     e.AssertNode(SyntaxKind.NameExpression);
                     e.AssertToken(SyntaxKind.IdentifierToken, "a");
+                    e.AssertToken(op1, op1Text);
                     e.AssertNode(SyntaxKind.BinaryExpression);
                     e.AssertNode(SyntaxKind.NameExpression);
+                    e.AssertToken(op2, op2Text);
                     e.AssertToken(SyntaxKind.IdentifierToken, "b");
                     e.AssertNode(SyntaxKind.NameExpression);
                     e.AssertToken(SyntaxKind.IdentifierToken, "c");
@@ -132,6 +62,7 @@ namespace Lex.Tests.CodeAnalysis.Syntax
                 foreach (var op2 in SyntaxFacts.GetBinaryOperatorsKinds())
                 {
                     yield return new object[] { op1, op2 };
+                    yield break;
                 }
             }
         }
