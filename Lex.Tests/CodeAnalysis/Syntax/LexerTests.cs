@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
+
 namespace Lex.Tests.CodeAnalysis.Syntax
 {
-    
     public class LexerTests
     {
         [Theory]
@@ -92,11 +92,6 @@ namespace Lex.Tests.CodeAnalysis.Syntax
                 (SyntaxKind.CloseParenthesisToken, ")"),
                 (SyntaxKind.TrueKeyword, "true"),
                 (SyntaxKind.FalseKeyword, "false"),
-                //(SyntaxKind.WhitespaceToken, " "),
-                //(SyntaxKind.WhitespaceToken, "  "),
-                //(SyntaxKind.WhitespaceToken, "\r"),
-                //(SyntaxKind.WhitespaceToken, "\n"),
-                //(SyntaxKind.WhitespaceToken, "\r\n"),
                 (SyntaxKind.NumberToken, "1"),
                 (SyntaxKind.NumberToken, "123"),
                 (SyntaxKind.IdentifierToken, "a"),
