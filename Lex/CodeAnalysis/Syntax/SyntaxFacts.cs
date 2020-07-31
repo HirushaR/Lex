@@ -18,8 +18,19 @@ namespace Lex.CodeAnalysis.Syntax
                     return 0;
             }
         }
+        
+        public static IEnumerable<SyntaxKind> GetUnaryOperatorsKinds()
+        {
+            
+            var kinds =(SyntaxKind[]) Enum.GetValues(typeof(SyntaxKind));
+            foreach(var kind in kinds)
+            {
+                if(GetUnaryOperatorPrecedence(kind) > 0)
+                    yield return kind;
+            }
+        }
 
-        public static IEnumerable<SyntaxKind> GetBinaryOperators()
+        public static IEnumerable<SyntaxKind> GetBinaryOperatorsKinds()
         {
             
             var kinds =(SyntaxKind[]) Enum.GetValues(typeof(SyntaxKind));
