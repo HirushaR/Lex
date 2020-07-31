@@ -33,9 +33,30 @@ namespace Lex.Tests.CodeAnalysis.Syntax
             Assert.Equal(tokens[1].Text, t2text);
         }
 
+        [Theory]
+        [MemberData(nameof(GetTokenPairsWithSeparatorData))]
+        public void Lexer_lexes_token_Pairs_With_Separator(SyntaxKind t1kind, string t1text,
+                                                           SyntaxKind separatorKind, string separatorText, 
+                                                           SyntaxKind t2kind, string t2text)
+        {
+            var text = t1text + separatorText + t2text;
+            var tokens = SyntaxTree.ParseTokens(text).ToArray();
+
+            Assert.Equal(3, tokens.Length);
+
+            Assert.Equal(tokens[0].Kind, t1kind);
+            Assert.Equal(tokens[0].Text, t1text);
+
+            Assert.Equal(tokens[1].Kind, separatorKind);
+            Assert.Equal(tokens[1].Text, separatorText);
+
+            Assert.Equal(tokens[2].Kind, t2kind);
+            Assert.Equal(tokens[2].Text, t2text);
+        }
+
         public static IEnumerable<object[]> GetTokensData()
         {
-            foreach (var t in GetTokens())
+            foreach (var t in GetTokens().Concat(GetSeparators()))
                 yield return new object[] { t.kind, t.text };
         }
 
@@ -43,6 +64,12 @@ namespace Lex.Tests.CodeAnalysis.Syntax
         {
             foreach (var t in GetTokenPairs()) 
                 yield return new object[] { t.t1Kind, t.t1Text, t.t2Kind, t.t2Text};
+        }
+
+        public static IEnumerable<object[]> GetTokenPairsWithSeparatorData()
+        {
+            foreach (var t in GetTokenPairsWithSeparator())
+                yield return new object[] { t.t1Kind, t.t1Text,t.separatorKind,t.separatorText, t.t2Kind, t.t2Text };
         }
 
         private static IEnumerable<(SyntaxKind kind, string text)> GetTokens()
@@ -125,6 +152,26 @@ namespace Lex.Tests.CodeAnalysis.Syntax
 
                     if(!RequiresSeparator(t1.kind,t2.kind))
                         yield return (t1.kind, t1.text, t2.kind, t2.text);
+                }
+            }
+        }
+
+        private static IEnumerable<(SyntaxKind t1Kind, string t1Text,
+                                    SyntaxKind separatorKind, string separatorText,
+                                    SyntaxKind t2Kind, string t2Text)> GetTokenPairsWithSeparator()
+        {
+            foreach (var t1 in GetTokens())
+            {
+                foreach (var t2 in GetTokens())
+                {
+
+                    if (!RequiresSeparator(t1.kind, t2.kind))
+                    {
+
+                        foreach(var s in GetSeparators())
+                            yield return (t1.kind, t1.text,s.kind,s.text, t2.kind, t2.text);
+                    }
+                        
                 }
             }
         }
