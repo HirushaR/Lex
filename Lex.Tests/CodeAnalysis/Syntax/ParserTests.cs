@@ -126,7 +126,5 @@ namespace Lex.Tests.CodeAnalysis.Syntax
             }
         }
 
-
-
     }
 }
