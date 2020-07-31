@@ -16,9 +16,15 @@ namespace Lex.Tests.CodeAnalysis.Syntax
         {
             _enumerator = Flatten(node).GetEnumerator();
         }
+
+        private bool MarkFailed()
+        {
+            _hasError = true;
+            return false;
+        }
         public void Dispose()
         {
-            if(_hasError)
+            if(!_hasError)
                 Assert.False(_enumerator.MoveNext());
             _enumerator.Dispose();
         }
@@ -46,9 +52,9 @@ namespace Lex.Tests.CodeAnalysis.Syntax
                 Assert.IsNotType<SyntaxToken>(_enumerator.Current);
                 Assert.Equal(kind, _enumerator.Current.Kind);
             }
-            catch(Exception)
+            catch when(MarkFailed())
             {
-                _hasError = true;
+              
                 throw;
             }
 
@@ -62,9 +68,9 @@ namespace Lex.Tests.CodeAnalysis.Syntax
                 Assert.Equal(kind, token.Kind);
                 Assert.Equal(text, token.Text);
             }
-            catch (Exception)
+            catch when (MarkFailed())
             {
-                _hasError = true;
+
                 throw;
             }
             
