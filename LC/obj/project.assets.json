@@ -32,11 +32,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\hiru\\works\\C#\\lex\\LC\\LC.csproj",
+      "projectUniqueName": "F:\\hiru\\works\\C#\\Lex\\LC\\LC.csproj",
       "projectName": "LC",
-      "projectPath": "F:\\hiru\\works\\C#\\lex\\LC\\LC.csproj",
+      "projectPath": "F:\\hiru\\works\\C#\\Lex\\LC\\LC.csproj",
       "packagesPath": "C:\\Users\\Danuja Fernando\\.nuget\\packages\\",
-      "outputPath": "F:\\hiru\\works\\C#\\lex\\LC\\obj\\",
+      "outputPath": "F:\\hiru\\works\\C#\\Lex\\LC\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Danuja Fernando\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -52,8 +52,8 @@
       "frameworks": {
         "netcoreapp3.0": {
           "projectReferences": {
-            "F:\\hiru\\works\\C#\\lex\\Lex\\Lex.csproj": {
-              "projectPath": "F:\\hiru\\works\\C#\\lex\\Lex\\Lex.csproj"
+            "F:\\hiru\\works\\C#\\Lex\\Lex\\Lex.csproj": {
+              "projectPath": "F:\\hiru\\works\\C#\\Lex\\Lex\\Lex.csproj"
             }
           }
         }

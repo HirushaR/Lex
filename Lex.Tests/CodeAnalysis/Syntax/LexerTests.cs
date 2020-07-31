@@ -4,6 +4,7 @@ using System.Linq;
 using Xunit;
 namespace Lex.Tests.CodeAnalysis.Syntax
 {
+    
     public class LexerTests
     {
         [Theory]
@@ -176,4 +177,6 @@ namespace Lex.Tests.CodeAnalysis.Syntax
         }
 
     }
+
+  
 }
