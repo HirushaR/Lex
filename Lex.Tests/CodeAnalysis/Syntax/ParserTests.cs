@@ -11,13 +11,15 @@ namespace Lex.Tests.CodeAnalysis.Syntax
     {
 
         private IEnumerator<SyntaxNode> _enumerator;
+        private bool _hasError;
         public AssertingEnumerator(SyntaxNode node)
         {
             _enumerator = Flatten(node).GetEnumerator();
         }
         public void Dispose()
         {
-            Assert.False(_enumerator.MoveNext());
+            if(_hasError)
+                Assert.False(_enumerator.MoveNext());
             _enumerator.Dispose();
         }
 
@@ -35,15 +37,42 @@ namespace Lex.Tests.CodeAnalysis.Syntax
                     stack.Push(child);
             }
         }
+
+        public void AssertNode(SyntaxKind kind)
+        {
+            try
+            {
+                Assert.True(_enumerator.MoveNext());
+                Assert.IsNotType<SyntaxToken>(_enumerator.Current);
+                Assert.Equal(kind, _enumerator.Current.Kind);
+            }
+            catch(Exception)
+            {
+                _hasError = true;
+                throw;
+            }
+
+        }
         public void AssertToken(SyntaxKind kind, string text)
         {
-            Assert.True(_enumerator.MoveNext());
-            var token = Assert.IsType<SyntaxToken>(_enumerator.Current);
-            Assert.Equal(kind, token.Kind);
-            Assert.Equal(text, token.Text)
+            try
+            {
+                Assert.True(_enumerator.MoveNext());
+                var token = Assert.IsType<SyntaxToken>(_enumerator.Current);
+                Assert.Equal(kind, token.Kind);
+                Assert.Equal(text, token.Text);
+            }
+            catch (Exception)
+            {
+                _hasError = true;
+                throw;
+            }
+            
         }
 
-       
+        
+
+
     }
 
 
@@ -58,14 +87,35 @@ namespace Lex.Tests.CodeAnalysis.Syntax
             var op1Text = SyntaxFacts.GetText(op1);
             var op2Text = SyntaxFacts.GetText(op2);
             var text = $"a {op1Text} b {op2Text} c";
+            var expression = SyntaxTree.Parse(text).Root;
 
             if (op1Precedence >= op2Precedence)
             {
-                Assert.False(true);
+               using(var e = new AssertingEnumerator(expression))
+                {
+                    e.AssertNode(SyntaxKind.BinaryExpression);
+                    e.AssertNode(SyntaxKind.BinaryExpression);
+                    e.AssertNode(SyntaxKind.NameExpression);
+                    e.AssertToken(SyntaxKind.IdentifierToken, "a");
+                    e.AssertNode(SyntaxKind.NameExpression);
+                    e.AssertToken(SyntaxKind.IdentifierToken, "b");
+                    e.AssertNode(SyntaxKind.NameExpression);
+                    e.AssertToken(SyntaxKind.IdentifierToken, "c");
+                }
             }
             else
             {
-                Assert.False(true);
+                using (var e = new AssertingEnumerator(expression))
+                {
+                    e.AssertNode(SyntaxKind.BinaryExpression);
+                    e.AssertNode(SyntaxKind.NameExpression);
+                    e.AssertToken(SyntaxKind.IdentifierToken, "a");
+                    e.AssertNode(SyntaxKind.BinaryExpression);
+                    e.AssertNode(SyntaxKind.NameExpression);
+                    e.AssertToken(SyntaxKind.IdentifierToken, "b");
+                    e.AssertNode(SyntaxKind.NameExpression);
+                    e.AssertToken(SyntaxKind.IdentifierToken, "c");
+                }
             }
         }
 
