@@ -77,6 +77,20 @@ namespace Lex.Tests.CodeAnalysis.Syntax
             };
         }
 
+        private static IEnumerable<(SyntaxKind kind, string text)> GetSeparators()
+        {
+            return new[]
+            {
+
+                (SyntaxKind.WhitespaceToken, " "),
+                (SyntaxKind.WhitespaceToken, "  "),
+                (SyntaxKind.WhitespaceToken, "\r"),
+                (SyntaxKind.WhitespaceToken, "\n"),
+                (SyntaxKind.WhitespaceToken, "\r\n"),
+
+            };
+        }
+
         private static bool RequiresSeparator(SyntaxKind t1Kind, SyntaxKind t2Kind)
         {
             var t1IsKeyword = t1Kind.ToString().EndsWith("Keyword");
