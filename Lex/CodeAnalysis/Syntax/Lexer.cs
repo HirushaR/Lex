@@ -5,9 +5,13 @@ namespace Lex.CodeAnalysis.Syntax
     internal sealed class Lexer
     {
         private readonly string _text;
-        private int _position;
-        private DiagnosticBag _diagnostics = new DiagnosticBag();
+        private readonly DiagnosticBag _diagnostics = new DiagnosticBag();
 
+        private int _position;
+        private int _start;
+        private SyntaxKind _kind;
+        private object _value;
+       
         public Lexer(string text)
         {
             _text = text;
@@ -33,9 +37,7 @@ namespace Lex.CodeAnalysis.Syntax
 
         public SyntaxToken Lex()
         {
-            if (_position >= _text.Length)
-                return new SyntaxToken(SyntaxKind.EndOfFileToken, _position, "\0", null);
-
+           
              var start = _position;
 
             if (char.IsDigit(Current))
@@ -83,6 +85,8 @@ namespace Lex.CodeAnalysis.Syntax
 
             switch (Current)
             {
+                case '\0':
+                    return new SyntaxToken(SyntaxKind.EndOfFileToken, _position, "\0", null);
                 case '+':
                     return new SyntaxToken(SyntaxKind.PlusToken, _position++, "+", null);
                 case '-':
@@ -134,10 +138,6 @@ namespace Lex.CodeAnalysis.Syntax
                          _position += 1;
                          return new SyntaxToken(SyntaxKind.BangToken, start, "!", null);
                     }
-
-
-                       
-
             }
 
             _diagnostics.ReportBadCharactor(_position, Current);
