@@ -128,11 +128,16 @@ namespace Lex.CodeAnalysis.Syntax
             case '\n':
             case '\r':
                 ReadWhiteSpaceToken();
-                break;
-            default:               
+                    break;
+
+            default:                
                 if (char.IsLetter(Current))
                 {
                     ReadIdentifierOrKeyword();
+                }
+                else if (char.IsWhiteSpace(Current))
+                {
+                    ReadWhiteSpaceToken();
                 }
                 else
                 {
