@@ -37,22 +37,25 @@ namespace Lex.CodeAnalysis.Syntax
 
         public SyntaxToken Lex()
         {
-           
-             var start = _position;
+
+            _start = _position;
+            _kind = SyntaxKind.BadToken;
+            _value = null;
 
             if (char.IsDigit(Current))
             {
-               
-
                 while (char.IsDigit(Current))
                     Next();
 
-                var length = _position - start;
-                var text = _text.Substring(start, length);
+                var length = _position - _start;
+                var text = _text.Substring(_start, length);
                 if (!int.TryParse(text, out var value))
-                    _diagnostics.ReportInvalidNumber(new TextSpan(start,length), _text,typeof(int));
+                    _diagnostics.ReportInvalidNumber(new TextSpan(_start,length), _text,typeof(int));
 
-                return new SyntaxToken(SyntaxKind.NumberToken, start, text, value);
+                _value = value;
+                _kind = SyntaxKind.NameExpression;
+
+                return new SyntaxToken(_kind, _start, text, value);
             }
 
             if (char.IsWhiteSpace(Current))
@@ -62,24 +65,23 @@ namespace Lex.CodeAnalysis.Syntax
                 while (char.IsWhiteSpace(Current))
                     Next();
 
-                var length = _position - start;
-                var text = _text.Substring(start, length);
-                return new SyntaxToken(SyntaxKind.WhitespaceToken, start, text, null);
+                var length = _position - _start;
+                var text = _text.Substring(_start, length);
+                return new SyntaxToken(SyntaxKind.WhitespaceToken, _start, text, null);
             }
 
             //true 
             //flase
             if (char.IsLetter(Current))
             {
-                
 
                 while (char.IsLetter(Current))
                     Next();
 
-                var length = _position - start;
-                var text = _text.Substring(start, length);
+                var length = _position - _start;
+                var text = _text.Substring(_start, length);
                 var kind = SyntaxFacts.GetKeyworkKind(text);
-                return new SyntaxToken(kind, start, text, null);
+                return new SyntaxToken(kind, _start, text, null);
 
             }
 
@@ -103,7 +105,7 @@ namespace Lex.CodeAnalysis.Syntax
                     if (Lookahed == '&')
                     {  
                         _position += 2;
-                        return new SyntaxToken(SyntaxKind.AmpersandAmpersandToken, start, "&&", null);                       
+                        return new SyntaxToken(SyntaxKind.AmpersandAmpersandToken, _start, "&&", null);                       
                     }
                     break;
                     
@@ -111,7 +113,7 @@ namespace Lex.CodeAnalysis.Syntax
                     if (Lookahed == '|')
                     {
                          _position += 2;
-                         return new SyntaxToken(SyntaxKind.PipePieToken, start, "||", null);
+                         return new SyntaxToken(SyntaxKind.PipePieToken, _start, "||", null);
                     }
                         
                     break;
@@ -119,24 +121,24 @@ namespace Lex.CodeAnalysis.Syntax
                     if (Lookahed == '=')
                     {
                          _position += 2;
-                         return new SyntaxToken(SyntaxKind.EaqulesEaqlesToken, start, "==", null);
+                         return new SyntaxToken(SyntaxKind.EaqulesEaqlesToken, _start, "==", null);
                     }
                     else
                     {
                         _position += 1;
-                        return new SyntaxToken(SyntaxKind.EaqlesToken, start, "=", null);
+                        return new SyntaxToken(SyntaxKind.EaqlesToken, _start, "=", null);
                     }
 
                 case '!':
                     if (Lookahed == '=')
                     {
                         _position += 2;
-                        return new SyntaxToken(SyntaxKind.BangEaqlesToken, start, "!=", null);
+                        return new SyntaxToken(SyntaxKind.BangEaqlesToken, _start, "!=", null);
                     }
                     else
                     {
                          _position += 1;
-                         return new SyntaxToken(SyntaxKind.BangToken, start, "!", null);
+                         return new SyntaxToken(SyntaxKind.BangToken, _start, "!", null);
                     }
             }
 
