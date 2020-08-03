@@ -51,14 +51,9 @@ namespace Lex.CodeAnalysis.Syntax
 
             else if (char.IsWhiteSpace(Current))
             {
-                
 
-                while (char.IsWhiteSpace(Current))
-                    Next();
+               ReadWhiteSpaceToken();
 
-                var length = _position - _start;
-                var text = _text.Substring(_start, length);
-                return new SyntaxToken(SyntaxKind.WhitespaceToken, _start, text, null);
             }
             else if (char.IsLetter(Current))
             {
@@ -156,6 +151,14 @@ namespace Lex.CodeAnalysis.Syntax
 
             _value = value;
             _kind = SyntaxKind.NameExpression;
+            
+        }
+        private void ReadWhiteSpaceToken()
+        {
+            while (char.IsWhiteSpace(Current))
+                    Next();
+
+                _kind = SyntaxKind.WhitespaceToken;
             
         }
     }
