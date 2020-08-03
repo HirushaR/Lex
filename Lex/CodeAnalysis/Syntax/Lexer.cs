@@ -122,13 +122,15 @@ namespace Lex.CodeAnalysis.Syntax
             case '0':case '1':case '2':case '3':case '4':
             case '5':case '6': case '7':case '8':case '9':
                 ReadNumberToken();
-                break;        
-            default:
-                if (char.IsWhiteSpace(Current))
-                {
-                    ReadWhiteSpaceToken();
-                }
-                else if (char.IsLetter(Current))
+                break;
+            case ' ':
+            case '\t':
+            case '\n':
+            case '\r':
+                ReadWhiteSpaceToken();
+                break;
+            default:               
+                if (char.IsLetter(Current))
                 {
                     ReadIdentifierOrKeyword();
                 }
