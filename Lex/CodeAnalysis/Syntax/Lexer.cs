@@ -64,24 +64,49 @@ namespace Lex.CodeAnalysis.Syntax
                 switch (Current)
                 {
                     case '\0':
-                        return new SyntaxToken(SyntaxKind.EndOfFileToken, _position, "\0", null);
+                        _kind = SyntaxKind.EndOfFileToken;
+                        _position++;
+                        break;
+                       
                     case '+':
-                        return new SyntaxToken(SyntaxKind.PlusToken, _position++, "+", null);
+                        _kind = SyntaxKind.PlusToken;
+                        _position++;
+                        break;
+                        
                     case '-':
-                        return new SyntaxToken(SyntaxKind.MinusToken, _position++, "-", null);
+                        _kind = SyntaxKind.MinusToken;
+                        _position++;
+                        break;
+                       
                     case '*':
-                        return new SyntaxToken(SyntaxKind.StarToken, _position++, "*", null);
+                        _kind = SyntaxKind.StarToken;
+                        _position++;
+                        break;
+                       
                     case '/':
-                        return new SyntaxToken(SyntaxKind.SlashToken, _position++, "/", null);
+
+                        _kind = SyntaxKind.SlashToken;
+                        _position++;
+                        break;
+                       
                     case '(':
-                        return new SyntaxToken(SyntaxKind.OpenParenthesisToken, _position++, "(", null);
+                        _kind = SyntaxKind.OpenParenthesisToken;
+                        _position++;
+                        break;
+                        
                     case ')':
-                        return new SyntaxToken(SyntaxKind.CloseParenthesisToken, _position++, ")", null);                    
+                        _kind = SyntaxKind.CloseParenthesisToken;
+                        _position++;
+                        break;
+                       
                     case '&':
                         if (Lookahed == '&')
                         {  
                             _position += 2;
-                            return new SyntaxToken(SyntaxKind.AmpersandAmpersandToken, _start, "&&", null);                       
+                            _kind = SyntaxKind.AmpersandAmpersandToken;
+
+                            break;
+                                          
                         }
                         break;
                     
@@ -89,32 +114,46 @@ namespace Lex.CodeAnalysis.Syntax
                         if (Lookahed == '|')
                         {
                              _position += 2;
-                             return new SyntaxToken(SyntaxKind.PipePieToken, _start, "||", null);
+                             _kind = SyntaxKind.PipePieToken;
+
+                             break;
+                             
                         }
                         
                         break;
                     case '=':
                         if (Lookahed == '=')
                         {
-                             _position += 2;
-                             return new SyntaxToken(SyntaxKind.EaqulesEaqlesToken, _start, "==", null);
+                           _position += 2;
+                           _kind = SyntaxKind.EaqulesEaqlesToken;
+                            break;
+  
+                            
                         }
                         else
                         {
-                            _position += 1;
-                            return new SyntaxToken(SyntaxKind.EaqlesToken, _start, "=", null);
+ 
+                            _kind = SyntaxKind.EaqlesToken;
+                           _position++;
+                            break;
+                           
                         }
 
                     case '!':
                         if (Lookahed == '=')
                         {
                             _position += 2;
-                            return new SyntaxToken(SyntaxKind.BangEaqlesToken, _start, "!=", null);
+                            _kind = SyntaxKind.BangEaqlesToken;
+                            break;
+                            
                         }
                         else
                         {
-                             _position += 1;
-                             return new SyntaxToken(SyntaxKind.BangToken, _start, "!", null);
+                             
+                            _kind = SyntaxKind.BangToken;
+                            _position++;
+                            break;
+                           
                         }
                     default:
                         _diagnostics.ReportBadCharactor(_position, Current);
@@ -157,7 +196,6 @@ namespace Lex.CodeAnalysis.Syntax
 
          private void ReadIdentifierOrKeyword()
          {
-            
                 while (char.IsLetter(Current))
                     Next();
 
