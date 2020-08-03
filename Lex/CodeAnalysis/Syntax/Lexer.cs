@@ -42,125 +42,105 @@ namespace Lex.CodeAnalysis.Syntax
             _kind = SyntaxKind.BadToken;
             _value = null;
 
-            if (char.IsDigit(Current))
-            {
 
-                ReadNumberToken();
-                
-            }
+             
+        switch (Current)
+        {
+            case '\0':
+                _kind = SyntaxKind.EndOfFileToken;
+                _position++;
+                break;
+                       
+            case '+':
+                _kind = SyntaxKind.PlusToken;
+                _position++;
+                break;
+                        
+            case '-':
+                _kind = SyntaxKind.MinusToken;
+                _position++;
+                break;
+                       
+            case '*':
+                _kind = SyntaxKind.StarToken;
+                _position++;
+                break;
+                       
+            case '/':
 
-            else if (char.IsWhiteSpace(Current))
-            {
-
-               ReadWhiteSpaceToken();
-
-            }
-            else if (char.IsLetter(Current))
-            {
-
-               ReadIdentifierOrKeyword();
-            }
-            else {
-                switch (Current)
+                _kind = SyntaxKind.SlashToken;
+                _position++;
+                break;
+                       
+            case '(':
+                _kind = SyntaxKind.OpenParenthesisToken;
+                _position++;
+                break;
+                        
+            case ')':
+                _kind = SyntaxKind.CloseParenthesisToken;
+                _position++;
+                break;                      
+            case '&':
+                if (Lookahed == '&')
+                {  
+                    _position += 2;
+                    _kind = SyntaxKind.AmpersandAmpersandToken;
+                    break;                                          
+                }
+                break;                    
+            case '|':
+                if (Lookahed == '|')
                 {
-                    case '\0':
-                        _kind = SyntaxKind.EndOfFileToken;
-                        _position++;
-                        break;
-                       
-                    case '+':
-                        _kind = SyntaxKind.PlusToken;
-                        _position++;
-                        break;
-                        
-                    case '-':
-                        _kind = SyntaxKind.MinusToken;
-                        _position++;
-                        break;
-                       
-                    case '*':
-                        _kind = SyntaxKind.StarToken;
-                        _position++;
-                        break;
-                       
-                    case '/':
-
-                        _kind = SyntaxKind.SlashToken;
-                        _position++;
-                        break;
-                       
-                    case '(':
-                        _kind = SyntaxKind.OpenParenthesisToken;
-                        _position++;
-                        break;
-                        
-                    case ')':
-                        _kind = SyntaxKind.CloseParenthesisToken;
-                        _position++;
-                        break;
-                       
-                    case '&':
-                        if (Lookahed == '&')
-                        {  
-                            _position += 2;
-                            _kind = SyntaxKind.AmpersandAmpersandToken;
-
-                            break;
-                                          
-                        }
-                        break;
-                    
-                    case '|':
-                        if (Lookahed == '|')
-                        {
-                             _position += 2;
-                             _kind = SyntaxKind.PipePieToken;
-
-                             break;
-                             
-                        }
-                        
-                        break;
-                    case '=':
-                        if (Lookahed == '=')
-                        {
-                           _position += 2;
-                           _kind = SyntaxKind.EaqulesEaqlesToken;
-                            break;
-  
-                            
-                        }
-                        else
-                        {
- 
-                            _kind = SyntaxKind.EaqlesToken;
-                           _position++;
-                            break;
-                           
-                        }
-
-                    case '!':
-                        if (Lookahed == '=')
-                        {
-                            _position += 2;
-                            _kind = SyntaxKind.BangEaqlesToken;
-                            break;
-                            
-                        }
-                        else
-                        {
-                             
-                            _kind = SyntaxKind.BangToken;
-                            _position++;
-                            break;
-                           
-                        }
-                    default:
+                        _position += 2;
+                        _kind = SyntaxKind.PipePieToken;
+                        break;                            
+                }                       
+                break;
+            case '=':
+                _position++;
+                if (Current != '=')
+                {                           
+                    _kind = SyntaxKind.EaqlesToken;   
+                }
+                else
+                { 
+                    _kind = SyntaxKind.EaqulesEaqlesToken;    
+                }
+                break;
+            case '!':
+                _position++;
+                if (Lookahed != '=')
+                {
+                    _kind = SyntaxKind.BangToken;                            
+                }
+                else
+                {
+                        _kind = SyntaxKind.BangEaqlesToken;        
+                }
+                break;
+            default:
+                if (char.IsDigit(Current))
+                {
+                    ReadNumberToken();
+                }
+                else if (char.IsWhiteSpace(Current))
+                {
+                    ReadWhiteSpaceToken();
+                }
+                else if (char.IsLetter(Current))
+                {
+                    ReadIdentifierOrKeyword();
+                }
+                else
+                {
                         _diagnostics.ReportBadCharactor(_position, Current);
                         _position++;
-                        break;
                 }
-            }
+                       
+                break;
+        }
+            
 
             var length = _position - _start;
             var text = SyntaxFacts.GetText(_kind);
@@ -190,18 +170,18 @@ namespace Lex.CodeAnalysis.Syntax
             while (char.IsWhiteSpace(Current))
                     Next();
 
-                _kind = SyntaxKind.WhitespaceToken;
+            _kind = SyntaxKind.WhitespaceToken;
             
         }
 
          private void ReadIdentifierOrKeyword()
          {
-                while (char.IsLetter(Current))
-                    Next();
+            while (char.IsLetter(Current))
+                Next();
 
-                var length = _position - _start;
-                var text = _text.Substring(_start, length);
-                _kind = SyntaxFacts.GetKeyworkKind(text);
+            var length = _position - _start;
+            var text = _text.Substring(_start, length);
+            _kind = SyntaxFacts.GetKeyworkKind(text);
             
          }
     }
