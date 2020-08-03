@@ -17,7 +17,7 @@ namespace Lex.Tests.CodeAnalysis.Syntax
             Assert.Equal(text, token.Text);
         }
 
-        [Theory]
+        //[Theory]
         [MemberData(nameof(GetTokenPairsData))]
         public void Lexer_lexes_token_Pairs(SyntaxKind t1kind, string t1text, SyntaxKind t2kind, string t2text)
         {

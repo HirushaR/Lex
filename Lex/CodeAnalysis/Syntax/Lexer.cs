@@ -30,11 +30,6 @@ namespace Lex.CodeAnalysis.Syntax
             return _text[index];
         }
 
-        private void Next()
-        {
-            _position++;
-        }
-
         public SyntaxToken Lex()
         {
 
@@ -42,111 +37,109 @@ namespace Lex.CodeAnalysis.Syntax
             _kind = SyntaxKind.BadToken;
             _value = null;
 
-
-             
-        switch (Current)
-        {
-            case '\0':
-                _kind = SyntaxKind.EndOfFileToken;
-                _position++;
-                break;
-                       
-            case '+':
-                _kind = SyntaxKind.PlusToken;
-                _position++;
-                break;
-                        
-            case '-':
-                _kind = SyntaxKind.MinusToken;
-                _position++;
-                break;
-                       
-            case '*':
-                _kind = SyntaxKind.StarToken;
-                _position++;
-                break;
-                       
-            case '/':
-
-                _kind = SyntaxKind.SlashToken;
-                _position++;
-                break;
-                       
-            case '(':
-                _kind = SyntaxKind.OpenParenthesisToken;
-                _position++;
-                break;
-                        
-            case ')':
-                _kind = SyntaxKind.CloseParenthesisToken;
-                _position++;
-                break;                      
-            case '&':
-                if (Lookahed == '&')
-                {  
-                    _position += 2;
-                    _kind = SyntaxKind.AmpersandAmpersandToken;
-                    break;                                          
-                }
-                break;                    
-            case '|':
-                if (Lookahed == '|')
-                {
-                        _position += 2;
-                        _kind = SyntaxKind.PipePieToken;
-                        break;                            
-                }                       
-                break;
-            case '=':
-                _position++;
-                if (Current != '=')
-                {                           
-                    _kind = SyntaxKind.EaqlesToken;   
-                }
-                else
-                { 
-                    _kind = SyntaxKind.EaqulesEaqlesToken;    
-                }
-                break;
-            case '!':
-                _position++;
-                if (Lookahed != '=')
-                {
-                    _kind = SyntaxKind.BangToken;                            
-                }
-                else
-                {
-                        _kind = SyntaxKind.BangEaqlesToken;        
-                }
-                break;
-            case '0':case '1':case '2':case '3':case '4':
-            case '5':case '6': case '7':case '8':case '9':
-                ReadNumberToken();
-                break;
-            case ' ':
-            case '\t':
-            case '\n':
-            case '\r':
-                ReadWhiteSpaceToken();
+            switch (Current)
+            {
+                case '\0':
+                    _kind = SyntaxKind.EndOfFileToken;
+                    _position++;
                     break;
-
-            default:                
-                if (char.IsLetter(Current))
-                {
-                    ReadIdentifierOrKeyword();
-                }
-                else if (char.IsWhiteSpace(Current))
-                {
-                    ReadWhiteSpaceToken();
-                }
-                else
-                {
-                        _diagnostics.ReportBadCharactor(_position, Current);
-                        _position++;
-                }
                        
-                break;
-        }
+                case '+':
+                    _kind = SyntaxKind.PlusToken;
+                    _position++;
+                    break;
+                        
+                case '-':
+                    _kind = SyntaxKind.MinusToken;
+                    _position++;
+                    break;
+                       
+                case '*':
+                    _kind = SyntaxKind.StarToken;
+                    _position++;
+                    break;
+                       
+                case '/':
+
+                    _kind = SyntaxKind.SlashToken;
+                    _position++;
+                    break;
+                       
+                case '(':
+                    _kind = SyntaxKind.OpenParenthesisToken;
+                    _position++;
+                    break;
+                        
+                case ')':
+                    _kind = SyntaxKind.CloseParenthesisToken;
+                    _position++;
+                    break;                      
+                case '&':
+                    if (Lookahed == '&')
+                    {  
+                        _position += 2;
+                        _kind = SyntaxKind.AmpersandAmpersandToken;
+                        break;                                          
+                    }
+                    break;                    
+                case '|':
+                    if (Lookahed == '|')
+                    {
+                            _position += 2;
+                            _kind = SyntaxKind.PipePieToken;
+                            break;                            
+                    }                       
+                    break;
+                case '=':
+                    _position++;
+                    if (Current != '=')
+                    {                           
+                        _kind = SyntaxKind.EaqlesToken;   
+                    }
+                    else
+                    { 
+                        _kind = SyntaxKind.EaqulesEaqlesToken;    
+                    }
+                    break;
+                case '!':
+                    _position++;
+                    if (Lookahed != '=')
+                    {
+                        _kind = SyntaxKind.BangToken;                            
+                    }
+                    else
+                    {
+                            _kind = SyntaxKind.BangEaqlesToken;        
+                    }
+                    break;
+                case '0':case '1':case '2':case '3':case '4':
+                case '5':case '6': case '7':case '8':case '9':
+                    ReadNumberToken();
+                    break;
+                case ' ':
+                case '\t':
+                case '\n':
+                case '\r':
+                    ReadWhiteSpaceToken();
+                        break;
+
+                default:                
+                    if (char.IsLetter(Current))
+                    {
+                        ReadIdentifierOrKeyword();
+                    }
+                    else if (char.IsWhiteSpace(Current))
+                    {
+                        ReadWhiteSpaceToken();
+                    }
+                    else
+                    {
+                            _diagnostics.ReportBadCharactor(_position, Current);
+                            _position++;
+                    }
+                       
+                    break;
+            }
             
 
             var length = _position - _start;
@@ -158,39 +151,37 @@ namespace Lex.CodeAnalysis.Syntax
             
         }
 
+
+        private void ReadWhiteSpaceToken()
+        {
+            while (char.IsWhiteSpace(Current))
+                    _position++;
+            _kind = SyntaxKind.WhitespaceToken;            
+        }
         private void ReadNumberToken()
         {
             while (char.IsDigit(Current))
-                Next();
+                _position++;
 
             var length = _position - _start;
             var text = _text.Substring(_start, length);
             if (!int.TryParse(text, out var value))
-                _diagnostics.ReportInvalidNumber(new TextSpan(_start,length), _text,typeof(int));
+                _diagnostics.ReportInvalidNumber(new TextSpan(_start, length), _text, typeof(int));
 
             _value = value;
             _kind = SyntaxKind.NameExpression;
-            
-        }
-        private void ReadWhiteSpaceToken()
-        {
-            while (char.IsWhiteSpace(Current))
-                    Next();
 
-            _kind = SyntaxKind.WhitespaceToken;
-            
         }
-
-         private void ReadIdentifierOrKeyword()
-         {
+        private void ReadIdentifierOrKeyword()
+            {
             while (char.IsLetter(Current))
-                Next();
+                _position++;
 
             var length = _position - _start;
             var text = _text.Substring(_start, length);
             _kind = SyntaxFacts.GetKeyworkKind(text);
             
-         }
+            }
     }
 
 }
