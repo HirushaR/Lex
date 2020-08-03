@@ -58,14 +58,7 @@ namespace Lex.CodeAnalysis.Syntax
             else if (char.IsLetter(Current))
             {
 
-                while (char.IsLetter(Current))
-                    Next();
-
-                var length = _position - _start;
-                var text = _text.Substring(_start, length);
-                var kind = SyntaxFacts.GetKeyworkKind(text);
-                return new SyntaxToken(kind, _start, text, null);
-
+               ReadIdentifierOrKeyword();
             }
             else {
                 switch (Current)
@@ -161,6 +154,18 @@ namespace Lex.CodeAnalysis.Syntax
                 _kind = SyntaxKind.WhitespaceToken;
             
         }
+
+         private void ReadIdentifierOrKeyword()
+         {
+            
+                while (char.IsLetter(Current))
+                    Next();
+
+                var length = _position - _start;
+                var text = _text.Substring(_start, length);
+                _kind = SyntaxFacts.GetKeyworkKind(text);
+            
+         }
     }
 
 }
