@@ -44,18 +44,9 @@ namespace Lex.CodeAnalysis.Syntax
 
             if (char.IsDigit(Current))
             {
-                while (char.IsDigit(Current))
-                    Next();
 
-                var length = _position - _start;
-                var text = _text.Substring(_start, length);
-                if (!int.TryParse(text, out var value))
-                    _diagnostics.ReportInvalidNumber(new TextSpan(_start,length), _text,typeof(int));
-
-                _value = value;
-                _kind = SyntaxKind.NameExpression;
-
-                return new SyntaxToken(_kind, _start, text, value);
+                ReadNumberToken();
+                return new SyntaxToken(_kind, _start, text, _value);
             }
 
             if (char.IsWhiteSpace(Current))
@@ -145,5 +136,21 @@ namespace Lex.CodeAnalysis.Syntax
             _diagnostics.ReportBadCharactor(_position, Current);
             return new SyntaxToken(SyntaxKind.BadToken, _position++, _text.Substring(_position - 1, 1), null);
         }
+
+        private void ReadNumberToken()
+        {
+            while (char.IsDigit(Current))
+                Next();
+
+            var length = _position - _start;
+            var text = _text.Substring(_start, length);
+            if (!int.TryParse(text, out var value))
+                _diagnostics.ReportInvalidNumber(new TextSpan(_start,length), _text,typeof(int));
+
+            _value = value;
+            _kind = SyntaxKind.NameExpression;
+            
+        }
     }
+
 }
