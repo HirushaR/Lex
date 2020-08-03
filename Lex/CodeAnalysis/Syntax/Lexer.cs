@@ -4,8 +4,9 @@ namespace Lex.CodeAnalysis.Syntax
 {
     internal sealed class Lexer
     {
-        private readonly string _text;
         private readonly DiagnosticBag _diagnostics = new DiagnosticBag();
+        private readonly string _text;
+
 
         private int _position;
         private int _start;
@@ -41,7 +42,6 @@ namespace Lex.CodeAnalysis.Syntax
             {
                 case '\0':
                     _kind = SyntaxKind.EndOfFileToken;
-                    _position++;
                     break;
                        
                 case '+':
