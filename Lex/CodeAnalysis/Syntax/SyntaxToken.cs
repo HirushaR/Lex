@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Lex.CodeAnalysis.Text;
 
 namespace Lex.CodeAnalysis.Syntax
 {
@@ -18,11 +19,8 @@ namespace Lex.CodeAnalysis.Syntax
         public string Text { get; }
         public object Value { get; }
 
-        public TextSpan Span => new TextSpan(Position, Text.Length);
+        public override TextSpan Span => new TextSpan(Position, Text.Length);
 
-        public override IEnumerable<SyntaxNode> GetChildren()
-        {
-            return Enumerable.Empty<SyntaxNode>();
-        }
+      
     }
 }

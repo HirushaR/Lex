@@ -35,6 +35,7 @@ namespace Lex
 
                 var syntaxTree = SyntaxTree.Parse(line);
                 var compilation = new Compilation(syntaxTree);
+                
                 var result = compilation.Evaluate(variables);
               //  var boundExpression = binder.BindExpression(syntaxTree.Root);
 
@@ -43,7 +44,8 @@ namespace Lex
                 if (showTree)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGray;
-                    PrettyPrint(syntaxTree.Root);
+                    syntaxTree.Root.WriteTo(Console.Out);
+                   // PrettyPrint(syntaxTree.Root);
                     Console.ResetColor();
                 }
 
@@ -52,14 +54,19 @@ namespace Lex
                     Console.WriteLine(result.Value);
                 }
                 else
-                {
-                    
+                {                 
+                    var text = syntaxTree.Text;
 
                     foreach (var diagnostic in diagnostics)
                     {
+                        var lineIndex = text.GetLineIndex(diagnostic.Span.Start);
+                        var lineNumber = lineIndex + 1;
+                        var character = diagnostic.Span.Start -text.Lines[lineIndex].Start +1;
 
                         Console.WriteLine();
+
                         Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.Write($"({lineNumber}, {character}) : ");
                         Console.WriteLine(diagnostic);
                         Console.ResetColor();
 
@@ -78,37 +85,11 @@ namespace Lex
 
                         Console.WriteLine();
                     }
-
-
-                     
-
-                    
+                     Console.WriteLine();                    
                 }
             }
         }
 
-        static void PrettyPrint(SyntaxNode node, string indent = "", bool isLast = true)
-        {
-            var marker = isLast ? "└──" : "├──";
-
-            Console.Write(indent);
-            Console.Write(marker);
-            Console.Write(node.Kind);
-
-            if (node is SyntaxToken t && t.Value != null)
-            {
-                Console.Write(" ");
-                Console.Write(t.Value);
-            }
-
-            Console.WriteLine();
-
-            indent += isLast ? "   " : "│   ";
-
-            var lastChild = node.GetChildren().LastOrDefault();
-
-            foreach (var child in node.GetChildren())
-                PrettyPrint(child, indent, child == lastChild);
-        }
+      
     }
 }

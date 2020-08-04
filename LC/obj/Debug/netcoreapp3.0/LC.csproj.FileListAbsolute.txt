@@ -12,3 +12,4 @@ F:\hiru\works\C#\Lex\LC\bin\Debug\netcoreapp3.0\Lex.dll
 F:\hiru\works\C#\Lex\LC\bin\Debug\netcoreapp3.0\Lex.pdb
 F:\hiru\works\C#\Lex\LC\obj\Debug\netcoreapp3.0\LC.csprojAssemblyReference.cache
 F:\hiru\works\C#\Lex\LC\obj\Debug\netcoreapp3.0\LC.csproj.CopyComplete
+F:\hiru\works\C#\Lex\LC\bin\Debug\netcoreapp3.0\System.Collections.Immutable.dll
