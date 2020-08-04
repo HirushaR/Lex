@@ -8,6 +8,27 @@ namespace Lex.Tests.CodeAnalysis.Syntax
 {
     public class LexerTests
     {
+
+        [Fact]
+        public void Lexer_Tests_AllToken()
+        {
+            var tokendKinds = Enum.GetValues(typeof(SyntaxKind))
+                                  .Cast<SyntaxKind>()
+                                  .Where(k => k.ToString().EndsWith("Keyword")||
+                                              k.ToString().EndsWith("Token"))
+                                   .ToList();
+
+            var testedTokenKinds = GetTokens().Concat(GetSeparators()).Select(t => t.kind);
+    
+            var untestedTokenKind = new SortedSet<SyntaxKind>(tokendKinds);
+            untestedTokenKind.Remove(SyntaxKind.BadToken);
+            untestedTokenKind.Remove(SyntaxKind.EndOfFileToken);
+            untestedTokenKind.ExceptWith(testedTokenKinds);
+
+            Assert.Empty(untestedTokenKind);
+
+        }
+
         [Theory]
         [MemberData(nameof(GetTokensData))]
         public void Lexer_Lexes_Token(SyntaxKind kind, string text)
