@@ -10,12 +10,9 @@ namespace Lex.CodeAnalysis.Syntax
             EqualsToken = equalsToken;
             Expression = expression;
         }
-
         public SyntaxToken IdentifierToken { get; }
         public SyntaxToken EqualsToken { get; }
         public ExpressionSyntax Expression { get; }
-
         public override SyntaxKind Kind => SyntaxKind.AssigmentExpression;
-
     }
 }
