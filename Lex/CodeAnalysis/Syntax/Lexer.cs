@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System;
 using Lex.CodeAnalysis.Syntax;
+using Lex.CodeAnalysis.Text;
 
 namespace Lex.CodeAnalysis.Syntax
 {

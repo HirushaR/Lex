@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lex.CodeAnalysis
+namespace Lex.CodeAnalysis.Text
 {
     public struct TextSpan
     {

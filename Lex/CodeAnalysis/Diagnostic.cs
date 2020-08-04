@@ -1,4 +1,6 @@
-﻿namespace Lex.CodeAnalysis
+﻿using Lex.CodeAnalysis.Text;
+
+namespace Lex.CodeAnalysis
 {
     public sealed class Diagnostic
     {

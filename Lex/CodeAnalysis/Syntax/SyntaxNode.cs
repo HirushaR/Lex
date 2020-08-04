@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Lex.CodeAnalysis.Text;
 
 namespace Lex.CodeAnalysis.Syntax
 {
