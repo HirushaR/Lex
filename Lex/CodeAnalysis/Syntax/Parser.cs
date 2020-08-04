@@ -14,6 +14,7 @@ namespace Lex.CodeAnalysis.Syntax
             var tokens = new List<SyntaxToken>();
 
             var lexer = new Lexer(text);
+        
             SyntaxToken token;
             do
             {

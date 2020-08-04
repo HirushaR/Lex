@@ -71,7 +71,7 @@ namespace Lex.CodeAnalysis.Syntax
         }
 
 
-        public static SyntaxKind GetKeyworkKind(string text)
+        public static SyntaxKind GetKeywordKind(string text)
         {
             switch(text)
             {

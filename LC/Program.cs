@@ -35,6 +35,7 @@ namespace Lex
 
                 var syntaxTree = SyntaxTree.Parse(line);
                 var compilation = new Compilation(syntaxTree);
+                
                 var result = compilation.Evaluate(variables);
               //  var boundExpression = binder.BindExpression(syntaxTree.Root);
 
