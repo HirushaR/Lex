@@ -19,6 +19,7 @@ namespace Lex.CodeAnalysis.Text
             var length = end - start;
             return new TextSpan(start,length);
         }
+
     }
 
 }

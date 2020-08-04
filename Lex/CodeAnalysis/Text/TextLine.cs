@@ -17,6 +17,9 @@ namespace Lex.CodeAnalysis.Text
         public int LenghtIncludeLineBreak { get; }
         public TextSpan Span => new TextSpan(Start, Length);
         public TextSpan SpanIncludingLineBreak => new TextSpan(Start, LenghtIncludeLineBreak);
+        
+        public override string ToString() => Text.ToString(Span);
+
     }
 
 }
