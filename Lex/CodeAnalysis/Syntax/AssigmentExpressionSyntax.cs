@@ -17,11 +17,5 @@ namespace Lex.CodeAnalysis.Syntax
 
         public override SyntaxKind Kind => SyntaxKind.AssigmentExpression;
 
-        public override IEnumerable<SyntaxNode> GetChildren()
-        {
-            yield return IdentifierToken;
-            yield return EqualsToken;
-            yield return Expression;
-        }
     }
 }

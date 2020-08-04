@@ -94,3 +94,4 @@ F:\hiru\works\C#\Lex\Lex.Tests\obj\Debug\netcoreapp3.0\Lex.Tests.AssemblyInfo.cs
 F:\hiru\works\C#\Lex\Lex.Tests\obj\Debug\netcoreapp3.0\Lex.Tests.csproj.CopyComplete
 F:\hiru\works\C#\Lex\Lex.Tests\obj\Debug\netcoreapp3.0\Lex.Tests.dll
 F:\hiru\works\C#\Lex\Lex.Tests\obj\Debug\netcoreapp3.0\Lex.Tests.pdb
+F:\hiru\works\C#\Lex\Lex.Tests\bin\Debug\netcoreapp3.0\System.Collections.Immutable.dll

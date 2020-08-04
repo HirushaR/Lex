@@ -472,16 +472,12 @@
           "System.Threading.Tasks": "4.0.11"
         }
       },
-      "System.Collections.Immutable/1.2.0": {
-        "dependencies": {
-          "System.Collections": "4.0.11",
-          "System.Diagnostics.Debug": "4.0.11",
-          "System.Globalization": "4.0.11",
-          "System.Linq": "4.1.0",
-          "System.Resources.ResourceManager": "4.0.1",
-          "System.Runtime": "4.1.0",
-          "System.Runtime.Extensions": "4.1.0",
-          "System.Threading": "4.0.11"
+      "System.Collections.Immutable/1.7.1": {
+        "runtime": {
+          "lib/netstandard2.0/System.Collections.Immutable.dll": {
+            "assemblyVersion": "1.2.5.0",
+            "fileVersion": "4.700.20.21406"
+          }
         }
       },
       "System.Collections.NonGeneric/4.0.1": {
@@ -891,7 +887,7 @@
       "System.Reflection.Metadata/1.3.0": {
         "dependencies": {
           "System.Collections": "4.0.11",
-          "System.Collections.Immutable": "1.2.0",
+          "System.Collections.Immutable": "1.7.1",
           "System.Diagnostics.Debug": "4.0.11",
           "System.IO": "4.1.0",
           "System.Linq": "4.1.0",
@@ -1344,6 +1340,9 @@
         }
       },
       "Lex/1.0.0": {
+        "dependencies": {
+          "System.Collections.Immutable": "1.7.1"
+        },
         "runtime": {
           "Lex.dll": {}
         }
@@ -1496,12 +1495,12 @@
       "path": "system.collections.concurrent/4.0.12",
       "hashPath": "system.collections.concurrent.4.0.12.nupkg.sha512"
     },
-    "System.Collections.Immutable/1.2.0": {
+    "System.Collections.Immutable/1.7.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-Cma8cBW6di16ZLibL8LYQ+cLjGzoKxpOTu/faZfDcx94ZjAGq6Nv5RO7+T1YZXqEXTZP9rt1wLVEONVpURtUqw==",
-      "path": "system.collections.immutable/1.2.0",
-      "hashPath": "system.collections.immutable.1.2.0.nupkg.sha512"
+      "sha512": "sha512-B43Zsz5EfMwyEbnObwRxW5u85fzJma3lrDeGcSAV1qkhSRTNY5uXAByTn9h9ddNdhM+4/YoLc/CI43umjwIl9Q==",
+      "path": "system.collections.immutable/1.7.1",
+      "hashPath": "system.collections.immutable.1.7.1.nupkg.sha512"
     },
     "System.Collections.NonGeneric/4.0.1": {
       "type": "package",
