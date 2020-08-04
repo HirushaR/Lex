@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace Lex.CodeAnalysis.Syntax
 {
@@ -62,7 +63,7 @@ namespace Lex.CodeAnalysis.Syntax
         {
             var expresion = ParseExpression();
             var endOfFileToken = MatchToken(SyntaxKind.EndOfFileToken);
-            return new SyntaxTree(_diagnostics, expresion, endOfFileToken);
+            return new SyntaxTree(_diagnostics.ToImmutableArray(), expresion, endOfFileToken);
         }
         private ExpressionSyntax ParseExpression()
         {
