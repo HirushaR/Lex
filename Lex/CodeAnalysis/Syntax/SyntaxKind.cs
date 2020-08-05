@@ -26,6 +26,8 @@ namespace Lex.CodeAnalysis.Syntax
         TrueKeyword,
         FalseKeyword,
 
+        CompilationUnit,
+
         // Expressions
         LiteralExpression,
         NameExpression,
@@ -33,6 +35,6 @@ namespace Lex.CodeAnalysis.Syntax
         BinaryExpression,
         ParenthesizedExpression,
         AssigmentExpression,
-
+       
     }
 }
