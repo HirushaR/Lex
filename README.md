@@ -18,8 +18,10 @@ C# and Visual Basic compilers, code named [Roslyn].
 
 If you want to browse the code, check out the symbolic [source browser].
 
-[source browser]: http://source.minsk-compiler.net
+
 
 
 Thank you ❤
+
+HirushaR
 
