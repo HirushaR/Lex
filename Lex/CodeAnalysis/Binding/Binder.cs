@@ -12,10 +12,10 @@ namespace Lex.CodeAnalysis.Binding
 
         private readonly Dictionary<VariableSymble, object> _variables;
         private readonly DiagnosticBag _diagnostics = new DiagnosticBag();
-
-        public Binder(Dictionary<VariableSymble, object> variables)
+        private BoundScope _scope;
+        public Binder(BoundScope parent)
         {
-            _variables = variables;
+            _scope = new BoundScope(parent);
         }
 
         public DiagnosticBag Diagnostics => _diagnostics;
