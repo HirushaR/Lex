@@ -96,7 +96,7 @@ namespace Lex
                         var suffix = syntaxTree.Text.ToString(suffixSpan);
 
                         Console.Write("    ");
-                        Console.Write(prefix);
+                        Console.Write(prefix); 
 
                         Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.Write(error);
