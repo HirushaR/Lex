@@ -52,14 +52,12 @@ namespace Lex.CodeAnalysis.Syntax
 
             writer.Write(indent);
 
-            if( isToConsole)
-            {
+            if(isToConsole)
                 Console.ForegroundColor = ConsoleColor.DarkGray;
-                writer.Write(marker);
-                Console.ResetColor();
 
-            }            
-            if( isToConsole)
+             writer.Write(marker);
+        
+            if(isToConsole)
                 Console.ForegroundColor =  node is SyntaxToken ? ConsoleColor.Blue : ConsoleColor.Cyan;  
 
              writer.Write(node.Kind);
