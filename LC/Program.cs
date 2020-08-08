@@ -16,6 +16,7 @@ namespace Lex
             var showTree = false;
             var variables = new Dictionary<VariableSymble, object>();
             var textBuilder = new StringBuilder();
+            Compilation previous = null;
 
             while (true)
             {
@@ -46,6 +47,12 @@ namespace Lex
                         Console.Clear();
                         continue;
                     }
+                    else if (input == "#reset")
+                    {
+                        previous = null;
+                        variables.Clear();
+                        continue;
+                    }
                 }
 
                 textBuilder.AppendLine(input);
@@ -57,7 +64,9 @@ namespace Lex
                     continue;
                 }
 
-                var compilation = new Compilation(syntaxTree);
+                var compilation = previous == null
+                                    ? new Compilation(syntaxTree)
+                                    : previous.ContinueWith(syntaxTree);
                 var result = compilation.Evaluate(variables);
 
 
@@ -73,6 +82,7 @@ namespace Lex
                     Console.ForegroundColor = ConsoleColor.Magenta;
                     Console.WriteLine(result.Value);
                     Console.ResetColor();
+                    previous = compilation;
                 }
                 else
                 {                 
