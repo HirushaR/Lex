@@ -1,21 +1,59 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using Lex.CodeAnalysis.Syntax;
 
 
 namespace Lex.CodeAnalysis.Binding
 {
-
-    internal sealed class Binder
+     internal sealed class Binder
     {
-
-        private readonly Dictionary<VariableSymble, object> _variables;
         private readonly DiagnosticBag _diagnostics = new DiagnosticBag();
+
         private BoundScope _scope;
+
         public Binder(BoundScope parent)
         {
             _scope = new BoundScope(parent);
+        }
+
+        public static BoundGlobalScope BindGlobalScope(BoundGlobalScope previous, CompilationUnitSyntax syntax)
+        {
+            var parentScope = CreateParentScope(previous);
+            var binder = new Binder(parentScope);
+            var expression = binder.BindExpression(syntax.Expression);
+            var variables = binder._scope.GetDeclaredVariables();
+            var diagnostics = binder.Diagnostics.ToImmutableArray();
+
+            if (previous != null)
+                diagnostics = diagnostics.InsertRange(0, previous.Diagnostics);
+
+            return new BoundGlobalScope(previous, diagnostics, variables, expression);
+        }
+
+        private static BoundScope CreateParentScope(BoundGlobalScope previous)
+        {
+            var stack = new Stack<BoundGlobalScope>();
+            while (previous != null)
+            {
+                stack.Push(previous);
+                previous = previous.Previous;
+            }
+
+            BoundScope parent = null;
+
+            while (stack.Count > 0)
+            {
+                previous = stack.Pop();
+                var scope = new BoundScope(parent);
+                foreach (var v in previous.Variables)
+                    scope.TryDeclare(v);
+
+                parent = scope;
+            }
+
+            return parent;
         }
 
         public DiagnosticBag Diagnostics => _diagnostics;
@@ -46,10 +84,8 @@ namespace Lex.CodeAnalysis.Binding
             return BindExpression(syntax.Expression);
         }
 
-      
         private BoundExpression BindLiteralExpression(LiteralExpressionSyntax syntax)
         {
-
             var value = syntax.Value ?? 0;
             return new BoundLiteralExpression(value);
         }
@@ -58,15 +94,12 @@ namespace Lex.CodeAnalysis.Binding
         {
             var name = syntax.IdentifierToken.Text;
 
-            var variable = _variables.Keys.FirstOrDefault(v => v.Name == name);
-
-            if(variable == null)
+            if (!_scope.TryLookup(name, out var variable))
             {
                 _diagnostics.ReportUndefinedName(syntax.IdentifierToken.Span, name);
                 return new BoundLiteralExpression(0);
             }
-            // var type = value?.GetType() ?? typeof(object);
-     
+
             return new BoundVariableExpression(variable);
         }
 
@@ -75,12 +108,17 @@ namespace Lex.CodeAnalysis.Binding
             var name = syntax.IdentifierToken.Text;
             var boundExpression = BindExpression(syntax.Expression);
 
-            var existingVariable = new VariableSymble(name, boundExpression.Type);
-            if (existingVariable != null)
-                _variables.Remove(existingVariable);
+            if (!_scope.TryLookup(name, out var variable))
+            {
+                variable = new VariableSymble(name, boundExpression.Type);
+                _scope.TryDeclare(variable);
+            }
 
-            var variable = new VariableSymble(name, boundExpression.Type);
-            _variables[variable] = null;
+            if (boundExpression.Type != variable.Type)
+            {
+                _diagnostics.ReportCannotConvert(syntax.Expression.Span, boundExpression.Type, variable.Type);
+                return boundExpression;
+            }
 
             return new BoundAssignmentExpression(variable, boundExpression);
         }
@@ -88,7 +126,6 @@ namespace Lex.CodeAnalysis.Binding
         private BoundExpression BindUnaryExpression(UnaryExpressionSyntax syntax)
         {
             var boundOperand = BindExpression(syntax.Operand);
-            
             var boundOperator = BoundUnaryOperator.Bind(syntax.OperatorToken.Kind, boundOperand.Type);
 
             if (boundOperator == null)
@@ -108,14 +145,12 @@ namespace Lex.CodeAnalysis.Binding
 
             if (boundOperator == null)
             {
-                _diagnostics.ReportUndefinedBinaryOperator(syntax.OperatorToken.Span, syntax.OperatorToken.Text, boundLeft.Type,boundRight.Type );
+                _diagnostics.ReportUndefinedBinaryOperator(syntax.OperatorToken.Span, syntax.OperatorToken.Text, boundLeft.Type, boundRight.Type);
                 return boundLeft;
             }
 
             return new BoundBinaryExpression(boundLeft, boundOperator, boundRight);
         }
-
-       
-       
     }
+  
 }
