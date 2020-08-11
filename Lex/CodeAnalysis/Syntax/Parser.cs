@@ -75,6 +75,7 @@ namespace Lex.CodeAnalysis.Syntax
         private ExpressionSyntax ParsAssigmentExpression()
         {
 
+
             if(Peek(0).Kind == SyntaxKind.IdentifierToken &&
                 Peek(1).Kind == SyntaxKind.EaqlesToken)
             {
