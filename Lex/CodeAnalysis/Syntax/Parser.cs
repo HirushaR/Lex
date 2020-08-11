@@ -64,10 +64,45 @@ namespace Lex.CodeAnalysis.Syntax
         }
         public CompilationUnitSyntax ParseCompilationUnit()
         {
-            var expresion = ParseExpression();
+            var statement = ParseStatemnet();
             var endOfFileToken = MatchToken(SyntaxKind.EndOfFileToken);
-            return new CompilationUnitSyntax(expresion, endOfFileToken);
+            return new CompilationUnitSyntax(statement, endOfFileToken);
         }
+
+        private StatementSyntax ParseStatemnet()
+        {
+            if( Current.Kind == SyntaxKind.OpenBraceToken)
+                return ParseBlockStatemnt();
+            
+
+            return ParseExpressionStatement();
+        }
+
+        private BlockStatementSynatx ParseBlockStatemnt()
+        {
+            var statements = ImmutableArray.CreateBuilder<StatementSyntax>();
+
+            var openBraceToken = MatchToken(SyntaxKind.OpenBraceToken);
+
+            while(Current.Kind != SyntaxKind.EndOfFileToken &&
+                  Current.Kind != SyntaxKind.CloseBraceToken)
+                {
+                    var statement = ParseStatemnet();
+                    statements.Add(statement);
+                }
+
+            var closeBraceToken = MatchToken(SyntaxKind.CloseBraceToken);
+
+            return new BlockStatementSynatx(openBraceToken,statements.ToImmutable(),closeBraceToken);
+
+        }
+
+        private ExpressionStatemnetSyntax ParseExpressionStatement()
+        {
+            var expression = ParseExpression();
+            return new ExpressionStatemnetSyntax(expression);
+        }
+
         private ExpressionSyntax ParseExpression()
         {
             return ParsAssigmentExpression();

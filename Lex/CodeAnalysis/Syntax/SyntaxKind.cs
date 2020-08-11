@@ -18,7 +18,9 @@ namespace Lex.CodeAnalysis.Syntax
         AmpersandAmpersandToken,
         PipePieToken,
         OpenParenthesisToken,
-        CloseParenthesisToken,
+        CloseParenthesisToken,      
+        OpenBraceToken,
+        CloseBraceToken,
         IdentifierToken,
 
 
@@ -28,6 +30,10 @@ namespace Lex.CodeAnalysis.Syntax
 
         CompilationUnit,
 
+        //Statements
+        BlockStatement,
+        ExpressionStatemnet,
+
         // Expressions
         LiteralExpression,
         NameExpression,
@@ -35,6 +41,5 @@ namespace Lex.CodeAnalysis.Syntax
         BinaryExpression,
         ParenthesizedExpression,
         AssigmentExpression,
-       
     }
 }
