@@ -152,5 +152,4 @@ namespace Lex.CodeAnalysis.Binding
             return new BoundBinaryExpression(boundLeft, boundOperator, boundRight);
         }
     }
-  
 }
