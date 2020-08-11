@@ -48,26 +48,26 @@ namespace Lex.CodeAnalysis
 
         public void ReportUndefinedUnaryOperator(TextSpan span, string operatorText, Type OperandType)
         {
-            var message = $"Unary operator '{operatorText}' is not defined for type {OperandType}.";
+            var message = $"Unary operator '{operatorText}' is not defined for type '{OperandType}'.";
             Report(span, message);
         }
 
         public void ReportUndefinedBinaryOperator(TextSpan span, string Operatortext, Type leftType, Type rightType)
         {
 
-            var message = $"Binary operator '{Operatortext}' is not defined for types {leftType} and {rightType}.";
+            var message = $"Binary operator '{Operatortext}' is not defined for types '{leftType}' and '{rightType}'.";
             Report(span, message);
         }
 
         public void ReportUndefinedName(TextSpan span, string name)
         {
-            var message = $"Variable  '{name}' doesn't exist.";
+            var message = $"Variable '{name}' doesn't exist.";
             Report(span, message);
         }
 
         internal void ReportVariableAlreadyDecleard(TextSpan span, string name)
         {
-            var message = $"Variable  '{name}' is already decleard";
+            var message = $"Variable '{name}' is already declared.";
             Report(span, message);
         }
         public void ReportCannotConvert(TextSpan span, Type fromType, Type toType)
@@ -78,7 +78,7 @@ namespace Lex.CodeAnalysis
 
         internal void ReportCannotAssign(TextSpan span, string name)
         {
-           var message =  $"Variable  '{name}' is Read-only and cannot be assigned to";
+           var message =  $"Variable '{name}' is read-only and cannot be assigned to.";
             Report(span, message);
         }
     }
