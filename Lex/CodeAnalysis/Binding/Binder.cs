@@ -22,7 +22,7 @@ namespace Lex.CodeAnalysis.Binding
         {
             var parentScope = CreateParentScope(previous);
             var binder = new Binder(parentScope);
-            var expression = binder.BindExpression(syntax.Expression);
+            var expression = binder.BindStatement(syntax.Statement);
             var variables = binder._scope.GetDeclaredVariables();
             var diagnostics = binder.Diagnostics.ToImmutableArray();
 
@@ -58,7 +58,39 @@ namespace Lex.CodeAnalysis.Binding
 
         public DiagnosticBag Diagnostics => _diagnostics;
 
-        public BoundExpression BindExpression(ExpressionSyntax syntax)
+        private BoundStatement BindStatement(StatementSyntax syntax)
+        {
+            switch (syntax.Kind)
+            {
+                case SyntaxKind.BlockStatement:
+                    return BindBlockStatement((BlockStatementSynatx)syntax);
+                case SyntaxKind.ExpressionStatemnet:
+                    return BindExpressionStatement((ExpressionStatemnetSyntax)syntax);
+                default:
+                    throw new Exception($"Unexpected syntax {syntax.Kind}");
+            }
+        }
+
+        private BoundStatement BindBlockStatement(BlockStatementSynatx syntax)
+        {
+            var statements = ImmutableArray.CreateBuilder<BoundStatement>();
+
+            foreach( var statementSyntax in syntax.Statements)
+            {
+                var statement = BindStatement(statementSyntax);
+                statements.Add(statement);
+            }
+
+            return new BoundBlockStatemnet(statements.ToImmutable());
+        }
+
+        private BoundStatement BindExpressionStatement(ExpressionStatemnetSyntax syntax)
+        {
+            var expression = BindExpression(syntax.Expression);
+            return new BoundExpressionStatemnet(expression);
+        }
+
+        private BoundExpression BindExpression(ExpressionSyntax syntax)
         {
             switch (syntax.Kind)
             {

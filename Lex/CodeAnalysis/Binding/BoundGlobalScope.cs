@@ -5,17 +5,17 @@ namespace Lex.CodeAnalysis.Binding
 {
     internal sealed class BoundGlobalScope
     {
-        public BoundGlobalScope(BoundGlobalScope previous, ImmutableArray<Diagnostic> diagnostics, ImmutableArray<VariableSymble> variables, BoundExpression expression)
+        public BoundGlobalScope(BoundGlobalScope previous, ImmutableArray<Diagnostic> diagnostics, ImmutableArray<VariableSymble> variables, BoundStatement statement)
         {
             Previous = previous;
             Diagnostics = diagnostics;
             Variables = variables;
-            Expression = expression;
+            Statement = statement;
         }
 
         public BoundGlobalScope Previous { get; }
         public ImmutableArray<Diagnostic> Diagnostics { get; }
         public ImmutableArray<VariableSymble> Variables { get; }
-        public BoundExpression Expression { get; }
+        public BoundStatement Statement { get; }
     }
 }
