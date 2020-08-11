@@ -71,11 +71,26 @@ namespace Lex.CodeAnalysis.Syntax
 
         private StatementSyntax ParseStatemnet()
         {
-            if( Current.Kind == SyntaxKind.OpenBraceToken)
-                return ParseBlockStatemnt();
-            
+            switch (Current.Kind)
+            {
+                case SyntaxKind.OpenBraceToken:
+                    return ParseBlockStatemnt();
+                case SyntaxKind.LetKeyword:
+                case SyntaxKind.VarKeyword:
+                    return ParseVeriableDeclearation();
+                default:
+                    return ParseExpressionStatement();
+            }
+        }
 
-            return ParseExpressionStatement();
+        private StatementSyntax ParseVeriableDeclearation()
+        {
+            var exprected = Current.Kind == SyntaxKind.LetKeyword ? SyntaxKind.LetKeyword : SyntaxKind.VarKeyword;
+            var keyword = MatchToken(exprected);
+            var identifier = MatchToken(SyntaxKind.IdentifierToken);
+            var equalToken = MatchToken(SyntaxKind.EaqlesToken);
+            var initializer = ParseExpression();
+             return new VeriableDeclarationSyntax(keyword,identifier,equalToken,initializer);
         }
 
         private BlockStatementSynatx ParseBlockStatemnt()

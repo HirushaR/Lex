@@ -4,6 +4,7 @@ namespace Lex.CodeAnalysis.Binding
     {
         //Statement
         BlockStatement,
+        VariableDeclaration,
         ExpressionStatement,
 
         //Expression
