@@ -111,6 +111,10 @@ namespace Lex.CodeAnalysis.Syntax
                         return "(";
                     case SyntaxKind.CloseParenthesisToken: 
                         return ")";
+                     case SyntaxKind.OpenBraceToken: 
+                        return "{";
+                    case SyntaxKind.CloseBraceToken: 
+                        return "}";
                     case SyntaxKind.TrueKeyword: 
                         return "true";
                     case SyntaxKind.FalseKeyword : 
