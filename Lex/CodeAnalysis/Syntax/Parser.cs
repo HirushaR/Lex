@@ -64,16 +64,67 @@ namespace Lex.CodeAnalysis.Syntax
         }
         public CompilationUnitSyntax ParseCompilationUnit()
         {
-            var expresion = ParseExpression();
+            var statement = ParseStatemnet();
             var endOfFileToken = MatchToken(SyntaxKind.EndOfFileToken);
-            return new CompilationUnitSyntax(expresion, endOfFileToken);
+            return new CompilationUnitSyntax(statement, endOfFileToken);
         }
+
+        private StatementSyntax ParseStatemnet()
+        {
+            switch (Current.Kind)
+            {
+                case SyntaxKind.OpenBraceToken:
+                    return ParseBlockStatemnt();
+                case SyntaxKind.LetKeyword:
+                case SyntaxKind.VarKeyword:
+                    return ParseVeriableDeclearation();
+                default:
+                    return ParseExpressionStatement();
+            }
+        }
+
+        private StatementSyntax ParseVeriableDeclearation()
+        {
+            var exprected = Current.Kind == SyntaxKind.LetKeyword ? SyntaxKind.LetKeyword : SyntaxKind.VarKeyword;
+            var keyword = MatchToken(exprected);
+            var identifier = MatchToken(SyntaxKind.IdentifierToken);
+            var equalToken = MatchToken(SyntaxKind.EaqlesToken);
+            var initializer = ParseExpression();
+             return new VeriableDeclarationSyntax(keyword,identifier,equalToken,initializer);
+        }
+
+        private BlockStatementSynatx ParseBlockStatemnt()
+        {
+            var statements = ImmutableArray.CreateBuilder<StatementSyntax>();
+
+            var openBraceToken = MatchToken(SyntaxKind.OpenBraceToken);
+
+            while(Current.Kind != SyntaxKind.EndOfFileToken &&
+                  Current.Kind != SyntaxKind.CloseBraceToken)
+                {
+                    var statement = ParseStatemnet();
+                    statements.Add(statement);
+                }
+
+            var closeBraceToken = MatchToken(SyntaxKind.CloseBraceToken);
+
+            return new BlockStatementSynatx(openBraceToken,statements.ToImmutable(),closeBraceToken);
+
+        }
+
+        private ExpressionStatemnetSyntax ParseExpressionStatement()
+        {
+            var expression = ParseExpression();
+            return new ExpressionStatemnetSyntax(expression);
+        }
+
         private ExpressionSyntax ParseExpression()
         {
             return ParsAssigmentExpression();
         }
         private ExpressionSyntax ParsAssigmentExpression()
         {
+
 
             if(Peek(0).Kind == SyntaxKind.IdentifierToken &&
                 Peek(1).Kind == SyntaxKind.EaqlesToken)

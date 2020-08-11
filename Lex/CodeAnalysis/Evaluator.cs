@@ -7,15 +7,11 @@ namespace Lex.CodeAnalysis
 
     internal sealed class Evaluator
     {
-        private readonly BoundExpression _root;
+        private readonly BoundStatement _root;
         private readonly Dictionary<VariableSymble, object> _variables;
-
-        public Evaluator(BoundExpression root)
-        {
-            _root = root;
-        }
-
-        public Evaluator(BoundExpression root, Dictionary<VariableSymble, object> variables) 
+        private object _lastValue;
+     
+        public Evaluator(BoundStatement root, Dictionary<VariableSymble, object> variables) 
         {
             _root = root;
             _variables = variables;
@@ -23,7 +19,44 @@ namespace Lex.CodeAnalysis
 
         public object Evaluate()
         {
-            return EvaluateExpression(_root);
+            EvaluateStatement(_root);
+            return _lastValue;
+        }
+
+         private void EvaluateStatement(BoundStatement node)
+        {
+            switch (node.Kind)
+            {
+                case BoundNodeKind.BlockStatement:
+                    EvaluateBlockStatement((BoundBlockStatemnet)node);
+                    break;
+                case BoundNodeKind.VariableDeclaration:
+                    EvaluateVariableDeclaration((BoundVeriableDeclaration)node);
+                    break;
+                case BoundNodeKind.ExpressionStatement:
+                    EvaluateExpressiontatement((BoundExpressionStatemnet)node);
+                    break;
+                default:
+                    throw new Exception($"Unexpected node {node.Kind}");
+            }
+        }
+
+        private void EvaluateVariableDeclaration(BoundVeriableDeclaration node)
+        {
+           var value = EvaluateExpression(node.Initializer);
+           _variables[node.Variable] = value;
+           _lastValue = value;
+        }
+
+        private void EvaluateBlockStatement(BoundBlockStatemnet node)
+        {
+            foreach(var statement in node.Statements)
+                EvaluateStatement(statement);
+        }
+
+        private void EvaluateExpressiontatement(BoundExpressionStatemnet node)
+        {
+            _lastValue = EvaluateExpression(node.Expression);
         }
 
         private object EvaluateExpression(BoundExpression node)

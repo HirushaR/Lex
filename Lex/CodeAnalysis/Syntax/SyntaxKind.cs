@@ -18,15 +18,24 @@ namespace Lex.CodeAnalysis.Syntax
         AmpersandAmpersandToken,
         PipePieToken,
         OpenParenthesisToken,
-        CloseParenthesisToken,
+        CloseParenthesisToken,      
+        OpenBraceToken,
+        CloseBraceToken,
         IdentifierToken,
 
 
         //keywords
         TrueKeyword,
+        LetKeyword,
         FalseKeyword,
+        VarKeyword,
 
         CompilationUnit,
+
+        //Statements
+        BlockStatement,
+        ExpressionStatemnet,
+        VeriableDeclaration,
 
         // Expressions
         LiteralExpression,

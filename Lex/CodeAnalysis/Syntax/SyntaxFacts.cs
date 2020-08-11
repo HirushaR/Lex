@@ -77,8 +77,12 @@ namespace Lex.CodeAnalysis.Syntax
             {
                 case "true":
                     return SyntaxKind.TrueKeyword;
+                case "let":
+                    return SyntaxKind.LetKeyword;
                 case "false":
-                    return SyntaxKind.FalseKeyword;
+                    return SyntaxKind.FalseKeyword;            
+                case "var":
+                    return SyntaxKind.VarKeyword;
                 default:
                     return SyntaxKind.IdentifierToken;
             }
@@ -111,10 +115,18 @@ namespace Lex.CodeAnalysis.Syntax
                         return "(";
                     case SyntaxKind.CloseParenthesisToken: 
                         return ")";
+                     case SyntaxKind.OpenBraceToken: 
+                        return "{";
+                    case SyntaxKind.CloseBraceToken: 
+                        return "}";
                     case SyntaxKind.TrueKeyword: 
                         return "true";
+                    case SyntaxKind.LetKeyword: 
+                        return "let";
                     case SyntaxKind.FalseKeyword : 
-                        return "false";
+                        return "false";                 
+                    case SyntaxKind.VarKeyword : 
+                        return "var";
                     default:
                         return null;
             }

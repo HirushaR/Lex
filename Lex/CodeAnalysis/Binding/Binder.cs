@@ -22,7 +22,7 @@ namespace Lex.CodeAnalysis.Binding
         {
             var parentScope = CreateParentScope(previous);
             var binder = new Binder(parentScope);
-            var expression = binder.BindExpression(syntax.Expression);
+            var expression = binder.BindStatement(syntax.Statement);
             var variables = binder._scope.GetDeclaredVariables();
             var diagnostics = binder.Diagnostics.ToImmutableArray();
 
@@ -58,7 +58,57 @@ namespace Lex.CodeAnalysis.Binding
 
         public DiagnosticBag Diagnostics => _diagnostics;
 
-        public BoundExpression BindExpression(ExpressionSyntax syntax)
+        private BoundStatement BindStatement(StatementSyntax syntax)
+        {
+            switch (syntax.Kind)
+            {
+                case SyntaxKind.BlockStatement:
+                    return BindBlockStatement((BlockStatementSynatx)syntax);
+                case SyntaxKind.VeriableDeclaration:
+                    return BindVeriableDeclaration((VeriableDeclarationSyntax)syntax);
+                case SyntaxKind.ExpressionStatemnet:
+                    return BindExpressionStatement((ExpressionStatemnetSyntax)syntax);
+                default:
+                    throw new Exception($"Unexpected syntax {syntax.Kind}");
+            }
+        }
+
+        private BoundStatement BindVeriableDeclaration(VeriableDeclarationSyntax syntax)
+        {
+            var name = syntax.Identifier.Text;
+            var isReadOnly = syntax.Keyword.Kind == SyntaxKind.LetKeyword;
+            var initializer = BindExpression(syntax.Initializer);
+            var variable = new VariableSymble(name,isReadOnly,initializer.Type);
+
+            if(!_scope.TryDeclare(variable))            
+                _diagnostics.ReportVariableAlreadyDecleard(syntax.Identifier.Span, name);
+
+            return new BoundVeriableDeclaration(variable,initializer);
+            
+        }
+
+        private BoundStatement BindBlockStatement(BlockStatementSynatx syntax)
+        {
+            var statements = ImmutableArray.CreateBuilder<BoundStatement>();
+            _scope = new BoundScope(_scope);
+
+            foreach( var statementSyntax in syntax.Statements)
+            {
+                var statement = BindStatement(statementSyntax);
+                statements.Add(statement);
+            }
+            _scope = _scope.Parent;
+
+            return new BoundBlockStatemnet(statements.ToImmutable());
+        }
+
+        private BoundStatement BindExpressionStatement(ExpressionStatemnetSyntax syntax)
+        {
+            var expression = BindExpression(syntax.Expression);
+            return new BoundExpressionStatemnet(expression);
+        }
+
+        private BoundExpression BindExpression(ExpressionSyntax syntax)
         {
             switch (syntax.Kind)
             {
@@ -110,9 +160,11 @@ namespace Lex.CodeAnalysis.Binding
 
             if (!_scope.TryLookup(name, out var variable))
             {
-                variable = new VariableSymble(name, boundExpression.Type);
-                _scope.TryDeclare(variable);
+                _diagnostics.ReportUndefinedName(syntax.IdentifierToken.Span, name);
+                return boundExpression;
             }
+            if(variable.isReadOnly)
+                _diagnostics.ReportCannotAssign(syntax.EqualsToken.Span,name);
 
             if (boundExpression.Type != variable.Type)
             {
@@ -152,5 +204,4 @@ namespace Lex.CodeAnalysis.Binding
             return new BoundBinaryExpression(boundLeft, boundOperator, boundRight);
         }
     }
-  
 }
