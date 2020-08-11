@@ -30,12 +30,22 @@ namespace Lex.CodeAnalysis
                 case BoundNodeKind.BlockStatement:
                     EvaluateBlockStatement((BoundBlockStatemnet)node);
                     break;
+                case BoundNodeKind.VariableDeclaration:
+                    EvaluateVariableDeclaration((BoundVeriableDeclaration)node);
+                    break;
                 case BoundNodeKind.ExpressionStatement:
                     EvaluateExpressiontatement((BoundExpressionStatemnet)node);
                     break;
                 default:
                     throw new Exception($"Unexpected node {node.Kind}");
             }
+        }
+
+        private void EvaluateVariableDeclaration(BoundVeriableDeclaration node)
+        {
+           var value = EvaluateExpression(node.Initializer);
+           _variables[node.Variable] = value;
+           _lastValue = value;
         }
 
         private void EvaluateBlockStatement(BoundBlockStatemnet node)

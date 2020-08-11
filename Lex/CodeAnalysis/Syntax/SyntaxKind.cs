@@ -26,13 +26,16 @@ namespace Lex.CodeAnalysis.Syntax
 
         //keywords
         TrueKeyword,
+        LetKeyword,
         FalseKeyword,
+        VarKeyword,
 
         CompilationUnit,
 
         //Statements
         BlockStatement,
         ExpressionStatemnet,
+        VeriableDeclaration,
 
         // Expressions
         LiteralExpression,
@@ -41,5 +44,6 @@ namespace Lex.CodeAnalysis.Syntax
         BinaryExpression,
         ParenthesizedExpression,
         AssigmentExpression,
+       
     }
 }
