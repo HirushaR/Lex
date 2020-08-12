@@ -68,6 +68,14 @@ namespace Lex.CodeAnalysis.Syntax
                     _kind = SyntaxKind.RemainderToken;
                     _position++;
                     break;
+                case '<':
+                    _kind = SyntaxKind.LessThanToken;
+                    _position++;
+                    break;
+                case '>':
+                    _kind = SyntaxKind.GreaterThanToken;
+                    _position++;
+                    break;
                 case '(':
                     _kind = SyntaxKind.OpenParenthesisToken;
                     _position++;

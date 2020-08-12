@@ -37,6 +37,8 @@ namespace Lex.CodeAnalysis.Syntax
 
                 case SyntaxKind.EaqulesEaqlesToken:
                 case SyntaxKind.BangEaqlesToken:
+                case SyntaxKind.GreaterThanToken:
+                case SyntaxKind.LessThanToken:
                 case SyntaxKind.RemainderToken:
                     return 3;
 
@@ -102,6 +104,12 @@ namespace Lex.CodeAnalysis.Syntax
                         return "*";
                     case SyntaxKind.SlashToken: 
                         return "/";
+                    case SyntaxKind.RemainderToken: 
+                        return "%";
+                    case SyntaxKind.GreaterThanToken: 
+                        return ">";
+                    case SyntaxKind.LessThanToken: 
+                        return "<";
                     case SyntaxKind.EaqlesToken: 
                         return "=";
                     case SyntaxKind.BangToken: 
