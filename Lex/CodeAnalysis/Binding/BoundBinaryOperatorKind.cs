@@ -5,15 +5,17 @@ namespace Lex.CodeAnalysis.Binding
         Addition,
         Subtraction,
         Multiplication,
+        Power,
         Division,
         Remainder,
-        GreaterThan,
+        GreaterThan,  
+        LessOrEqual,
+        GreaterOrEqual,
         LessThan,
         LogicalAnd,
         LogicalOr,
         Equals,
         NotEquals,
-        LessOrEqual,
-        GreaterOrEqual,
+        
     }
 }

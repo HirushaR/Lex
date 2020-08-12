@@ -10,10 +10,13 @@ namespace Lex.CodeAnalysis.Syntax
         PlusToken,
         MinusToken,
         StarToken,
+        StarStarToken,
         SlashToken,
         RemainderToken,
         LessThanToken,
         GreaterThanToken,
+        LessOrEqualToken,
+        GreaterOrEqualToken,
         EaqlesToken,
         BangToken,
         EaqulesEaqlesToken,
@@ -47,7 +50,7 @@ namespace Lex.CodeAnalysis.Syntax
         BinaryExpression,
         ParenthesizedExpression,
         AssigmentExpression,
-        LessOrEqualToken,
-        GreaterOrEqualToken,
+
+       
     }
 }

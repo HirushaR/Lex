@@ -57,8 +57,16 @@ namespace Lex.CodeAnalysis.Syntax
                     _position++;
                     break;
                 case '*':
-                    _kind = SyntaxKind.StarToken;
                     _position++;
+                    if (Current != '*')
+                    {
+                        _kind = SyntaxKind.StarToken;
+                    }
+                    else
+                    {
+                        _position++;
+                        _kind = SyntaxKind.StarStarToken;
+                    }
                     break;
                 case '/':
                     _kind = SyntaxKind.SlashToken;
