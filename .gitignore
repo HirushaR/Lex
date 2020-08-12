@@ -1,0 +1,8 @@
+.vs
+lex/bin/
+lex/obj/
+LC/bin/
+lex.Text/bin/
+lex.Text/obj/
+LC/obj/Debug/
+LC/obj/Debug/
