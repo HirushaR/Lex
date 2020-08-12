@@ -69,12 +69,28 @@ namespace Lex.CodeAnalysis.Syntax
                     _position++;
                     break;
                 case '<':
-                    _kind = SyntaxKind.LessThanToken;
                     _position++;
+                    if (Current != '=')
+                    {
+                        _kind = SyntaxKind.LessThanToken;
+                    }
+                    else
+                    {
+                        _position++;
+                        _kind = SyntaxKind.LessOrEqualToken;
+                    }
                     break;
                 case '>':
-                    _kind = SyntaxKind.GreaterThanToken;
                     _position++;
+                    if (Current != '=')
+                    {
+                        _kind = SyntaxKind.GreaterThanToken;
+                    }
+                    else
+                    {
+                        _position++;
+                        _kind = SyntaxKind.GreaterOrEqualToken;
+                    }
                     break;
                 case '(':
                     _kind = SyntaxKind.OpenParenthesisToken;

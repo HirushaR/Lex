@@ -47,6 +47,7 @@ namespace Lex.CodeAnalysis.Syntax
         BinaryExpression,
         ParenthesizedExpression,
         AssigmentExpression,
-      
+        LessOrEqualToken,
+        GreaterOrEqualToken,
     }
 }

@@ -13,6 +13,7 @@ namespace Lex.CodeAnalysis.Binding
         LogicalOr,
         Equals,
         NotEquals,
-        
+        LessOrEqual,
+        GreaterOrEqual,
     }
 }

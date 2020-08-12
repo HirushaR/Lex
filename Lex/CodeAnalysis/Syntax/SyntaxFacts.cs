@@ -19,7 +19,7 @@ namespace Lex.CodeAnalysis.Syntax
             }
         }
         
-       
+         
         public static int GetBinaryOperatorPrecedence(this SyntaxKind kind)
         {
             switch (kind)
@@ -37,6 +37,8 @@ namespace Lex.CodeAnalysis.Syntax
 
                 case SyntaxKind.EaqulesEaqlesToken:
                 case SyntaxKind.BangEaqlesToken:
+                case SyntaxKind.LessOrEqualToken:
+                case SyntaxKind.GreaterOrEqualToken:
                 case SyntaxKind.GreaterThanToken:
                 case SyntaxKind.LessThanToken:
                 case SyntaxKind.RemainderToken:
@@ -110,6 +112,10 @@ namespace Lex.CodeAnalysis.Syntax
                         return ">";
                     case SyntaxKind.LessThanToken: 
                         return "<";
+                    case SyntaxKind.LessOrEqualToken: 
+                        return "<=";
+                    case SyntaxKind.GreaterOrEqualToken: 
+                        return ">=";
                     case SyntaxKind.EaqlesToken: 
                         return "=";
                     case SyntaxKind.BangToken: 

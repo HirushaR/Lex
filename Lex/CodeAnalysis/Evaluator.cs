@@ -134,6 +134,10 @@ namespace Lex.CodeAnalysis
                     return (int)left > (int)right;
                 case BoundBinaryOperatorKind.LessThan:
                     return (int)left < (int)right;
+                case BoundBinaryOperatorKind.GreaterOrEqual:
+                    return (int)left >= (int)right;
+                case BoundBinaryOperatorKind.LessOrEqual:
+                    return (int)left <= (int)right;
                 case BoundBinaryOperatorKind.LogicalAnd:
                     return (bool)left && (bool)right;
                 case BoundBinaryOperatorKind.LogicalOr:
