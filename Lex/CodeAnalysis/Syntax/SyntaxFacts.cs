@@ -26,16 +26,18 @@ namespace Lex.CodeAnalysis.Syntax
             {
                 case SyntaxKind.StarToken:
                 case SyntaxKind.SlashToken:
+              
                     return 5;
 
 
                 case SyntaxKind.PlusToken:
                 case SyntaxKind.MinusToken:
-                case SyntaxKind.RemainderToken:
+                
                     return 4;
 
                 case SyntaxKind.EaqulesEaqlesToken:
                 case SyntaxKind.BangEaqlesToken:
+                case SyntaxKind.RemainderToken:
                     return 3;
 
                 case SyntaxKind.AmpersandAmpersandToken:
