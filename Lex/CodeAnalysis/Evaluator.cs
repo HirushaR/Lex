@@ -152,12 +152,5 @@ namespace Lex.CodeAnalysis
                     throw new Exception($"Unexpected binary operator {b.Op.Kind}");
             }
         }
-
-       
-
-       
-
-       
-        
     }
 }
