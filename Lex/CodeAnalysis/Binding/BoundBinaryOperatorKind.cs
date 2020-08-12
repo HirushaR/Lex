@@ -6,9 +6,11 @@ namespace Lex.CodeAnalysis.Binding
         Subtraction,
         Multiplication,
         Division,
+        Remainder,
         LogicalAnd,
         LogicalOr,
         Equals,
         NotEquals,
+       
     }
 }

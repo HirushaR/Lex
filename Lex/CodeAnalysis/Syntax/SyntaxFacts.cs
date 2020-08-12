@@ -31,6 +31,7 @@ namespace Lex.CodeAnalysis.Syntax
 
                 case SyntaxKind.PlusToken:
                 case SyntaxKind.MinusToken:
+                case SyntaxKind.RemainderToken:
                     return 4;
 
                 case SyntaxKind.EaqulesEaqlesToken:

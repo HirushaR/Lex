@@ -39,6 +39,7 @@ namespace Lex.CodeAnalysis.Binding
             new BoundBinaryOperator(SyntaxKind.MinusToken,BoundBinaryOperatorKind.Subtraction, typeof(int)),
             new BoundBinaryOperator(SyntaxKind.StarToken,BoundBinaryOperatorKind.Multiplication, typeof(int)),
             new BoundBinaryOperator(SyntaxKind.SlashToken,BoundBinaryOperatorKind.Division, typeof(int)),
+            new BoundBinaryOperator(SyntaxKind.RemainderToken,BoundBinaryOperatorKind.Remainder, typeof(int)),
             new BoundBinaryOperator(SyntaxKind.EaqulesEaqlesToken,BoundBinaryOperatorKind.Equals, typeof(int), typeof(bool)),
             new BoundBinaryOperator(SyntaxKind.BangEaqlesToken,BoundBinaryOperatorKind.NotEquals, typeof(int), typeof(bool)),
 

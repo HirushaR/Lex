@@ -64,6 +64,10 @@ namespace Lex.CodeAnalysis.Syntax
                     _kind = SyntaxKind.SlashToken;
                     _position++;
                     break;
+                case '%':
+                    _kind = SyntaxKind.RemainderToken;
+                    _position++;
+                    break;
                 case '(':
                     _kind = SyntaxKind.OpenParenthesisToken;
                     _position++;

@@ -11,6 +11,7 @@ namespace Lex.CodeAnalysis.Syntax
         MinusToken,
         StarToken,
         SlashToken,
+        RemainderToken,
         EaqlesToken,
         BangToken,
         EaqulesEaqlesToken,
@@ -44,6 +45,6 @@ namespace Lex.CodeAnalysis.Syntax
         BinaryExpression,
         ParenthesizedExpression,
         AssigmentExpression,
-       
+        
     }
 }
