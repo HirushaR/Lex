@@ -83,8 +83,12 @@ namespace Lex.CodeAnalysis.Syntax
         {
             switch(text)
             {
+                case "else":
+                    return SyntaxKind.ElseKeyword;
                 case "true":
                     return SyntaxKind.TrueKeyword;
+                 case "if":
+                    return SyntaxKind.IfKeyword;
                 case "let":
                     return SyntaxKind.LetKeyword;
                 case "false":
@@ -139,8 +143,12 @@ namespace Lex.CodeAnalysis.Syntax
                         return "{";
                     case SyntaxKind.CloseBraceToken: 
                         return "}";
+                    case SyntaxKind.ElseKeyword: 
+                        return "else";
                     case SyntaxKind.TrueKeyword: 
                         return "true";
+                    case SyntaxKind.IfKeyword: 
+                        return "if";
                     case SyntaxKind.LetKeyword: 
                         return "let";
                     case SyntaxKind.FalseKeyword : 

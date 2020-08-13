@@ -31,19 +31,25 @@ namespace Lex.CodeAnalysis.Syntax
 
 
         //keywords
+        ElseKeyword,
         TrueKeyword,
+        IfKeyword,
         LetKeyword,
         FalseKeyword,
         VarKeyword,
+              
+        
 
         CompilationUnit,
-        IfStatement,
+        
         ElseClouse,
 
         //Statements
         BlockStatement,
         ExpressionStatemnet,
+        IfStatement,
         VeriableDeclaration,
+
 
         // Expressions
         LiteralExpression,
@@ -52,6 +58,6 @@ namespace Lex.CodeAnalysis.Syntax
         BinaryExpression,
         ParenthesizedExpression,
         AssigmentExpression,
-       
+
     }
 }

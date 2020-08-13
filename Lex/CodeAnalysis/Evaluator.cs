@@ -33,12 +33,24 @@ namespace Lex.CodeAnalysis
                 case BoundNodeKind.VariableDeclaration:
                     EvaluateVariableDeclaration((BoundVeriableDeclaration)node);
                     break;
+                case BoundNodeKind.IfStatement:
+                    EvaluateIfStatement((BoundIfStatement)node);
+                    break;
                 case BoundNodeKind.ExpressionStatement:
                     EvaluateExpressiontatement((BoundExpressionStatemnet)node);
                     break;
                 default:
                     throw new Exception($"Unexpected node {node.Kind}");
             }
+        }
+
+        private void EvaluateIfStatement(BoundIfStatement node)
+        {
+            var condititon = (bool)EvaluateExpression(node.Condition);
+            if(condititon)
+                EvaluateStatement(node.ThenStatement);
+            else if(node.ElseStatement != null)
+                EvaluateStatement(node.ElseStatement);
         }
 
         private void EvaluateVariableDeclaration(BoundVeriableDeclaration node)

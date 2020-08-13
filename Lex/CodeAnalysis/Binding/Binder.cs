@@ -66,12 +66,16 @@ namespace Lex.CodeAnalysis.Binding
                     return BindBlockStatement((BlockStatementSynatx)syntax);
                 case SyntaxKind.VeriableDeclaration:
                     return BindVeriableDeclaration((VeriableDeclarationSyntax)syntax);
+                case SyntaxKind.IfStatement:
+                    return BindIfStatement((IfStatementSyntax)syntax);
                 case SyntaxKind.ExpressionStatemnet:
                     return BindExpressionStatement((ExpressionStatemnetSyntax)syntax);
                 default:
                     throw new Exception($"Unexpected syntax {syntax.Kind}");
             }
         }
+
+       
 
         private BoundStatement BindVeriableDeclaration(VeriableDeclarationSyntax syntax)
         {
@@ -102,10 +106,27 @@ namespace Lex.CodeAnalysis.Binding
             return new BoundBlockStatemnet(statements.ToImmutable());
         }
 
+         private BoundStatement BindIfStatement(IfStatementSyntax syntax)
+        {
+            var condition = BindExpression(syntax.Condition, typeof(bool));
+            var thenstatement = BindStatement(syntax.ThenStatement);
+            var elseStatement = syntax.ElseClouse ==null ? null : BindStatement(syntax.ElseClouse.ElseStatement);
+
+            return new BoundIfStatement(condition,thenstatement,elseStatement);
+        }
+
         private BoundStatement BindExpressionStatement(ExpressionStatemnetSyntax syntax)
         {
             var expression = BindExpression(syntax.Expression);
             return new BoundExpressionStatemnet(expression);
+        }
+        private BoundExpression BindExpression(ExpressionSyntax syntax,Type TargetType)
+        {
+            var result = BindExpression(syntax);
+            if (result.Type != TargetType)
+                _diagnostics.ReportCannotConvert(syntax.Span, result.Type,TargetType);
+            
+            return result;
         }
 
         private BoundExpression BindExpression(ExpressionSyntax syntax)

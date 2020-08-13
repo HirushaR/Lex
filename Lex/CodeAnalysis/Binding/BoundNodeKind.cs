@@ -13,6 +13,6 @@ namespace Lex.CodeAnalysis.Binding
         AssignmentExpression,
         BinaryExpression,
         VariableExpression,
-      
+        IfStatement,
     }
 }

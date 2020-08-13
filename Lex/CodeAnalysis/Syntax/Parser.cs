@@ -78,10 +78,14 @@ namespace Lex.CodeAnalysis.Syntax
                 case SyntaxKind.LetKeyword:
                 case SyntaxKind.VarKeyword:
                     return ParseVeriableDeclearation();
+                 case SyntaxKind.IfKeyword:
+                    return ParseIfStatement();
                 default:
                     return ParseExpressionStatement();
             }
         }
+
+      
 
         private StatementSyntax ParseVeriableDeclearation()
         {
@@ -91,6 +95,24 @@ namespace Lex.CodeAnalysis.Syntax
             var equalToken = MatchToken(SyntaxKind.EaqlesToken);
             var initializer = ParseExpression();
              return new VeriableDeclarationSyntax(keyword,identifier,equalToken,initializer);
+        }
+        private StatementSyntax ParseIfStatement()
+        {
+           var keyword = MatchToken(SyntaxKind.IfKeyword);
+           var condition = ParseExpression();
+           var statement = ParseStatemnet();
+           var elseClouse = ParseElseCLouse();
+
+           return new IfStatementSyntax(keyword,condition, statement,elseClouse);
+        }
+
+        private ElseClouseSyntax ParseElseCLouse()
+        {
+            if(Current.Kind != SyntaxKind.ElseKeyword)
+                return null;
+            var keyword = NextToken();
+            var statement = ParseStatemnet();
+            return new ElseClouseSyntax(keyword,statement);
         }
 
         private BlockStatementSynatx ParseBlockStatemnt()
