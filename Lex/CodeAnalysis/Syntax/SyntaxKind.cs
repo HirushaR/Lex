@@ -37,6 +37,7 @@ namespace Lex.CodeAnalysis.Syntax
         LetKeyword,
         FalseKeyword,
         VarKeyword,
+        WhileKeyword,
               
         
 
@@ -49,6 +50,7 @@ namespace Lex.CodeAnalysis.Syntax
         ExpressionStatemnet,
         IfStatement,
         VeriableDeclaration,
+        WhileStatement,
 
 
         // Expressions
@@ -58,6 +60,6 @@ namespace Lex.CodeAnalysis.Syntax
         BinaryExpression,
         ParenthesizedExpression,
         AssigmentExpression,
-
+        
     }
 }

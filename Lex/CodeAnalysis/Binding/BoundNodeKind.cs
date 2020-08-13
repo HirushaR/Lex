@@ -6,6 +6,8 @@ namespace Lex.CodeAnalysis.Binding
         BlockStatement,
         VariableDeclaration,
         ExpressionStatement,
+        IfStatement,
+        WhileStatement,
 
         //Expression
         LiteralExpression,
@@ -13,6 +15,6 @@ namespace Lex.CodeAnalysis.Binding
         AssignmentExpression,
         BinaryExpression,
         VariableExpression,
-        IfStatement,
+       
     }
 }

@@ -78,14 +78,15 @@ namespace Lex.CodeAnalysis.Syntax
                 case SyntaxKind.LetKeyword:
                 case SyntaxKind.VarKeyword:
                     return ParseVeriableDeclearation();
-                 case SyntaxKind.IfKeyword:
+                case SyntaxKind.IfKeyword:
                     return ParseIfStatement();
+                case SyntaxKind.WhileKeyword:
+                    return ParseWhileStatement();
                 default:
                     return ParseExpressionStatement();
             }
         }
 
-      
 
         private StatementSyntax ParseVeriableDeclearation()
         {
@@ -114,6 +115,17 @@ namespace Lex.CodeAnalysis.Syntax
             var statement = ParseStatemnet();
             return new ElseClouseSyntax(keyword,statement);
         }
+
+        private StatementSyntax ParseWhileStatement()
+        {
+           var keyword = MatchToken(SyntaxKind.WhileKeyword);
+           var condition = ParseExpression();
+           var body = ParseStatemnet();
+
+           return new WhileStatementSyntax(keyword,condition,body);
+
+        }
+
 
         private BlockStatementSynatx ParseBlockStatemnt()
         {

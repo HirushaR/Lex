@@ -95,6 +95,8 @@ namespace Lex.CodeAnalysis.Syntax
                     return SyntaxKind.FalseKeyword;            
                 case "var":
                     return SyntaxKind.VarKeyword;
+                 case "while":
+                    return SyntaxKind.WhileKeyword;
                 default:
                     return SyntaxKind.IdentifierToken;
             }
@@ -155,6 +157,8 @@ namespace Lex.CodeAnalysis.Syntax
                         return "false";                 
                     case SyntaxKind.VarKeyword : 
                         return "var";
+                    case SyntaxKind.WhileKeyword : 
+                        return "while";
                     default:
                         return null;
             }

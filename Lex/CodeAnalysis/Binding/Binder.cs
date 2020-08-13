@@ -68,6 +68,8 @@ namespace Lex.CodeAnalysis.Binding
                     return BindVeriableDeclaration((VeriableDeclarationSyntax)syntax);
                 case SyntaxKind.IfStatement:
                     return BindIfStatement((IfStatementSyntax)syntax);
+                case SyntaxKind.WhileStatement:
+                    return BindWhileStatement((WhileStatementSyntax)syntax);
                 case SyntaxKind.ExpressionStatemnet:
                     return BindExpressionStatement((ExpressionStatemnetSyntax)syntax);
                 default:
@@ -75,7 +77,7 @@ namespace Lex.CodeAnalysis.Binding
             }
         }
 
-       
+      
 
         private BoundStatement BindVeriableDeclaration(VeriableDeclarationSyntax syntax)
         {
@@ -113,6 +115,13 @@ namespace Lex.CodeAnalysis.Binding
             var elseStatement = syntax.ElseClouse ==null ? null : BindStatement(syntax.ElseClouse.ElseStatement);
 
             return new BoundIfStatement(condition,thenstatement,elseStatement);
+        }
+
+          private BoundStatement BindWhileStatement(WhileStatementSyntax syntax)
+        {
+            var condition = BindExpression(syntax.Condition, typeof(bool));
+            var body = BindStatement(syntax.Body);
+            return new BoundWhileStatement(condition,body);
         }
 
         private BoundStatement BindExpressionStatement(ExpressionStatemnetSyntax syntax)
