@@ -37,6 +37,8 @@ namespace Lex.CodeAnalysis.Syntax
         VarKeyword,
 
         CompilationUnit,
+        IfStatement,
+        ElseClouse,
 
         //Statements
         BlockStatement,
@@ -50,7 +52,6 @@ namespace Lex.CodeAnalysis.Syntax
         BinaryExpression,
         ParenthesizedExpression,
         AssigmentExpression,
-
        
     }
 }
