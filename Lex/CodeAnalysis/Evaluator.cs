@@ -125,7 +125,7 @@ namespace Lex.CodeAnalysis
                 case BoundBinaryOperatorKind.Subtraction:
                     return (int)left - (int)right;
                 case BoundBinaryOperatorKind.Power:
-                    return Math.Pow((int)left ,(int)right);
+                    return (int)(Math.Pow((int)left ,(int)right));
                 case BoundBinaryOperatorKind.Multiplication:
                     return (int)left * (int)right;
                 case BoundBinaryOperatorKind.Division:

@@ -153,6 +153,19 @@ namespace Lex.Tests.CodeAnalysis.Syntax
 
             if (t1Kind == SyntaxKind.EaqlesToken && t2Kind == SyntaxKind.EaqulesEaqlesToken)
                 return true;
+            if (t1Kind == SyntaxKind.LessThanToken && t2Kind == SyntaxKind.EaqulesEaqlesToken)
+                return true;
+            if (t1Kind == SyntaxKind.LessThanToken && t2Kind == SyntaxKind.EaqlesToken)
+                return true;
+            if (t1Kind == SyntaxKind.GreaterThanToken && t2Kind == SyntaxKind.EaqulesEaqlesToken)
+                return true;
+            if (t1Kind == SyntaxKind.GreaterThanToken && t2Kind == SyntaxKind.EaqlesToken)
+                return true;
+            if (t1Kind == SyntaxKind.StarToken && t2Kind == SyntaxKind.StarStarToken)
+                return true;
+            if (t1Kind == SyntaxKind.StarToken && t2Kind == SyntaxKind.StarToken)
+                return true;
+            
 
             return false;
         }

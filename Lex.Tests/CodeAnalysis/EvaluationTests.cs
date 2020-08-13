@@ -17,10 +17,28 @@ namespace Lex.Tests.CodeAnalysis
         [InlineData("4 * 2", 8)]
         [InlineData("9 / 3", 3)]
         [InlineData("(10)", 10)]
+
+        [InlineData("5 % 4", 1)]
+        [InlineData("3 ** 2", 9)]
+
         [InlineData("12 == 3", false)]
         [InlineData("3 == 3", true)]
         [InlineData("12 != 3", true)]
         [InlineData("3 != 3", false)]
+
+        [InlineData("3 < 4", true)]
+        [InlineData("5 < 4", false)]
+        [InlineData("3 <= 3", true)]
+        [InlineData("4 <= 5", true)]
+        [InlineData("5 <= 4", false)]
+
+        [InlineData("3 > 4", false)]
+        [InlineData("5 > 4", true)]
+        [InlineData("3 >= 3", true)]
+        [InlineData("4 >= 5", false)]
+        [InlineData("5 >= 4", true)]
+       
+
         [InlineData("false == false", true)]
         [InlineData("true == false", false)]
         [InlineData("false != false", false)]
