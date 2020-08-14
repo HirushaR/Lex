@@ -137,6 +137,24 @@ namespace Lex.Tests.CodeAnalysis
 
             AssertDiagnostics(text, diagnostics);
         }
+        [Fact]
+        public void Evaluator_IfStatement_Reports_CannotConvert()
+        {
+            var text = @"
+                {
+                    var x = 10
+                    if [10]
+                        x = 10
+                }
+            ";
+
+            var diagnostics = @"
+                Cannot convert type 'System.Int32' to 'System.Boolean'.
+            ";
+
+            AssertDiagnostics(text, diagnostics);
+        }
+
 
         [Fact]
         public void Evaluator_Unary_Reports_Undefined()
