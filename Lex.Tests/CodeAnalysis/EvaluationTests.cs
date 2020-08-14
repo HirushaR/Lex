@@ -80,20 +80,21 @@ namespace Lex.Tests.CodeAnalysis
             AssertDiagnostics(text, diagnostics);
         }
        
-        // [Fact]
-        // public void Evaluator_BlockStatement_NoInfiniteLoop()
-        // {
-        //     var text = @"
-        //         {                   
-        //         [)]
-        //     ";
+        [Fact]
+        public void Evaluator_BlockStatement_NoInfiniteLoop()
+        {
+            var text = @"
+                {                   
+                [)][]
+            ";
 
-        //     var diagnostics = @"
-        //         Unexpected token ')'
-        //     ";
+            var diagnostics = @"
+                ERROR: Unexpected token <CloseParenthesisToken>, expected <IdentifierToken>.
+                ERROR: Unexpected token <EndOfFileToken>, expected <CloseBraceToken>.
+            ";
 
-        //     AssertDiagnostics(text, diagnostics);
-        // }
+            AssertDiagnostics(text, diagnostics);
+        }
 
         [Fact]
         public void Evaluator_Name_Reports_Undefined()
