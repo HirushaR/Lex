@@ -58,7 +58,7 @@ namespace Lex.Tests.CodeAnalysis
         public void Evaluator_Computes_CorrectValues(string text, object expectedValue)
         {
             AssertValue(text, expectedValue);
-        }
+        } 
         [Fact]
         public void Evaluator_VariableDeclaration_Reports_Redeclaration()
         {
@@ -75,6 +75,22 @@ namespace Lex.Tests.CodeAnalysis
 
             var diagnostics = @"
                 Variable 'x' is already declared.
+            ";
+
+            AssertDiagnostics(text, diagnostics);
+        }
+
+          [Fact]
+        public void Evaluator_BlockStatement_NoInfiniteLoop()
+        {
+            var text = @"
+                {
+                    
+                [)]
+            ";
+
+            var diagnostics = @"
+                Unexpected token ')'
             ";
 
             AssertDiagnostics(text, diagnostics);

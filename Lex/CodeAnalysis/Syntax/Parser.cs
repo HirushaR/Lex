@@ -149,11 +149,25 @@ namespace Lex.CodeAnalysis.Syntax
 
             var openBraceToken = MatchToken(SyntaxKind.OpenBraceToken);
 
+            var starToken = Current;
             while(Current.Kind != SyntaxKind.EndOfFileToken &&
                   Current.Kind != SyntaxKind.CloseBraceToken)
                 {
                     var statement = ParseStatemnet();
                     statements.Add(statement);
+
+                    // If Parse Statement() did not consume any token
+                    // lets skip the current token and contine.
+                    // in order to avoid an infinite loop
+                    // we do not need report an error, because we'll
+                    //already tried tp parse an expression statement
+                    // and reported one
+                    if(Current == starToken)
+                    {   
+                        NextToken();
+                    }
+
+                    starToken = Current;
                 }
 
             var closeBraceToken = MatchToken(SyntaxKind.CloseBraceToken);
