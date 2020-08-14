@@ -85,14 +85,17 @@ namespace Lex.CodeAnalysis.Syntax
             {
                 case "else":
                     return SyntaxKind.ElseKeyword;
+                case "false":
+                    return SyntaxKind.FalseKeyword; 
+                 case "for":
+                    return SyntaxKind.ForKeyword;
                 case "true":
-                    return SyntaxKind.TrueKeyword;
+                    return SyntaxKind.TrueKeyword;          
                  case "if":
                     return SyntaxKind.IfKeyword;
                 case "let":
                     return SyntaxKind.LetKeyword;
-                case "false":
-                    return SyntaxKind.FalseKeyword;            
+                           
                 case "var":
                     return SyntaxKind.VarKeyword;
                  case "while":
@@ -147,18 +150,21 @@ namespace Lex.CodeAnalysis.Syntax
                         return "}";
                     case SyntaxKind.ElseKeyword: 
                         return "else";
+                    case SyntaxKind.FalseKeyword : 
+                        return "false";
+                    case SyntaxKind.ForKeyword : 
+                        return "for";
                     case SyntaxKind.TrueKeyword: 
                         return "true";
                     case SyntaxKind.IfKeyword: 
                         return "if";
                     case SyntaxKind.LetKeyword: 
-                        return "let";
-                    case SyntaxKind.FalseKeyword : 
-                        return "false";                 
+                        return "let";                 
                     case SyntaxKind.VarKeyword : 
                         return "var";
                     case SyntaxKind.WhileKeyword : 
                         return "while";
+                    
                     default:
                         return null;
             }

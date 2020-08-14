@@ -32,10 +32,12 @@ namespace Lex.CodeAnalysis.Syntax
 
         //keywords
         ElseKeyword,
+        FalseKeyword,
+        ForKeyword,
         TrueKeyword,
         IfKeyword,
         LetKeyword,
-        FalseKeyword,
+        
         VarKeyword,
         WhileKeyword,
               
@@ -48,6 +50,7 @@ namespace Lex.CodeAnalysis.Syntax
         //Statements
         BlockStatement,
         ExpressionStatemnet,
+        ForStatement,
         IfStatement,
         VeriableDeclaration,
         WhileStatement,
