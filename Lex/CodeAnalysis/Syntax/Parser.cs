@@ -149,10 +149,12 @@ namespace Lex.CodeAnalysis.Syntax
 
             var openBraceToken = MatchToken(SyntaxKind.OpenBraceToken);
 
-            var starToken = Current;
+          
             while(Current.Kind != SyntaxKind.EndOfFileToken &&
                   Current.Kind != SyntaxKind.CloseBraceToken)
                 {
+                    var startToken = Current;
+                    
                     var statement = ParseStatemnet();
                     statements.Add(statement);
 
@@ -162,12 +164,12 @@ namespace Lex.CodeAnalysis.Syntax
                     // we do not need report an error, because we'll
                     //already tried tp parse an expression statement
                     // and reported one
-                    if(Current == starToken)
+                    if(Current == startToken)
                     {   
                         NextToken();
                     }
 
-                    starToken = Current;
+                    startToken = Current;
                 }
 
             var closeBraceToken = MatchToken(SyntaxKind.CloseBraceToken);
