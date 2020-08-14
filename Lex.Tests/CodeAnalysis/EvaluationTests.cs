@@ -172,6 +172,24 @@ namespace Lex.Tests.CodeAnalysis
 
             AssertDiagnostics(text, diagnostics);
         }
+        
+         [Fact]
+        public void Evaluator_ForStatement_Reports_CannotConvert_Lowerbound()
+        {
+            var text = @"
+                {
+                    var result = 10
+                    for i = [false] to 10
+                        result = result + i
+                }
+            ";
+
+            var diagnostics = @"
+                Cannot convert type 'System.Boolean' to 'System.Int32'.
+            ";
+
+            AssertDiagnostics(text, diagnostics);
+        }
 
          [Fact]
         public void Evaluator_ForStatement_Reports_CannotConvert_upperbound()
@@ -179,7 +197,7 @@ namespace Lex.Tests.CodeAnalysis
             var text = @"
                 {
                     var result = 10
-                    for i = false to 10
+                    for i = i to [true]
                         result = result + i
                 }
             ";
