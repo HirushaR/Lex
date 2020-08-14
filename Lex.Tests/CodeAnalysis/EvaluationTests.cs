@@ -197,7 +197,7 @@ namespace Lex.Tests.CodeAnalysis
             var text = @"
                 {
                     var result = 10
-                    for i = i to [true]
+                    for i = 0 to [true]
                         result = result + i
                 }
             ";
