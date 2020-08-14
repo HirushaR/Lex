@@ -34,6 +34,7 @@ namespace Lex.CodeAnalysis.Syntax
         ElseKeyword,
         FalseKeyword,
         ForKeyword,
+        ToKeyword,
         TrueKeyword,
         IfKeyword,
         LetKeyword,

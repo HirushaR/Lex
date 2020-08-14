@@ -70,6 +70,8 @@ namespace Lex.CodeAnalysis.Binding
                     return BindIfStatement((IfStatementSyntax)syntax);
                 case SyntaxKind.WhileStatement:
                     return BindWhileStatement((WhileStatementSyntax)syntax);
+                case SyntaxKind.ForStatement:
+                    return BindForStatement((ForStatementSyntax)syntax); 
                 case SyntaxKind.ExpressionStatemnet:
                     return BindExpressionStatement((ExpressionStatemnetSyntax)syntax);
                 default:
@@ -77,8 +79,7 @@ namespace Lex.CodeAnalysis.Binding
             }
         }
 
-      
-
+        
         private BoundStatement BindVeriableDeclaration(VeriableDeclarationSyntax syntax)
         {
             var name = syntax.Identifier.Text;
@@ -116,7 +117,25 @@ namespace Lex.CodeAnalysis.Binding
 
             return new BoundIfStatement(condition,thenstatement,elseStatement);
         }
+         private BoundStatement BindForStatement(ForStatementSyntax syntax)
+        {
+            var lowerBound = BindExpression(syntax.LowerBound, typeof(int));
+            var upperBound = BindExpression(syntax.UpperBoud, typeof(int));
+            
 
+            _scope = new BoundScope(_scope);
+
+            var name = syntax.Identifier.Text;
+            var variable = new VariableSymble(name, true, typeof(int));
+            if (!_scope.TryDeclare(variable))
+                _diagnostics.ReportVariableAlreadyDecleard(syntax.Identifier.Span, name);
+
+            var body = BindStatement(syntax.Body);
+
+            _scope = _scope.Parent;
+
+            return new BoundForStatement(variable, lowerBound, upperBound, body);
+        }
           private BoundStatement BindWhileStatement(WhileStatementSyntax syntax)
         {
             var condition = BindExpression(syntax.Condition, typeof(bool));

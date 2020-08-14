@@ -89,6 +89,8 @@ namespace Lex.CodeAnalysis.Syntax
                     return SyntaxKind.FalseKeyword; 
                  case "for":
                     return SyntaxKind.ForKeyword;
+                case "to":
+                    return SyntaxKind.ToKeyword;  
                 case "true":
                     return SyntaxKind.TrueKeyword;          
                  case "if":
@@ -156,6 +158,8 @@ namespace Lex.CodeAnalysis.Syntax
                         return "for";
                     case SyntaxKind.TrueKeyword: 
                         return "true";
+                    case SyntaxKind.ToKeyword: 
+                        return "to";
                     case SyntaxKind.IfKeyword: 
                         return "if";
                     case SyntaxKind.LetKeyword: 
