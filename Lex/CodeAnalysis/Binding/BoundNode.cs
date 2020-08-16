@@ -35,7 +35,23 @@ namespace Lex.CodeAnalysis.Binding
             }
         }
 
-  
+        private IEnumerable<(string Name,object Value)> GetProperties()
+        {
+            var properties = GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+            foreach(var property in properties)
+            {
+                if(property.Name == nameof(Kind))
+                    continue;
+                if(typeof(BoundNode).IsAssignableFrom(property.PropertyType) ||
+                   typeof(IEnumerable<BoundNode>).IsAssignableFrom(property.PropertyType))
+                    continue;
+
+                var value = (BoundNode)property.GetValue(this);
+                if (value != null)
+                    yield return (property.Name, value);
+            }
+        }
 
 
         public void WriteTo(TextWriter writer)
