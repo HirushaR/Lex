@@ -5,6 +5,7 @@ using System.Linq;
 using Lex.CodeAnalysis.Binding;
 using Lex.CodeAnalysis.Syntax;
 using System.Threading;
+using System.IO;
 
 namespace Lex.CodeAnalysis
 {
@@ -55,6 +56,11 @@ namespace Lex.CodeAnalysis
             var evaluator = new Evaluator(GlobalScope.Statement, variables);
             var value = evaluator.Evaluate();
             return new EvaluationResult(ImmutableArray<Diagnostic>.Empty, value);
+        }
+
+        public void EmitTree(TextWriter writer)
+        {
+            GlobalScope.Statement.WriteTo(writer);
         }
     }
 }

@@ -14,6 +14,7 @@ namespace Lex
         private static void Main()
         {
             var showTree = false;
+            var showProgram = false;
             var variables = new Dictionary<VariableSymble, object>();
             var textBuilder = new StringBuilder();
             Compilation previous = null;
@@ -40,6 +41,12 @@ namespace Lex
                     {
                         showTree = !showTree;
                         Console.WriteLine(showTree ? "Showing parse trees." : "Not showing parse trees");
+                        continue;
+                    }
+                     else if (input == "#showProgram")
+                    {
+                        showProgram = !showProgram;
+                        Console.WriteLine(showProgram ? "Showing Bound trees." : "Not showing Bound trees");
                         continue;
                     }
                     else if (input == "#cls")
@@ -72,9 +79,12 @@ namespace Lex
 
                 if (showTree)
                 {
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
                     syntaxTree.Root.WriteTo(Console.Out);               
-                    Console.ResetColor();
+                }
+                if (showProgram)
+                {
+                    compilation.EmitTree(Console.Out);
+                         
                 }
 
                 if (!result.Diagnostics.Any())
