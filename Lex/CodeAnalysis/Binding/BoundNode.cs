@@ -41,7 +41,8 @@ namespace Lex.CodeAnalysis.Binding
 
             foreach(var property in properties)
             {
-                if(property.Name == nameof(Kind))
+                if(property.Name == nameof(Kind) ||
+                    property.Name == nameof(BoundBinaryExpression.Op))
                     continue;
                 if(typeof(BoundNode).IsAssignableFrom(property.PropertyType) ||
                    typeof(IEnumerable<BoundNode>).IsAssignableFrom(property.PropertyType))
@@ -88,6 +89,7 @@ namespace Lex.CodeAnalysis.Binding
                         Console.ForegroundColor = ConsoleColor.DarkGray;
                     writer.Write(",");
                 }
+                 writer.Write(" ");
                  if(isToConsole)
                         Console.ForegroundColor = ConsoleColor.Yellow;    
                 writer.Write(p.Name);
