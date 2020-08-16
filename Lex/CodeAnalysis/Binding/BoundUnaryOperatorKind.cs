@@ -4,6 +4,7 @@ namespace Lex.CodeAnalysis.Binding
     {
         Identity,
         Negation,
-        LogicalNegation
+        LogicalNegation,
+        OnceComplement
     }
 }

@@ -145,6 +145,8 @@ namespace Lex.CodeAnalysis
                     return -(int)operand;
                 case BoundUnaryOperatorKind.LogicalNegation:
                     return !(bool)operand;
+                case BoundUnaryOperatorKind.OnceComplement:
+                    return ~(int)operand;
                 default:
                     throw new Exception($"Unexpected unary operator {u.op.Kind}");
             }
@@ -169,6 +171,7 @@ namespace Lex.CodeAnalysis
                     return (int)left / (int)right;
                 case BoundBinaryOperatorKind.Remainder:
                     return (int)left % (int)right;
+
                 case BoundBinaryOperatorKind.GreaterThan:
                     return (int)left > (int)right;
                 case BoundBinaryOperatorKind.LessThan:
@@ -177,10 +180,28 @@ namespace Lex.CodeAnalysis
                     return (int)left >= (int)right;
                 case BoundBinaryOperatorKind.LessOrEqual:
                     return (int)left <= (int)right;
+
+                case BoundBinaryOperatorKind.BitwiseAnd:
+                    if(b.Type == typeof(int))
+                        return (int)left & (int)right;
+                    else
+                        return (bool)left & (bool)right;
+                case BoundBinaryOperatorKind.BitwiseOr:
+                   if(b.Type == typeof(int))
+                        return (int)left | (int)right;
+                    else
+                        return (bool)left | (bool)right;
+                case BoundBinaryOperatorKind.BitwiseXor:
+                    if(b.Type == typeof(int))
+                        return (int)left ^ (int)right;
+                    else
+                        return (bool)left ^ (bool)right;
+
                 case BoundBinaryOperatorKind.LogicalAnd:
                     return (bool)left && (bool)right;
                 case BoundBinaryOperatorKind.LogicalOr:
                     return (bool)left || (bool)right;
+
                 case BoundBinaryOperatorKind.Equals:
                     return Equals(left, right);
                 case BoundBinaryOperatorKind.NotEquals:

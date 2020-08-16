@@ -12,6 +12,7 @@ namespace Lex.CodeAnalysis.Syntax
                 case SyntaxKind.PlusToken:
                 case SyntaxKind.MinusToken:
                 case SyntaxKind.BangToken:
+                case SyntaxKind.TildToken:
                     return 6;
 
                 default:
@@ -46,9 +47,12 @@ namespace Lex.CodeAnalysis.Syntax
                     return 3;
 
                 case SyntaxKind.AmpersandAmpersandToken:
+                case SyntaxKind.AmpersandToken:
                     return 2;
 
                 case SyntaxKind.PipePieToken:
+                case SyntaxKind.PipeToken:
+                case SyntaxKind.HatToken:
                     return 1;
 
                 default:
@@ -138,10 +142,18 @@ namespace Lex.CodeAnalysis.Syntax
                         return "==";
                     case SyntaxKind.BangEaqlesToken: 
                         return "!=";
+                    case SyntaxKind.AmpersandToken: 
+                        return "&";
                     case SyntaxKind.AmpersandAmpersandToken: 
                         return "&&";
+                    case SyntaxKind.PipeToken: 
+                        return "|";
                     case SyntaxKind.PipePieToken: 
                         return "||";
+                    case SyntaxKind.HatToken: 
+                        return "^";
+                    case SyntaxKind.TildToken: 
+                        return "~";
                     case SyntaxKind.OpenParenthesisToken: 
                         return "(";
                     case SyntaxKind.CloseParenthesisToken: 

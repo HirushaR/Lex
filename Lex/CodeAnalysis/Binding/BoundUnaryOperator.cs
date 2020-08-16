@@ -32,6 +32,7 @@ namespace Lex.CodeAnalysis.Binding
             new BoundUnaryOperator(SyntaxKind.BangToken,BoundUnaryOperatorKind.LogicalNegation, typeof(bool)),
             new BoundUnaryOperator(SyntaxKind.PlusToken,BoundUnaryOperatorKind.Identity, typeof(int)),
             new BoundUnaryOperator(SyntaxKind.MinusToken,BoundUnaryOperatorKind.Negation, typeof(int)),
+            new BoundUnaryOperator(SyntaxKind.TildToken,BoundUnaryOperatorKind.OnceComplement, typeof(int)),
         };
 
         public static BoundUnaryOperator Bind(SyntaxKind syntaxkind,Type operandType)

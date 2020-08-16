@@ -165,6 +165,14 @@ namespace Lex.Tests.CodeAnalysis.Syntax
                 return true;
             if (t1Kind == SyntaxKind.StarToken && t2Kind == SyntaxKind.StarToken)
                 return true;
+            if (t1Kind == SyntaxKind.PipeToken && t2Kind == SyntaxKind.PipeToken)
+                return true;
+            if (t1Kind == SyntaxKind.AmpersandToken && t2Kind == SyntaxKind.AmpersandToken)
+                return true;
+            if (t1Kind == SyntaxKind.AmpersandToken && t2Kind == SyntaxKind.AmpersandAmpersandToken)
+                return true;
+            if (t1Kind == SyntaxKind.PipeToken && t2Kind == SyntaxKind.PipePieToken)
+                return true;
             
 
             return false;

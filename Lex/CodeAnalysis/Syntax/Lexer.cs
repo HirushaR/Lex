@@ -108,6 +108,14 @@ namespace Lex.CodeAnalysis.Syntax
                     _kind = SyntaxKind.CloseParenthesisToken;
                     _position++;
                     break;
+                 case '~':
+                    _kind = SyntaxKind.TildToken;
+                    _position++;
+                    break;
+                 case '^':
+                    _kind = SyntaxKind.HatToken;
+                    _position++;
+                    break;
                  case '{':
                     _kind = SyntaxKind.OpenBraceToken;
                     _position++;
@@ -117,19 +125,27 @@ namespace Lex.CodeAnalysis.Syntax
                     _position++;
                     break;
                 case '&':
-                    if (Lookahead == '&')
+                     _position++;
+                    if (Current != '&')
                     {
+                        _kind = SyntaxKind.AmpersandToken;
+                    }
+                    else
+                    {
+                        _position++;
                         _kind = SyntaxKind.AmpersandAmpersandToken;
-                        _position += 2;
-                        break;
                     }
                     break;
                 case '|':
-                    if (Lookahead == '|')
+                     _position++;
+                    if (Current != '|')
                     {
+                        _kind = SyntaxKind.PipeToken;
+                    }
+                    else
+                    {
+                        _position++;
                         _kind = SyntaxKind.PipePieToken;
-                        _position += 2;
-                        break;
                     }
                     break;
                 case '=':

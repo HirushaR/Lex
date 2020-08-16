@@ -41,6 +41,11 @@ namespace Lex.CodeAnalysis.Binding
             new BoundBinaryOperator(SyntaxKind.StarStarToken,BoundBinaryOperatorKind.Power, typeof(int)),
             new BoundBinaryOperator(SyntaxKind.SlashToken,BoundBinaryOperatorKind.Division, typeof(int)),
             new BoundBinaryOperator(SyntaxKind.RemainderToken,BoundBinaryOperatorKind.Remainder, typeof(int)),
+            
+            new BoundBinaryOperator(SyntaxKind.AmpersandToken,BoundBinaryOperatorKind.BitwiseAnd, typeof(int)),
+            new BoundBinaryOperator(SyntaxKind.PipeToken,BoundBinaryOperatorKind.BitwiseOr, typeof(int)),
+            new BoundBinaryOperator(SyntaxKind.HatToken,BoundBinaryOperatorKind.BitwiseXor, typeof(int)),
+
             new BoundBinaryOperator(SyntaxKind.GreaterThanToken,BoundBinaryOperatorKind.GreaterThan, typeof(int), typeof(bool)),
             new BoundBinaryOperator(SyntaxKind.LessThanToken,BoundBinaryOperatorKind.LessThan, typeof(int), typeof(bool)),
             new BoundBinaryOperator(SyntaxKind.EaqulesEaqlesToken,BoundBinaryOperatorKind.Equals, typeof(int), typeof(bool)),
@@ -48,10 +53,13 @@ namespace Lex.CodeAnalysis.Binding
             new BoundBinaryOperator(SyntaxKind.LessOrEqualToken,BoundBinaryOperatorKind.LessOrEqual, typeof(int), typeof(bool)),
             new BoundBinaryOperator(SyntaxKind.GreaterOrEqualToken,BoundBinaryOperatorKind.GreaterOrEqual, typeof(int), typeof(bool)),
 
+            new BoundBinaryOperator(SyntaxKind.AmpersandToken,BoundBinaryOperatorKind.BitwiseAnd, typeof(bool)),
             new BoundBinaryOperator(SyntaxKind.AmpersandAmpersandToken,BoundBinaryOperatorKind.LogicalAnd, typeof(bool)),
             new BoundBinaryOperator(SyntaxKind.GreaterThanToken,BoundBinaryOperatorKind.GreaterThan, typeof(bool)),
             new BoundBinaryOperator(SyntaxKind.LessThanToken,BoundBinaryOperatorKind.LessThan, typeof(bool)),
+            new BoundBinaryOperator(SyntaxKind.PipeToken,BoundBinaryOperatorKind.BitwiseOr, typeof(bool)),
             new BoundBinaryOperator(SyntaxKind.PipePieToken,BoundBinaryOperatorKind.LogicalOr, typeof(bool)),
+            new BoundBinaryOperator(SyntaxKind.HatToken,BoundBinaryOperatorKind.BitwiseXor, typeof(bool)),
             new BoundBinaryOperator(SyntaxKind.EaqulesEaqlesToken,BoundBinaryOperatorKind.Equals, typeof(bool)),
             new BoundBinaryOperator(SyntaxKind.BangEaqlesToken,BoundBinaryOperatorKind.NotEquals, typeof(bool)),
             new BoundBinaryOperator(SyntaxKind.LessOrEqualToken,BoundBinaryOperatorKind.LessOrEqual, typeof(bool)),

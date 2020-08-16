@@ -16,6 +16,8 @@ namespace Lex.CodeAnalysis.Binding
         LogicalOr,
         Equals,
         NotEquals,
-        
+        BitwiseAnd,
+        BitwiseOr,
+        BitwiseXor,
     }
 }
