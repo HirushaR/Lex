@@ -47,7 +47,7 @@ namespace Lex.CodeAnalysis.Binding
                    typeof(IEnumerable<BoundNode>).IsAssignableFrom(property.PropertyType))
                     continue;
 
-                var value = (BoundNode)property.GetValue(this);
+                var value = property.GetValue(this);
                 if (value != null)
                     yield return (property.Name, value);
             }
@@ -70,10 +70,36 @@ namespace Lex.CodeAnalysis.Binding
             writer.Write(indent);
             writer.Write(marker);
 
+            if(isToConsole)
+                Console.ForegroundColor = GetColor(node);
+           
+            var text = GetText(node);
+            writer.Write(text);
 
-            WriterNode(writer,node);
-            WriteProperties(writer.node);
-            
+            var isFirstProperty = true;
+
+            foreach(var p in node.GetProperties())
+            {
+                if(isFirstProperty)
+                    isFirstProperty = false;
+                else
+                {
+                    if(isToConsole)
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                    writer.Write(",");
+                }
+                 if(isToConsole)
+                        Console.ForegroundColor = ConsoleColor.Yellow;    
+                writer.Write(p.Name);
+
+                if(isToConsole)
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                writer.Write(" = ");
+
+                 if(isToConsole)
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                writer.Write(p.Value);
+            }
 
             if(isToConsole)
                 Console.ResetColor();
@@ -88,22 +114,9 @@ namespace Lex.CodeAnalysis.Binding
                 PrettyPrint(writer, child, indent, child == lastChild);
         }
 
-        private static void WriteProperties(object node)
-        {
-            throw new NotImplementedException();
-        }
 
-        private static void WriterNode(TextWriter writer, BoundNode node)
-        {
-            // TODO: Handle binary and unary operator
-            // TODO: Change colors
-            Console.ForegroundColor = GetColor(node);
 
-            var text = GetText(node);
-            writer.Write(text);
-            
-            Console.ResetColor();
-        }
+
 
         private static object GetText(BoundNode node)
         {
