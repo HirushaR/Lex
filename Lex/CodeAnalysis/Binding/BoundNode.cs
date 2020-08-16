@@ -35,6 +35,9 @@ namespace Lex.CodeAnalysis.Binding
             }
         }
 
+  
+
+
         public void WriteTo(TextWriter writer)
         {
             PrettyPrint(writer,this);
@@ -53,6 +56,7 @@ namespace Lex.CodeAnalysis.Binding
 
 
             WriterNode(writer,node);
+            WriteProperties(writer.node);
             
 
             if(isToConsole)
@@ -68,11 +72,42 @@ namespace Lex.CodeAnalysis.Binding
                 PrettyPrint(writer, child, indent, child == lastChild);
         }
 
+        private static void WriteProperties(object node)
+        {
+            throw new NotImplementedException();
+        }
+
         private static void WriterNode(TextWriter writer, BoundNode node)
         {
             // TODO: Handle binary and unary operator
             // TODO: Change colors
-            writer.Write(node.Kind);
+            Console.ForegroundColor = GetColor(node);
+
+            var text = GetText(node);
+            writer.Write(text);
+            
+            Console.ResetColor();
+        }
+
+        private static object GetText(BoundNode node)
+        {
+            if (node is BoundBinaryExpression b)
+                return b.Op.Kind.ToString() + "Expression";
+            
+            if (node is BoundUnaryExpression u)
+                return u.op.Kind.ToString() + "Expression";
+            
+            return node.Kind.ToString();
+        }
+
+        private static ConsoleColor GetColor(BoundNode node)
+        {
+            if (node is BoundExpression)
+                return ConsoleColor.Blue;
+            
+            if( node is BoundStatement)
+                return ConsoleColor.Cyan;
+            return ConsoleColor.Yellow;
         }
 
         public override string ToString() 
