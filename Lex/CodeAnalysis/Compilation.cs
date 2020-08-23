@@ -6,6 +6,7 @@ using Lex.CodeAnalysis.Binding;
 using Lex.CodeAnalysis.Syntax;
 using System.Threading;
 using System.IO;
+using Lex.CodeAnalysis.Lowering;
 
 namespace Lex.CodeAnalysis
 {
@@ -60,7 +61,14 @@ namespace Lex.CodeAnalysis
 
         public void EmitTree(TextWriter writer)
         {
+            var statement = GetStatement();
             GlobalScope.Statement.WriteTo(writer);
+        }
+
+        private BoundStatement GetStatement()
+        {
+            var result = GlobalScope.Statement;
+            return Lowerer.Lower(result);
         }
     }
 }
