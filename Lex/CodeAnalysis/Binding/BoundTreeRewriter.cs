@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Immutable;
 
 namespace Lex.CodeAnalysis.Binding
 {
@@ -28,7 +29,28 @@ namespace Lex.CodeAnalysis.Binding
 
         private BoundStatement RewriteBlockStatement(BoundBlockStatemnet node)
         {
-            throw new NotImplementedException();
+            ImmutableArray<BoundStatement>.Builder builder = null;
+
+            for (var i = 0; i < node.Statements.Length; i++)
+            {
+                var oldStatement = node.Statements[i];
+                var newStatement = RewriteStatement(oldStatement);
+                if(newStatement != oldStatement)
+                {
+                    if(builder == null)
+                    {
+                        builder = ImmutableArray.CreateBuilder<BoundStatement>(node.Statements.Length);
+                        for( var j =0; j<i ;j++)
+                            builder.Add(node.Statements[j]);
+                    }
+                }
+                if( builder != null)
+                    builder.Add(newStatement);
+            }
+            if(builder == null)
+                return node;
+            
+            return new BoundBlockStatemnet(builder.MoveToImmutable());
         }
 
         private BoundStatement RewriteForStatement(BoundForStatement node)
