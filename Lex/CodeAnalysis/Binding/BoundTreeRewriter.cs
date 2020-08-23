@@ -65,7 +65,14 @@ namespace Lex.CodeAnalysis.Binding
 
         private BoundStatement RewriteWhileStatement(BoundWhileStatement node)
         {
-            throw new NotImplementedException();
+            var condition = RewriteExpression(node.Condition);
+        
+            var body = RewriteStatement(node.Body);
+            
+            if( condition == node.Condition && body == node.Body)
+                return node;
+            
+            return new BoundWhileStatement(condition, body);
         }
 
         public virtual BoundExpression RewriteExpression(BoundExpression node)
