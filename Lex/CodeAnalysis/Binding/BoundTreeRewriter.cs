@@ -9,10 +9,51 @@ namespace Lex.CodeAnalysis.Binding
         {
            switch(node.Kind)
            {
-               
-               default:
+                case BoundNodeKind.BlockStatement:
+                    return RewriteBlockStatement((BoundBlockStatemnet)node);
+                case BoundNodeKind.ForStatement:
+                    return RewriteForStatement((BoundForStatement)node);
+                case BoundNodeKind.ExpressionStatement:
+                    return RewriteExpressionStatement((BoundExpressionStatemnet)node);
+                case BoundNodeKind.IfStatement:
+                    return RewriteIfStatement((BoundIfStatement)node);
+                case BoundNodeKind.VariableDeclaration:
+                    return RewriteVariableDeclaration((BoundVeriableDeclaration)node);
+                case BoundNodeKind.WhileStatement:
+                    return RewriteWhileStatement((BoundWhileStatement)node);
+                default:
                     throw new Exception($"Unexepected node : {node.Kind}");
            }
+        }
+
+        private BoundStatement RewriteBlockStatement(BoundBlockStatemnet node)
+        {
+            throw new NotImplementedException();
+        }
+
+        private BoundStatement RewriteForStatement(BoundForStatement node)
+        {
+            throw new NotImplementedException();
+        }
+
+        private BoundStatement RewriteExpressionStatement(BoundExpressionStatemnet node)
+        {
+            throw new NotImplementedException();
+        }
+
+        private BoundStatement RewriteIfStatement(BoundIfStatement node)
+        {
+            throw new NotImplementedException();
+        }
+
+        private BoundStatement RewriteVariableDeclaration(BoundVeriableDeclaration node)
+        {
+            throw new NotImplementedException();
+        }
+
+        private BoundStatement RewriteWhileStatement(BoundWhileStatement node)
+        {
+            throw new NotImplementedException();
         }
 
         public virtual BoundExpression RewriteExpression(BoundExpression node)
