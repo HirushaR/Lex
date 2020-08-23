@@ -7,7 +7,7 @@ using Lex.CodeAnalysis.Syntax;
 
 namespace Lex.CodeAnalysis.Binding
 {
-     internal sealed class Binder
+    internal sealed class Binder
     {
         private readonly DiagnosticBag _diagnostics = new DiagnosticBag();
 
