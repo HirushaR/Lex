@@ -38,12 +38,12 @@ namespace Lex.CodeAnalysis.Binding
         
         protected virtual BoundExpression RewriteBinaryExpression(BoundBinaryExpression node)
         {
-            // var left = RewriteExpression(node.Left);
-            // var right = RewriteExpression(node.Right);
-            // if(left == node.Left && right == node.Right)
-            //     return node;
+            var left = RewriteExpression(node.Left);
+            var right = RewriteExpression(node.Right);
+            if(left == node.Left && right == node.Right)
+                return node;
             
-            // return new BoundBinaryExpression(left, node.Op, right);
+            return new BoundBinaryExpression(left, node.Op, right);
         }
 
         protected virtual BoundExpression RewriteLiteralExpression(BoundLiteralExpression node)
