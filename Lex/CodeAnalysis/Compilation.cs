@@ -63,7 +63,7 @@ namespace Lex.CodeAnalysis
         public void EmitTree(TextWriter writer)
         {
             var statement = GetStatement();
-            GlobalScope.Statement.WriteTo(writer);
+            statement.WriteTo(writer);
         }
 
         private BoundStatement GetStatement()
