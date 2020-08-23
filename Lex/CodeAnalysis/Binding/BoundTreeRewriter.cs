@@ -55,7 +55,13 @@ namespace Lex.CodeAnalysis.Binding
 
         private BoundStatement RewriteIfStatement(BoundIfStatement node)
         {
-            throw new NotImplementedException();
+            var condition = RewriteExpression(node.Condition);
+            var thenStatement = RewriteStatement(node.ThenStatement);
+            var elseStatement = node.ElseStatement == null ? null : RewriteStatement(node.ElseStatement);
+            if(condition == node.Condition && thenStatement == node.ThenStatement && elseStatement == node.ElseStatement)
+                return node;
+            
+            return new BoundIfStatement(condition,thenStatement,elseStatement);
         }
 
         private BoundStatement RewriteVariableDeclaration(BoundVeriableDeclaration node)
