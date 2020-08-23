@@ -33,12 +33,24 @@ namespace Lex.CodeAnalysis.Binding
 
         private BoundStatement RewriteForStatement(BoundForStatement node)
         {
-            throw new NotImplementedException();
+            var lowerBound = RewriteExpression(node.LowerBound);
+            var upperBound = RewriteExpression(node.UpperBound);
+            var body = RewriteStatement(node.Body);
+            
+            if( lowerBound == node.LowerBound && upperBound == node.LowerBound && body == node.Body)
+                return node;
+            
+            return new BoundForStatement(node.Variable, lowerBound,upperBound, body);
+            
         }
 
         private BoundStatement RewriteExpressionStatement(BoundExpressionStatemnet node)
         {
-            throw new NotImplementedException();
+           var expression = RewriteExpression(node.Expression);
+            if(expression == node.Expression)
+                return node;
+            
+            return new BoundExpressionStatemnet(expression);
         }
 
         private BoundStatement RewriteIfStatement(BoundIfStatement node)
