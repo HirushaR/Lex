@@ -66,7 +66,11 @@ namespace Lex.CodeAnalysis.Binding
 
         private BoundStatement RewriteVariableDeclaration(BoundVeriableDeclaration node)
         {
-            throw new NotImplementedException();
+            var initilizer = RewriteExpression(node.Initializer);
+            if(initilizer == node.Initializer)
+                return node;
+            
+            return new BoundVeriableDeclaration(node.Variable, initilizer);
         }
 
         private BoundStatement RewriteWhileStatement(BoundWhileStatement node)
