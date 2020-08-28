@@ -17,6 +17,5 @@ namespace Lex.CodeAnalysis.Binding
         public VariableSymble Variable { get; }
         public BoundExpression Initializer { get; }
 
-       
     }
 }

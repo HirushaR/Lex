@@ -20,7 +20,7 @@ namespace Lex.CodeAnalysis.Lowering
 
         protected override BoundStatement RewriteForStatement(BoundForStatement node)
         {
-            //for <var> = 10 <lower> to <upper>
+            //for <var> = <lower> to <upper>
             // <body>
             //---/
             // {

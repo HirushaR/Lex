@@ -8,6 +8,9 @@ namespace Lex.CodeAnalysis.Binding
         VariableDeclaration,
         ExpressionStatement,
         IfStatement,
+        LabelStatement,
+        GotoStatment,
+        ConditionalGotoStatment,
         WhileStatement,
 
         //Expression
