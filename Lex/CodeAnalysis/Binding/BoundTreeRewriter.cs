@@ -5,7 +5,6 @@ namespace Lex.CodeAnalysis.Binding
 {
     internal abstract class BoundTreeRewriter
     {
-
         public virtual  BoundStatement RewriteStatement(BoundStatement node)
         {
            switch(node.Kind)
@@ -27,7 +26,7 @@ namespace Lex.CodeAnalysis.Binding
            }
         }
 
-        private BoundStatement RewriteBlockStatement(BoundBlockStatemnet node)
+        protected virtual BoundStatement RewriteBlockStatement(BoundBlockStatemnet node)
         {
             ImmutableArray<BoundStatement>.Builder builder = null;
 
@@ -53,7 +52,7 @@ namespace Lex.CodeAnalysis.Binding
             return new BoundBlockStatemnet(builder.MoveToImmutable());
         }
 
-        private BoundStatement RewriteForStatement(BoundForStatement node)
+        protected virtual BoundStatement RewriteForStatement(BoundForStatement node)
         {
             var lowerBound = RewriteExpression(node.LowerBound);
             var upperBound = RewriteExpression(node.UpperBound);
@@ -66,7 +65,7 @@ namespace Lex.CodeAnalysis.Binding
             
         }
 
-        private BoundStatement RewriteExpressionStatement(BoundExpressionStatemnet node)
+        protected virtual BoundStatement RewriteExpressionStatement(BoundExpressionStatemnet node)
         {
            var expression = RewriteExpression(node.Expression);
             if(expression == node.Expression)
@@ -75,7 +74,7 @@ namespace Lex.CodeAnalysis.Binding
             return new BoundExpressionStatemnet(expression);
         }
 
-        private BoundStatement RewriteIfStatement(BoundIfStatement node)
+        protected virtual BoundStatement RewriteIfStatement(BoundIfStatement node)
         {
             var condition = RewriteExpression(node.Condition);
             var thenStatement = RewriteStatement(node.ThenStatement);
@@ -85,8 +84,7 @@ namespace Lex.CodeAnalysis.Binding
             
             return new BoundIfStatement(condition,thenStatement,elseStatement);
         }
-
-        private BoundStatement RewriteVariableDeclaration(BoundVeriableDeclaration node)
+        protected virtual BoundStatement RewriteVariableDeclaration(BoundVeriableDeclaration node)
         {
             var initilizer = RewriteExpression(node.Initializer);
             if(initilizer == node.Initializer)
@@ -94,8 +92,7 @@ namespace Lex.CodeAnalysis.Binding
             
             return new BoundVeriableDeclaration(node.Variable, initilizer);
         }
-
-        private BoundStatement RewriteWhileStatement(BoundWhileStatement node)
+        protected virtual BoundStatement RewriteWhileStatement(BoundWhileStatement node)
         {
             var condition = RewriteExpression(node.Condition);
         
@@ -106,7 +103,6 @@ namespace Lex.CodeAnalysis.Binding
             
             return new BoundWhileStatement(condition, body);
         }
-
         public virtual BoundExpression RewriteExpression(BoundExpression node)
         {
             switch(node.Kind)
