@@ -7,15 +7,73 @@ namespace Lex.CodeAnalysis.Lowering
 {
     internal sealed class Lowerer : BoundTreeRewriter
     {
+        private int _labelCount;
         private Lowerer()
         {
             
+        }
+        private LabelSymbol GenarateLabel()
+        {
+            var name = $"Label{++_labelCount}";
+            return new LabelSymbol(name);
         }
 
         public static BoundStatement Lower(BoundStatement statement)
         {
             var lowerer = new Lowerer();
             return lowerer.RewriteStatement(statement);
+        }
+
+        protected override BoundStatement RewriteIfStatement(BoundIfStatement node)
+        {
+        
+            if( node.ElseStatement == null)
+            {
+            // if <condition>
+            //      then
+
+            // 
+            // gotoIfFalse <condition> end
+            //      then
+            // end:
+            // 
+            //             
+                var endLable = GenarateLabel();
+                var gotoFalse = new BoundConditionalGotoStatment(endLable,node.Condition, true);
+                var endLabelStatment = new BoundLabelStatement(endLable);
+                var result = new BoundBlockStatemnet(ImmutableArray.Create<BoundStatement>(gotoFalse,node.ThenStatement,endLabelStatment));
+                return RewriteStatement(result);
+            }
+            else
+            {
+            // if <condition>
+            //      then
+            // else
+            //      then
+            // gotoIfFalse <condition> else
+            //      then
+            // goto end
+            // else:
+            //     else
+            //end
+                var endLable = GenarateLabel();
+                var elseLabel = GenarateLabel();
+                var gotoFalse = new BoundConditionalGotoStatment(endLable,node.Condition, true);
+                var gotoEndStatemnet = new BoundGotoStatment(endLable);
+                var elseLabelStatment = new BoundLabelStatement(elseLabel);
+                var endLabelStatment = new BoundLabelStatement(endLable);
+                var result = new BoundBlockStatemnet(ImmutableArray.Create<BoundStatement>(
+                    gotoFalse,
+                    node.ThenStatement,
+                    gotoEndStatemnet,
+                    elseLabelStatment,
+                    node.ElseStatement,
+                    endLabelStatment
+                    )
+                );
+                 return RewriteStatement(result);
+            }    
+        
         }
 
         protected override BoundStatement RewriteForStatement(BoundForStatement node)
