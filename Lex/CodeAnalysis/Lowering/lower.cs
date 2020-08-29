@@ -20,7 +20,7 @@ namespace Lex.CodeAnalysis.Lowering
             return new LabelSymbol(name);
         }
 
-        public static BoundStatement Lower(BoundStatement statement)
+        public static BoundBlockStatemnet Lower(BoundStatement statement)
         {
             var lowerer = new Lowerer();
             var result = lowerer.RewriteStatement(statement);
@@ -120,7 +120,7 @@ namespace Lex.CodeAnalysis.Lowering
 
             var gotoCheck = new BoundGotoStatment(checkLabel);
             var continueLabelStatement = new BoundLabelStatement(continueLabel);
-            var checkLableStatement = = new BoundLabelStatement(checkLabel);
+            var checkLableStatement =  new BoundLabelStatement(checkLabel);
             var gotoTrue = new BoundConditionalGotoStatment(checkLabel,node.Condition,false);
             var endLabelStatement = new BoundLabelStatement(endLable);
 
