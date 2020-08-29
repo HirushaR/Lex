@@ -50,6 +50,8 @@ namespace Lex.CodeAnalysis
                             var condition = (bool)EvaluateExpression(cgs.Condition);
                             if(condition && !cgs.JumpIfFales || !condition && cgs.JumpIfFales)
                                 index = labeleToIndex[cgs.Label];
+                            else
+                                index++;
                             break;
                         case BoundNodeKind.LabelStatement:
                             index++;
