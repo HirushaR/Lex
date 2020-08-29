@@ -76,6 +76,41 @@ namespace Lex.CodeAnalysis.Lowering
         
         }
 
+        protected override BoundStatement RewriteWhileStatement(BoundWhileStatement node)
+        {
+            //while <condition>
+            //  body
+            //
+            //goto check
+            // continue:
+            //      body
+            //check:
+            //  gotoTrue condition continue
+            // end:
+
+            var endLable = GenarateLabel();
+            var checkLabel = GenarateLabel();
+            var continueLabel = GenarateLabel();
+
+            var gotoCheck = new BoundGotoStatment(checkLabel);
+            var continueLabelStatement = new BoundLabelStatement(continueLabel);
+            var checkLableStatement = = new BoundLabelStatement(checkLabel);
+            var gotoTrue = new BoundConditionalGotoStatment(checkLabel,node.Condition,false);
+            var endLabelStatement = new BoundLabelStatement(endLable);
+
+            var result = new BoundBlockStatemnet(ImmutableArray.Create<BoundStatement>(
+                    gotoCheck,
+                    continueLabelStatement,
+                    node.Body,
+                    checkLableStatement,
+                    gotoTrue,
+                    endLabelStatement
+                    )
+                );
+            return RewriteStatement(result);
+                
+        }
+
         protected override BoundStatement RewriteForStatement(BoundForStatement node)
         {
             //for <var> = <lower> to <upper>
