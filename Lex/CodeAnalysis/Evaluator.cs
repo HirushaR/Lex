@@ -7,11 +7,11 @@ namespace Lex.CodeAnalysis
 
     internal sealed class Evaluator
     {
-        private readonly BoundStatement _root;
+        private readonly BoundBlockStatemnet _root;
         private readonly Dictionary<VariableSymble, object> _variables;
         private object _lastValue;
      
-        public Evaluator(BoundStatement root, Dictionary<VariableSymble, object> variables) 
+        public Evaluator(BoundBlockStatemnet root, Dictionary<VariableSymble, object> variables) 
         {
             _root = root;
             _variables = variables;
@@ -19,49 +19,60 @@ namespace Lex.CodeAnalysis
 
         public object Evaluate()
         {
-            EvaluateStatement(_root);
+            var labeleToIndex = new Dictionary<LabelSymbol, int>();
+
+            for (var i = 0; i<_root.Statements.Length;i++)
+            {
+                if(_root.Statements[i] is BoundLabelStatement l)
+                    labeleToIndex.Add(l.Label,i+1);
+            }
+            var index = 0;
+            while(index <_root.Statements.Length)
+            {
+                var s = _root.Statements[index];
+                switch (s.Kind)
+                    {
+                       
+                        case BoundNodeKind.VariableDeclaration:
+                            EvaluateVariableDeclaration((BoundVeriableDeclaration)s);
+                            index++;
+                            break;
+                        case BoundNodeKind.ExpressionStatement:
+                            EvaluateExpressiontatement((BoundExpressionStatemnet)s);
+                            index++;
+                            break;
+                        case BoundNodeKind.GotoStatment:
+                            var gs = (BoundGotoStatment)s;
+                            index = labeleToIndex[gs.Label];
+                            break;
+                        case BoundNodeKind.ConditionalGotoStatment:
+                            var cgs = (BoundConditionalGotoStatment)s;
+                            var condition = (bool)EvaluateExpression(cgs.Condition);
+                            if(condition && !cgs.JumpIfFales ||
+                              !condition && cgs.JumpIfFales)
+                              {
+                                index = labeleToIndex[cgs.Label];
+                              }
+                                
+                            else
+                            {
+                                 index++;
+                            }
+                               
+                            break;
+                        case BoundNodeKind.LabelStatement:
+                            index++;
+                            break;
+                        default:
+                            throw new Exception($"Unexpected node {s.Kind}");
+                    }
+            }
+
+            
             return _lastValue;
         }
 
-         private void EvaluateStatement(BoundStatement node)
-        {
-            switch (node.Kind)
-            {
-                case BoundNodeKind.BlockStatement:
-                    EvaluateBlockStatement((BoundBlockStatemnet)node);
-                    break;
-                case BoundNodeKind.VariableDeclaration:
-                    EvaluateVariableDeclaration((BoundVeriableDeclaration)node);
-                    break;
-                case BoundNodeKind.IfStatement:
-                    EvaluateIfStatement((BoundIfStatement)node);
-                    break;
-                case BoundNodeKind.WhileStatement:
-                    EvaluateWhileStatement((BoundWhileStatement)node);
-                    break;
-                case BoundNodeKind.ExpressionStatement:
-                    EvaluateExpressiontatement((BoundExpressionStatemnet)node);
-                    break;
-                default:
-                    throw new Exception($"Unexpected node {node.Kind}");
-            }
-        }
-
-              private void EvaluateWhileStatement(BoundWhileStatement node)
-        {
-            while((bool)EvaluateExpression(node.Condition))
-                EvaluateStatement(node.Body);
-        }
-
-        private void EvaluateIfStatement(BoundIfStatement node)
-        {
-            var condititon = (bool)EvaluateExpression(node.Condition);
-            if(condititon)
-                EvaluateStatement(node.ThenStatement);
-            else if(node.ElseStatement != null)
-                EvaluateStatement(node.ElseStatement);
-        }
-
+        
         private void EvaluateVariableDeclaration(BoundVeriableDeclaration node)
         {
            var value = EvaluateExpression(node.Initializer);
@@ -69,11 +80,7 @@ namespace Lex.CodeAnalysis
            _lastValue = value;
         }
 
-        private void EvaluateBlockStatement(BoundBlockStatemnet node)
-        {
-            foreach(var statement in node.Statements)
-                EvaluateStatement(statement);
-        }
+      
 
         private void EvaluateExpressiontatement(BoundExpressionStatemnet node)
         {

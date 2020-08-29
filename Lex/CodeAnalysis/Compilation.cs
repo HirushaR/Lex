@@ -66,7 +66,7 @@ namespace Lex.CodeAnalysis
             statement.WriteTo(writer);
         }
 
-        private BoundStatement GetStatement()
+        private BoundBlockStatemnet GetStatement()
         {
             var result = GlobalScope.Statement;
             return Lowerer.Lower(result);

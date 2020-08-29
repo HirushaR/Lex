@@ -14,6 +14,7 @@ namespace Lex.CodeAnalysis
         public string Name { get; }
         public bool isReadOnly { get; }
         public Type Type { get; }
+        public override string ToString() => Name;
     }
 
 }
