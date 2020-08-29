@@ -48,10 +48,17 @@ namespace Lex.CodeAnalysis
                         case BoundNodeKind.ConditionalGotoStatment:
                             var cgs = (BoundConditionalGotoStatment)s;
                             var condition = (bool)EvaluateExpression(cgs.Condition);
-                            if(condition && !cgs.JumpIfFales || !condition && cgs.JumpIfFales)
+                            if(condition && !cgs.JumpIfFales ||
+                              !condition && cgs.JumpIfFales)
+                              {
                                 index = labeleToIndex[cgs.Label];
+                              }
+                                
                             else
-                                index++;
+                            {
+                                 index++;
+                            }
+                               
                             break;
                         case BoundNodeKind.LabelStatement:
                             index++;
