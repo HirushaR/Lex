@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using Lex.CodeAnalysis.Binding;
 using Lex.CodeAnalysis.Syntax;
 using Lex.CodeAnalysis.Text;
@@ -21,7 +23,31 @@ namespace Lex.CodeAnalysis.Lowering
         public static BoundStatement Lower(BoundStatement statement)
         {
             var lowerer = new Lowerer();
-            return lowerer.RewriteStatement(statement);
+            var result = lowerer.RewriteStatement(statement);
+            return Flatten(result);
+        }
+        private static BoundBlockStatemnet Flatten(BoundStatement statement)
+        {
+            var builder = ImmutableArray.CreateBuilder<BoundStatement>();
+            var stack = new Stack<BoundStatement>();
+            stack.Push(statement);
+
+            while(stack.Count > 0)
+            {
+                var current = stack.Pop();
+
+                if(current is BoundBlockStatemnet block)
+                {
+                    foreach(var s in block.Statements.Reverse())
+                        stack.Push(s);
+                }
+                else
+                {
+                    builder.Add(current);
+
+                }
+            }
+            return new BoundBlockStatemnet(builder.ToImmutable());
         }
 
         protected override BoundStatement RewriteIfStatement(BoundIfStatement node)
