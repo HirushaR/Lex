@@ -1,8 +1,8 @@
 namespace Lex.CodeAnalysis.Binding
 {
-    internal sealed class BoundLabelSymble : BoundStatement
+    internal sealed class BoundLabelStatement : BoundStatement
     {
-        public BoundLabelSymble(LabelSymbol label)
+        public BoundLabelStatement(LabelSymbol label)
         {
             Label = label;
         }

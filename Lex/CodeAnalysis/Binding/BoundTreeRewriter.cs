@@ -17,6 +17,12 @@ namespace Lex.CodeAnalysis.Binding
                     return RewriteExpressionStatement((BoundExpressionStatemnet)node);
                 case BoundNodeKind.IfStatement:
                     return RewriteIfStatement((BoundIfStatement)node);
+                case BoundNodeKind.LabelStatement:
+                    return RewriteLabelStatement((BoundLabelStatement)node);
+                case BoundNodeKind.GotoStatment:
+                    return RewriteGotoStatment((BoundGotoStatment)node);
+                 case BoundNodeKind.ConditionalGotoStatment:
+                    return RewriteConditionalGotoStatment((BoundConditionalGotoStatment)node);
                 case BoundNodeKind.VariableDeclaration:
                     return RewriteVariableDeclaration((BoundVeriableDeclaration)node);
                 case BoundNodeKind.WhileStatement:
@@ -24,6 +30,24 @@ namespace Lex.CodeAnalysis.Binding
                 default:
                     throw new Exception($"Unexepected node : {node.Kind}");
            }
+        }
+
+        protected virtual BoundStatement RewriteConditionalGotoStatment(BoundConditionalGotoStatment node)
+        {
+            var condition = RewriteExpression(node.Condition);
+            if(condition == node.Condition)
+                return node;
+            return new BoundConditionalGotoStatment(node.Label,condition,node.JumpIfFales);
+        }
+
+        protected virtual BoundStatement RewriteGotoStatment(BoundGotoStatment node)
+        {
+            return node;
+        }
+
+        protected virtual BoundStatement RewriteLabelStatement(BoundLabelStatement node)
+        {
+            return node;
         }
 
         protected virtual BoundStatement RewriteBlockStatement(BoundBlockStatemnet node)
