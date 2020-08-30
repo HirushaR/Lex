@@ -4,4 +4,4 @@ lex/obj/
 LC/bin/
 lex.Text/bin/
 lex.Text/obj/
-LC\obj\Debug\netcoreapp3.0
+LC/obj/Debug/netcoreapp3.0
