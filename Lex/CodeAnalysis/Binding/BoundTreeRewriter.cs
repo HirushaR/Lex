@@ -37,7 +37,7 @@ namespace Lex.CodeAnalysis.Binding
             var condition = RewriteExpression(node.Condition);
             if(condition == node.Condition)
                 return node;
-            return new BoundConditionalGotoStatment(node.Label,condition,node.JumpIfFales);
+            return new BoundConditionalGotoStatment(node.Label,condition,node.JumpIfTrue);
         }
 
         protected virtual BoundStatement RewriteGotoStatment(BoundGotoStatment node)

@@ -66,7 +66,7 @@ namespace Lex.CodeAnalysis.Lowering
                 // <then>  
                 // end:
                 var endLabel = GenerateLabel();
-                var gotoFalse = new BoundConditionalGotoStatment(endLabel, node.Condition, true);
+                var gotoFalse = new BoundConditionalGotoStatment(endLabel, node.Condition, false);
                 var endLabelStatement = new BoundLabelStatement(endLabel);
                 var result = new BoundBlockStatemnet(ImmutableArray.Create<BoundStatement>(gotoFalse, node.ThenStatement, endLabelStatement));
                 return RewriteStatement(result);
@@ -128,7 +128,7 @@ namespace Lex.CodeAnalysis.Lowering
             var gotoCheck = new BoundGotoStatment(checkLabel);
             var continueLabelStatement = new BoundLabelStatement(continueLabel);
             var checkLabelStatement = new BoundLabelStatement(checkLabel);
-            var gotoTrue = new BoundConditionalGotoStatment(continueLabel, node.Condition, false);
+            var gotoTrue = new BoundConditionalGotoStatment(continueLabel, node.Condition);
             var endLabelStatement = new BoundLabelStatement(endLabel);
 
             var result = new BoundBlockStatemnet(ImmutableArray.Create<BoundStatement>(
@@ -180,7 +180,8 @@ namespace Lex.CodeAnalysis.Lowering
             );
             var whileBody = new BoundBlockStatemnet(ImmutableArray.Create<BoundStatement>(node.Body, increment));
             var whileStatement = new BoundWhileStatement(condition, whileBody);
-            var result = new BoundBlockStatemnet(ImmutableArray.Create<BoundStatement>(variableDeclaration, whileStatement));
+            var result = new BoundBlockStatemnet(ImmutableArray.Create<BoundStatement>(
+                variableDeclaration,upperBoundDeclaration, whileStatement));
      
             return RewriteStatement(result);
         }

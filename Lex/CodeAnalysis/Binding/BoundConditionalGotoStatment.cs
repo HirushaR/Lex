@@ -4,17 +4,17 @@ namespace Lex.CodeAnalysis.Binding
     {
     
 
-        public BoundConditionalGotoStatment(LabelSymbol label,BoundExpression condition,bool jumpIfFales =false)
+        public BoundConditionalGotoStatment(LabelSymbol label,BoundExpression condition,bool jumpIfTrue =true)
         {
             Label = label;
             Condition = condition;
-            JumpIfFales = jumpIfFales;
+            JumpIfTrue = jumpIfTrue;
         }
 
         public override BoundNodeKind Kind => BoundNodeKind.ConditionalGotoStatment;
 
         public LabelSymbol Label { get; }
         public BoundExpression Condition { get; }
-        public bool JumpIfFales { get; }
+        public bool JumpIfTrue { get; }
     }
 }
