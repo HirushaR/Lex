@@ -83,8 +83,13 @@ namespace Lex
             else if (input == "#reset")
             {
                 _previous = null;
-                _variables.Clear();
-                
+                _variables.Clear();               
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Invalid command {input}.");
+                Console.ResetColor();
             }
         }
 
