@@ -9,27 +9,19 @@ using Lex.CodeAnalysis.Text;
 
 namespace Lex
 {
-    internal class LexRepl : Repl
+     internal abstract class Repl
     {
-
-    }
-    internal class Repl
-    {
-        private StringBuilder _textBuilder;
-        private Compilation _previous;
-        private bool _showTree;
-        private bool _showProgram;
-        private Dictionary<VariableSymble, object> _variables;
+        private readonly StringBuilder _textBuilder = new StringBuilder();
         public void Run()
         {
     
             while (true)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                if (_textBuilder.Length == 0)
-                    Console.Write("» ");
-                else
+                if (_textBuilder.Length != 0)
                     Console.Write("·");
+                else
+                    Console.Write("» ");
 
                 Console.ResetColor();
 
@@ -53,7 +45,7 @@ namespace Lex
                 _textBuilder.AppendLine(input);
                 var text = _textBuilder.ToString();
 
-                if (IsCompleteSubmition(text))
+                if (!IsCompleteSubmition(text))
                     continue;
 
                 EvaluateSubmition(text);
@@ -61,71 +53,80 @@ namespace Lex
             }
         }
 
-        protected void EvaluateMetaCommand(string input)
+        protected virtual void EvaluateMetaCommand(string input)
         {
-            if (input == "#showTree")
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"Invalid command {input}.");
+            Console.ResetColor();
+        }
+
+        protected abstract bool IsCompleteSubmition(string text);
+
+        protected abstract void EvaluateSubmition(string text);
+      
+    
+    }
+   
+    internal sealed class LexRepl : Repl
+    {
+        private Compilation _previous;
+        private bool _showTree;
+        private bool _showProgram;
+        private readonly Dictionary<VariableSymble, object> _variables = new Dictionary<VariableSymble, object>();
+
+      
+        protected override void EvaluateMetaCommand(string input)
+        {
+            switch (input)
             {
-                _showTree = !_showTree;
-                Console.WriteLine(_showTree ? "Showing parse trees." : "Not showing parse trees");
-                
-            }
-            else if (input == "#showProgram")
-            {
-                _showProgram = !_showProgram;
-                Console.WriteLine(_showProgram ? "Showing Bound trees." : "Not showing Bound trees");
-               
-            }
-            else if (input == "#cls")
-            {
-                Console.Clear();
-               
-            }
-            else if (input == "#reset")
-            {
-                _previous = null;
-                _variables.Clear();               
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"Invalid command {input}.");
-                Console.ResetColor();
+                case "#showTree":
+                    _showTree = !_showTree;
+                    Console.WriteLine(_showTree ? "Showing parse trees." : "Not showing parse trees.");
+                    break;
+                case "#showProgram":
+                    _showProgram = !_showProgram;
+                    Console.WriteLine(_showProgram ? "Showing bound tree." : "Not showing bound tree.");
+                    break;
+                case "#cls":
+                    Console.Clear();
+                    break;
+                case "#reset":
+                    _previous = null;
+                    _variables.Clear();
+                    break;
+                default:
+                    base.EvaluateMetaCommand(input);
+                    break;
             }
         }
 
-        protected bool IsCompleteSubmition(string text)
+        protected override bool IsCompleteSubmition(string text)
         {
             if (string.IsNullOrEmpty(text))
-                return false;
-            
+                return true;
+
             var syntaxTree = SyntaxTree.Parse(text);
 
-            if(syntaxTree.Diagnostics.Any())
+            if (syntaxTree.Diagnostics.Any())
                 return false;
             
             return true;
-
         }
-        protected void EvaluateSubmition(string text)
+
+        protected override void EvaluateSubmition(string text)
         {
             var syntaxTree = SyntaxTree.Parse(text);
-
 
             var compilation = _previous == null
                                 ? new Compilation(syntaxTree)
                                 : _previous.ContinueWith(syntaxTree);
 
-
-
             if (_showTree)
-            {
                 syntaxTree.Root.WriteTo(Console.Out);
-            }
+
             if (_showProgram)
-            {
                 compilation.EmitTree(Console.Out);
 
-            }
             var result = compilation.Evaluate(_variables);
 
             if (!result.Diagnostics.Any())
@@ -137,19 +138,17 @@ namespace Lex
             }
             else
             {
-
-
                 foreach (var diagnostic in result.Diagnostics)
                 {
                     var lineIndex = syntaxTree.Text.GetLineIndex(diagnostic.Span.Start);
-                    var lineNumber = lineIndex + 1;
                     var line = syntaxTree.Text.Lines[lineIndex];
+                    var lineNumber = lineIndex + 1;
                     var character = diagnostic.Span.Start - line.Start + 1;
 
                     Console.WriteLine();
 
                     Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.Write($"({lineNumber}, {character}) : ");
+                    Console.Write($"({lineNumber}, {character}): ");
                     Console.WriteLine(diagnostic);
                     Console.ResetColor();
 
@@ -171,11 +170,12 @@ namespace Lex
 
                     Console.WriteLine();
                 }
+
                 Console.WriteLine();
             }
         }
-    
     }
+   
     internal static class Program
     {
         private static void Main()
