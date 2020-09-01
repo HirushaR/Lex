@@ -9,9 +9,9 @@ using Lex.CodeAnalysis.Text;
 
 namespace Lex
 {
-    internal static class Program
+    internal class Repl
     {
-        private static void Main()
+      public void Run()
         {
             var showTree = false;
             var showProgram = false;
@@ -136,7 +136,16 @@ namespace Lex
                 textBuilder.Clear();
             }
         }
-
-      
+  
+    }
+    internal static class Program
+    {
+        private static void Main()
+        {
+           var repl = new Repl();
+           repl.Run();
+         
+        }
+  
     }
 }
