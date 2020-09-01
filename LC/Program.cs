@@ -15,20 +15,18 @@ namespace Lex
     }
     internal class Repl
     {
-        private StringBuilder _inputBuilder;
+        private StringBuilder _textBuilder;
         private Compilation _previous;
+        private bool _showTree;
+        private bool _showProgram;
+        private Dictionary<VariableSymble, object> _variables;
         public void Run()
         {
-            var showTree = false;
-            var showProgram = false;
-            var variables = new Dictionary<VariableSymble, object>();
-            var textBuilder = new StringBuilder();
-            
-
+    
             while (true)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                if (textBuilder.Length == 0)
+                if (_textBuilder.Length == 0)
                     Console.Write("» ");
                 else
                     Console.Write("·");
@@ -39,20 +37,20 @@ namespace Lex
                 var isBlank = string.IsNullOrWhiteSpace(input);
 
 
-                if (textBuilder.Length == 0)
+                if (_textBuilder.Length == 0)
                 {
                     if (isBlank)
                         break;
                     else if (input == "#showTree")
                     {
-                        showTree = !showTree;
-                        Console.WriteLine(showTree ? "Showing parse trees." : "Not showing parse trees");
+                        _showTree = !_showTree;
+                        Console.WriteLine(_showTree ? "Showing parse trees." : "Not showing parse trees");
                         continue;
                     }
                     else if (input == "#showProgram")
                     {
-                        showProgram = !showProgram;
-                        Console.WriteLine(showProgram ? "Showing Bound trees." : "Not showing Bound trees");
+                        _showProgram = !_showProgram;
+                        Console.WriteLine(_showProgram ? "Showing Bound trees." : "Not showing Bound trees");
                         continue;
                     }
                     else if (input == "#cls")
@@ -63,23 +61,36 @@ namespace Lex
                     else if (input == "#reset")
                     {
                         _previous = null;
-                        variables.Clear();
+                        _variables.Clear();
                         continue;
                     }
                 }
 
-                textBuilder.AppendLine(input);
-                var text = textBuilder.ToString();
+                _textBuilder.AppendLine(input);
+                var text = _textBuilder.ToString();
 
                 if (IsCompleteSubmition(text))
                     continue;
 
-                Evaluate(showTree, showProgram, variables, text);
-                textBuilder.Clear();
+                EvaluateSubmition(text);
+                _textBuilder.Clear();
             }
         }
+              
+        protected bool IsCompleteSubmition(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return false;
+            
+            var syntaxTree = SyntaxTree.Parse(text);
 
-        private void Evaluate(bool showTree, bool showProgram, Dictionary<VariableSymble, object> variables, string text)
+            if(syntaxTree.Diagnostics.Any())
+                return false;
+            
+            return true;
+
+        }
+        protected void EvaluateSubmition(string text)
         {
             var syntaxTree = SyntaxTree.Parse(text);
 
@@ -90,16 +101,16 @@ namespace Lex
 
 
 
-            if (showTree)
+            if (_showTree)
             {
                 syntaxTree.Root.WriteTo(Console.Out);
             }
-            if (showProgram)
+            if (_showProgram)
             {
                 compilation.EmitTree(Console.Out);
 
             }
-            var result = compilation.Evaluate(variables);
+            var result = compilation.Evaluate(_variables);
 
             if (!result.Diagnostics.Any())
             {
@@ -146,20 +157,6 @@ namespace Lex
                 }
                 Console.WriteLine();
             }
-        }
-
-        protected bool IsCompleteSubmition(string text)
-        {
-            if (string.IsNullOrEmpty(text))
-                return false;
-            
-            var syntaxTree = SyntaxTree.Parse(text);
-
-            if(syntaxTree.Diagnostics.Any())
-                return false;
-            
-            return true;
-
         }
     
     }
