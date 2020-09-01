@@ -41,29 +41,13 @@ namespace Lex
                 {
                     if (isBlank)
                         break;
-                    else if (input == "#showTree")
+
+                    else if (input.StartsWith("#"))
                     {
-                        _showTree = !_showTree;
-                        Console.WriteLine(_showTree ? "Showing parse trees." : "Not showing parse trees");
+                        EvaluateMetaCommand(input);
                         continue;
                     }
-                    else if (input == "#showProgram")
-                    {
-                        _showProgram = !_showProgram;
-                        Console.WriteLine(_showProgram ? "Showing Bound trees." : "Not showing Bound trees");
-                        continue;
-                    }
-                    else if (input == "#cls")
-                    {
-                        Console.Clear();
-                        continue;
-                    }
-                    else if (input == "#reset")
-                    {
-                        _previous = null;
-                        _variables.Clear();
-                        continue;
-                    }
+                  
                 }
 
                 _textBuilder.AppendLine(input);
@@ -76,7 +60,34 @@ namespace Lex
                 _textBuilder.Clear();
             }
         }
-              
+
+        protected void EvaluateMetaCommand(string input)
+        {
+            if (input == "#showTree")
+            {
+                _showTree = !_showTree;
+                Console.WriteLine(_showTree ? "Showing parse trees." : "Not showing parse trees");
+                
+            }
+            else if (input == "#showProgram")
+            {
+                _showProgram = !_showProgram;
+                Console.WriteLine(_showProgram ? "Showing Bound trees." : "Not showing Bound trees");
+               
+            }
+            else if (input == "#cls")
+            {
+                Console.Clear();
+               
+            }
+            else if (input == "#reset")
+            {
+                _previous = null;
+                _variables.Clear();
+                
+            }
+        }
+
         protected bool IsCompleteSubmition(string text)
         {
             if (string.IsNullOrEmpty(text))
