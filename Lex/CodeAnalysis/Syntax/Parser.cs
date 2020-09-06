@@ -93,15 +93,15 @@ namespace Lex.CodeAnalysis.Syntax
 
         private StatementSyntax ParseVeriableDeclearation()
         {
-            if (_variables.Contains(Current.Text) && Peek(1).Kind == SyntaxKind.EaqlesToken)
+            if (!_variables.Contains(Current.Text) && Peek(1).Kind == SyntaxKind.EaqlesToken)
             {
-               return ParseExpressionStatement();
+                _variables.Add(Current.Text);
+                var identifier = MatchToken(SyntaxKind.IdentifierToken);
+                var equalToken = MatchToken(SyntaxKind.EaqlesToken);
+                var initializer = ParseExpression();
+                return new VeriableDeclarationSyntax(identifier, equalToken, initializer);
             }
-             _variables.Add(Current.Text);
-            var identifier = MatchToken(SyntaxKind.IdentifierToken);
-            var equalToken = MatchToken(SyntaxKind.EaqlesToken);
-            var initializer = ParseExpression();
-            return new VeriableDeclarationSyntax(identifier,equalToken,initializer);
+            return ParseExpressionStatement();
         }
         private StatementSyntax ParseIfStatement()
         {
