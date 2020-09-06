@@ -33,7 +33,6 @@ namespace Lex
                         EvaluateMetaCommand(input);
                         continue;
                     }
-                  
                 }
 
                 _textBuilder.AppendLine(input);
