@@ -146,17 +146,17 @@ namespace Lex.Tests.CodeAnalysis
 
             AssertDiagnostics(text, diagnostics);
         }
-        // [Fact]
-        // public void Evaluator_Assigned_Reports_Undefined()
-        // {
-        //     var text = @"[x] = 10";
+        [Fact]
+        public void Evaluator_Assigned_Reports_Undefined()
+        {
+            var text = @"[x] * 10";
 
-        //     var diagnostics = @"
-        //         Variable 'x' doesn't exist.
-        //     ";
+            var diagnostics = @"
+                Variable 'x' doesn't exist.
+            ";
 
-        //     AssertDiagnostics(text, diagnostics);
-        // }
+            AssertDiagnostics(text, diagnostics);
+        }
 
         // [Fact]
         // public void Evaluator_Assigned_Reports_CannotAssign()
