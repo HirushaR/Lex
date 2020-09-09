@@ -80,7 +80,8 @@ namespace Lex
 
             private void UpdateCurserPosition()
             {
-                throw new NotImplementedException();
+                Console.CursorTop = _cursortop + currentLineIndex;
+                Console.CursorLeft = 2 + currentLineCharacter;
             }
 
             private int currentLineIndex;
@@ -92,7 +93,12 @@ namespace Lex
 
             public void SetCurrentLineIndex(int value)
             {
-                currentLineIndex = value;
+                if(currentLineIndex != value)
+                {
+                     currentLineIndex = value;
+                     UpdateCurserPosition();
+                }
+               
             }
 
             private int currentLineCharacter;
@@ -104,7 +110,12 @@ namespace Lex
 
             public void SetCurrentLineCharacter(int value)
             {
-                currentLineCharacter = value;
+                if(currentLineCharacter != value)
+                {
+                    currentLineCharacter = value;
+                    UpdateCurserPosition();
+                }
+
             }
         }
 
