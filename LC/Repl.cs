@@ -84,39 +84,32 @@ namespace Lex
                 Console.CursorLeft = 2 + currentLineCharacter;
             }
 
-            private int currentLineIndex;
-
-            public int GetCurrentLineIndex()
+            public int currentLineIndex
             {
-                return currentLineIndex;
-            }
-
-            public void SetCurrentLineIndex(int value)
-            {
-                if(currentLineIndex != value)
-                {
-                     currentLineIndex = value;
-                     UpdateCurserPosition();
+                get => currentLineIndex;
+                set{
+                    if(currentLineIndex != value)
+                    {
+                        currentLineIndex = value;
+                        UpdateCurserPosition();
+                    }
                 }
-               
             }
 
-            private int currentLineCharacter;
+           
 
-            public int GetCurrentLineCharacter()
+            public int currentLineCharacter
             {
-                return currentLineCharacter;
-            }
-
-            public void SetCurrentLineCharacter(int value)
-            {
-                if(currentLineCharacter != value)
-                {
-                    currentLineCharacter = value;
-                    UpdateCurserPosition();
+                get => currentLineCharacter;
+                set{
+                    if(currentLineCharacter != value)
+                    {
+                        currentLineCharacter = value;
+                        UpdateCurserPosition();
+                    }
                 }
-
             }
+
         }
 
           private String EditSubmission()
@@ -154,11 +147,44 @@ namespace Lex
                         break;
                     default:
                         if(key.KeyChar >= ' ')
-                            HandleTyping(document,view);
+                            HandleTyping(document,view,key.KeyChar.ToString());
                         break;
                 }
             }
             
+        }
+
+        private void HandleEnter(ObservableCollection<string> document, SubmissionView view)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void HandleLeftArrow(ObservableCollection<string> document, SubmissionView view)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void HandleRightArrow(ObservableCollection<string> document, SubmissionView view)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void HandleUpArrow(ObservableCollection<string> document, SubmissionView view)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void HandleDownArrow(ObservableCollection<string> document, SubmissionView view)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void HandleTyping(ObservableCollection<string> document, SubmissionView view, string text)
+        {
+           var lineIndex = view.currentLineIndex;
+           var start = view.currentLineCharacter;
+           document[lineIndex] = document[lineIndex].Insert(start, text);
+           view.currentLineCharacter += text.Length;
         }
 
         private String EditSubmissionOld()
