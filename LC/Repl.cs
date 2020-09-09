@@ -5,26 +5,24 @@ namespace Lex
 {
     internal abstract class Repl
     {
-        private readonly StringBuilder _textBuilder = new StringBuilder();
+        
         public void Run()
         {
     
             while (true)
             {
-                
-
                 var text = EditSubmission();
                 if (text == null)
                     return;
 
                 EvaluateSubmition(text);
-                _textBuilder.Clear();
+               
             }
         }
 
         private String EditSubmission()
         {
-            StringBuilder textBuilder = new StringBuilder();
+            StringBuilder _textBuilder = new StringBuilder();
             while (true)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
