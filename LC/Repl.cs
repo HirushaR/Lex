@@ -156,7 +156,9 @@ namespace Lex
 
         private void HandleEnter(ObservableCollection<string> document, SubmissionView view)
         {
-            throw new NotImplementedException();
+            document.Add(string.Empty);
+            view.currentLineCharacter =0;
+            view.currentLineIndex = document.Count -1 ;
         }
 
         private void HandleLeftArrow(ObservableCollection<string> document, SubmissionView view)
