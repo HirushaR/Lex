@@ -40,7 +40,7 @@ namespace Lex
             private void Render()
             {
                Console.SetCursorPosition(0,_cursortop);
-
+               Console.CursorVisible = false;
 
                var lineCount = 0;
 
@@ -72,7 +72,15 @@ namespace Lex
                }
 
                _renderedLineCount = lineCount;
+
+               Console.CursorVisible = true;
+               UpdateCurserPosition();
                
+            }
+
+            private void UpdateCurserPosition()
+            {
+                throw new NotImplementedException();
             }
 
             private int currentLineIndex;
