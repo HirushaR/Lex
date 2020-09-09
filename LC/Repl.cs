@@ -42,9 +42,9 @@ namespace Lex
                 if (_textBuilder.Length == 0)
                 {
                     if (isBlank)
-                        break;
+                        return null;
 
-                    else if (input.StartsWith("#"))
+                    if (input.StartsWith("#"))
                     {
                         EvaluateMetaCommand(input);
                         continue;
