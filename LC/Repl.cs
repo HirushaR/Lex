@@ -34,7 +34,9 @@ namespace Lex
                 _cursortop = Console.CursorTop;
             }
 
-            private void SubmissionDocumentChange(object sender, NotifyCollectionChangedEventArgs e)
+            private void SubmissionDocumentChange(object sender, NotifyCollectionChangedEventArgs e) => Render();
+
+            private void Render()
             {
                 throw new NotImplementedException();
             }
