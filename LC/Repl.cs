@@ -133,6 +133,31 @@ namespace Lex
 
         private void HandleKey(ConsoleKeyInfo key, ObservableCollection<string> document, SubmissionView view)
         {
+            if(key.Modifiers == default(ConsoleModifiers))
+            {
+                switch( key.Key)
+                {
+                    case ConsoleKey.Enter:
+                        HandleEnter(document,view);
+                        break;
+                    case ConsoleKey.LeftArrow:
+                        HandleLeftArrow(document,view);
+                        break;
+                    case ConsoleKey.RightArrow:
+                        HandleRightArrow(document,view);
+                        break;
+                    case ConsoleKey.UpArrow:
+                        HandleUpArrow(document,view);
+                        break;
+                    case ConsoleKey.DownArrow:
+                        HandleDownArrow(document,view);
+                        break;
+                    default:
+                        if(key.KeyChar >= ' ')
+                            HandleTyping(document,view);
+                        break;
+                }
+            }
             
         }
 
