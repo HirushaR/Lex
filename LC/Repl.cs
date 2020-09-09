@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Text;
 
 namespace Lex
@@ -28,6 +29,12 @@ namespace Lex
             public SubmissionView(ObservableCollection<String> submissionDocument)
             {
                 _submissionDocument = submissionDocument;
+                _submissionDocument.CollectionChanged += SubmissionDocumentChange;
+            }
+
+            private void SubmissionDocumentChange(object sender, NotifyCollectionChangedEventArgs e)
+            {
+                throw new NotImplementedException();
             }
         }
 
