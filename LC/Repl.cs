@@ -87,7 +87,17 @@ namespace Lex
                 currentLineIndex = value;
             }
 
-            public int CurrentLineChacter {get;set;}
+            private int currentLineCharacter;
+
+            public int GetCurrentLineCharacter()
+            {
+                return currentLineCharacter;
+            }
+
+            public void SetCurrentLineCharacter(int value)
+            {
+                currentLineCharacter = value;
+            }
         }
 
           private String EditSubmission()
