@@ -169,7 +169,7 @@ namespace Lex
         {
             var line = document[view.currentLineIndex];
             if(view.currentLineCharacter < line.Length -1)
-                view.currentLineCharacter--;
+                view.currentLineCharacter++;
         }
 
         private void HandleUpArrow(ObservableCollection<string> document, SubmissionView view)
@@ -180,7 +180,8 @@ namespace Lex
 
         private void HandleDownArrow(ObservableCollection<string> document, SubmissionView view)
         {
-            throw new NotImplementedException();
+            if(view.currentLineIndex < document.Count -1)
+                view.currentLineIndex++;
         }
 
         private void HandleTyping(ObservableCollection<string> document, SubmissionView view, string text)
