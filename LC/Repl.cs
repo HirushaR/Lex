@@ -156,6 +156,13 @@ namespace Lex
 
         private void HandleEnter(ObservableCollection<string> document, SubmissionView view)
         {
+            var documentText = string.Join(Environment.NewLine, document);
+            if(IsCompleteSubmition(documentText))
+            {
+                _documnetText = documentText;
+                return;
+            }
+
             document.Add(string.Empty);
             view.currentLineCharacter =0;
             view.currentLineIndex = document.Count -1 ;
