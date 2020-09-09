@@ -161,7 +161,8 @@ namespace Lex
 
         private void HandleLeftArrow(ObservableCollection<string> document, SubmissionView view)
         {
-            throw new NotImplementedException();
+            if(view.currentLineCharacter > 0)
+                view.currentLineCharacter--;
         }
 
         private void HandleRightArrow(ObservableCollection<string> document, SubmissionView view)
