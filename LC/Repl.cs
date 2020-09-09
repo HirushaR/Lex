@@ -11,7 +11,7 @@ namespace Lex
     
             while (true)
             {
-                Console.ForegroundColor = ConsoleColor.Green;
+                
 
                 var text = EditSubmission();
                 if (text == null)
@@ -24,9 +24,11 @@ namespace Lex
 
         private String EditSubmission()
         {
+            StringBuilder textBuilder = new StringBuilder();
             while (true)
             {
-                 if (_textBuilder.Length != 0)
+                Console.ForegroundColor = ConsoleColor.Green;
+                if (_textBuilder.Length != 0)
                     Console.Write("·");
                 else
                     Console.Write("» ");
@@ -40,9 +42,9 @@ namespace Lex
                 if (_textBuilder.Length == 0)
                 {
                     if (isBlank)
-                        break;
+                        return null;
 
-                    else if (input.StartsWith("#"))
+                    if (input.StartsWith("#"))
                     {
                         EvaluateMetaCommand(input);
                         continue;
