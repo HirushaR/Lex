@@ -8,6 +8,7 @@ namespace Lex
     internal abstract class Repl
     {
         
+        private string _submissionText;
         public void Run()
         {
     
@@ -26,6 +27,7 @@ namespace Lex
         {
             private readonly ObservableCollection<string> _submissionDocument;
             private readonly int _cursortop;
+            private int  _renderedLineCount;
 
             public SubmissionView(ObservableCollection<String> submissionDocument)
             {
@@ -38,11 +40,171 @@ namespace Lex
 
             private void Render()
             {
-                throw new NotImplementedException();
+               Console.SetCursorPosition(0,_cursortop);
+               Console.CursorVisible = false;
+
+               var lineCount = 0;
+
+               foreach(var line in _submissionDocument)
+               {
+                   Console.ForegroundColor = ConsoleColor.Green;
+                    
+                    if (lineCount == 0)
+                        Console.Write("·");
+                    else
+                    {
+                       
+                        Console.Write("» ");
+                    }
+                        
+                    Console.ResetColor();
+                    Console.WriteLine(line);
+                    lineCount++;
+                   
+               }
+               var numberOfBlankLines = _renderedLineCount - lineCount;
+               if(numberOfBlankLines > 0)
+               {
+                    var blankLine = new string(' ', Console.WindowWidth);
+                    while(numberOfBlankLines > 0)
+                    {
+                        Console.WriteLine(blankLine);
+                    }
+               }
+
+               _renderedLineCount = lineCount;
+
+               Console.CursorVisible = true;
+               UpdateCurserPosition();
+               
             }
+
+            private void UpdateCurserPosition()
+            {
+                Console.CursorTop = _cursortop + currentLineIndex;
+                Console.CursorLeft = 2 + currentLineCharacter;
+            }
+
+            public int currentLineIndex
+            {
+                get => currentLineIndex;
+                set{
+                    if(currentLineIndex != value)
+                    {
+                        currentLineIndex = value;
+                        UpdateCurserPosition();
+                    }
+                }
+            }
+
+           
+
+            public int currentLineCharacter
+            {
+                get => currentLineCharacter;
+                set{
+                    if(currentLineCharacter != value)
+                    {
+                        currentLineCharacter = value;
+                        UpdateCurserPosition();
+                    }
+                }
+            }
+
         }
 
-        private String EditSubmission()
+          private String EditSubmission()
+          {
+              _submissionText = null;
+              var document = new ObservableCollection<string>();
+              var view = new SubmissionView(document);
+
+              while (_submissionText == null)
+              {
+                  var key = Console.ReadKey(true);
+                  HandleKey(key,document,view);
+              }
+              return _submissionText;
+          }
+
+        private void HandleKey(ConsoleKeyInfo key, ObservableCollection<string> document, SubmissionView view)
+        {
+            if(key.Modifiers == default(ConsoleModifiers))
+            {
+                switch( key.Key)
+                {
+                    case ConsoleKey.Enter:
+                        HandleEnter(document,view);
+                        break;
+                    case ConsoleKey.LeftArrow:
+                        HandleLeftArrow(document,view);
+                        break;
+                    case ConsoleKey.RightArrow:
+                        HandleRightArrow(document,view);
+                        break;
+                    case ConsoleKey.UpArrow:
+                        HandleUpArrow(document,view);
+                        break;
+                    case ConsoleKey.DownArrow:
+                        HandleDownArrow(document,view);
+                        break;
+                    default:
+                        if(key.KeyChar >= ' ')
+                            HandleTyping(document,view,key.KeyChar.ToString());
+                        break;
+                }
+            }
+            
+        }
+
+        private void HandleEnter(ObservableCollection<string> document, SubmissionView view)
+        {
+            var submissionText = string.Join(Environment.NewLine, document);
+            if(IsCompleteSubmition(submissionText))
+            {
+                _submissionText = submissionText;
+                return;
+            }
+
+            document.Add(string.Empty);
+            view.currentLineCharacter =0;
+            view.currentLineIndex = document.Count -1 ;
+        }
+
+        private void HandleLeftArrow(ObservableCollection<string> document, SubmissionView view)
+        {
+            if(view.currentLineCharacter > 0)
+                view.currentLineCharacter--;
+        }
+
+        private void HandleRightArrow(ObservableCollection<string> document, SubmissionView view)
+        {
+            var line = document[view.currentLineIndex];
+            if(view.currentLineCharacter < line.Length -1)
+                view.currentLineCharacter++;
+        }
+
+        private void HandleUpArrow(ObservableCollection<string> document, SubmissionView view)
+        {
+            if(view.currentLineIndex > 0)
+                view.currentLineIndex--;
+        }
+
+        private void HandleDownArrow(ObservableCollection<string> document, SubmissionView view)
+        {
+            if(view.currentLineIndex < document.Count -1)
+                view.currentLineIndex++;
+        }
+
+        private void HandleTyping(ObservableCollection<string> document, SubmissionView view, string text)
+        {
+           var lineIndex = view.currentLineIndex;
+           var start = view.currentLineCharacter;
+           document[lineIndex] = document[lineIndex].Insert(start, text);
+           view.currentLineCharacter += text.Length;
+        }
+
+        private String EditSubmissionOld()
         {
             StringBuilder _textBuilder = new StringBuilder();
             while (true)
