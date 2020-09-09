@@ -38,7 +38,26 @@ namespace Lex
 
             private void Render()
             {
-                throw new NotImplementedException();
+               Console.SetCursorPosition(0,_cursortop);
+
+               var isFirst = true;
+
+               foreach(var line in _submissionDocument)
+               {
+                   Console.ForegroundColor = ConsoleColor.Green;
+                    
+                    if (isFirst)
+                        Console.Write("·");
+                    else
+                    {
+                        isFirst = false;
+                        Console.Write("» ");
+                    }
+                        
+
+                   Console.WriteLine(line);
+                   Console.ResetColor();
+               }
             }
         }
 
