@@ -174,7 +174,8 @@ namespace Lex
 
         private void HandleUpArrow(ObservableCollection<string> document, SubmissionView view)
         {
-            throw new NotImplementedException();
+            if(view.currentLineIndex > 0)
+                view.currentLineIndex--;
         }
 
         private void HandleDownArrow(ObservableCollection<string> document, SubmissionView view)
