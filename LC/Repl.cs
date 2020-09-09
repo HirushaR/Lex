@@ -74,6 +74,20 @@ namespace Lex
                _renderedLineCount = lineCount;
                
             }
+
+            private int currentLineIndex;
+
+            public int GetCurrentLineIndex()
+            {
+                return currentLineIndex;
+            }
+
+            public void SetCurrentLineIndex(int value)
+            {
+                currentLineIndex = value;
+            }
+
+            public int CurrentLineChacter {get;set;}
         }
 
           private String EditSubmission()
