@@ -47,6 +47,32 @@ namespace Lex
             }
         }
 
+        private String EditSubmission()
+        {
+            var input = Console.ReadLine();
+            var isBlank = string.IsNullOrWhiteSpace(input);
+
+
+            if (_textBuilder.Length == 0)
+            {
+                if (isBlank)
+                    break;
+
+                else if (input.StartsWith("#"))
+                {
+                    EvaluateMetaCommand(input);
+                    continue;
+                }
+                
+            }
+
+            _textBuilder.AppendLine(input);
+            var text = _textBuilder.ToString();
+
+            if (!IsCompleteSubmition(text))
+                continue;
+        }
+
         protected virtual void EvaluateMetaCommand(string input)
         {
             Console.ForegroundColor = ConsoleColor.Red;
