@@ -1,4 +1,5 @@
 using System;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace Lex
@@ -17,6 +18,16 @@ namespace Lex
 
                 EvaluateSubmition(text);
                
+            }
+        }
+
+        private sealed class SubmissionView
+        {
+            private readonly ObservableCollection<string> _submissionDocument;
+
+            public SubmissionView(ObservableCollection<String> submissionDocument)
+            {
+                _submissionDocument = submissionDocument;
             }
         }
 
