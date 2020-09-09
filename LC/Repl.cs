@@ -8,12 +8,13 @@ namespace Lex
     internal abstract class Repl
     {
         
+        private string _submissionText;
         public void Run()
         {
     
             while (true)
             {
-                var text = EditSubmissionOld();
+                var text = EditSubmission();
                 if (text == null)
                     return;
 
@@ -114,14 +115,16 @@ namespace Lex
 
           private String EditSubmission()
           {
+              _submissionText = null;
               var document = new ObservableCollection<string>();
               var view = new SubmissionView(document);
 
-              while (true)
+              while (_submissionText == null)
               {
                   var key = Console.ReadKey(true);
                   HandleKey(key,document,view);
               }
+              return _submissionText;
           }
 
         private void HandleKey(ConsoleKeyInfo key, ObservableCollection<string> document, SubmissionView view)
@@ -156,10 +159,10 @@ namespace Lex
 
         private void HandleEnter(ObservableCollection<string> document, SubmissionView view)
         {
-            var documentText = string.Join(Environment.NewLine, document);
-            if(IsCompleteSubmition(documentText))
+            var submissionText = string.Join(Environment.NewLine, document);
+            if(IsCompleteSubmition(submissionText))
             {
-                _documnetText = documentText;
+                _submissionText = submissionText;
                 return;
             }
 
