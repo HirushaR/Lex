@@ -26,7 +26,7 @@ namespace Lex
         {
             private readonly ObservableCollection<string> _submissionDocument;
             private readonly int _cursortop;
-            private int  _maxRenderedLineCount;
+            private int  _renderedLineCount;
 
             public SubmissionView(ObservableCollection<String> submissionDocument)
             {
@@ -61,6 +61,18 @@ namespace Lex
                     lineCount++;
                    
                }
+               var numberOfBlankLines = _renderedLineCount - lineCount;
+               if(numberOfBlankLines > 0)
+               {
+                    var blankLine = new string(' ', Console.WindowWidth);
+                    while(numberOfBlankLines > 0)
+                    {
+                        Console.WriteLine(blankLine);
+                    }
+               }
+
+               _renderedLineCount = lineCount;
+               
             }
         }
 
