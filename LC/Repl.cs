@@ -25,14 +25,18 @@ namespace Lex
         private sealed class SubmissionView
         {
             private readonly ObservableCollection<string> _submissionDocument;
+            private readonly int _cursortop;
 
             public SubmissionView(ObservableCollection<String> submissionDocument)
             {
                 _submissionDocument = submissionDocument;
                 _submissionDocument.CollectionChanged += SubmissionDocumentChange;
+                _cursortop = Console.CursorTop;
             }
 
-            private void SubmissionDocumentChange(object sender, NotifyCollectionChangedEventArgs e)
+            private void SubmissionDocumentChange(object sender, NotifyCollectionChangedEventArgs e) => Render();
+
+            private void Render()
             {
                 throw new NotImplementedException();
             }
