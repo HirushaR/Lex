@@ -13,7 +13,9 @@ namespace Lex
             {
                 Console.ForegroundColor = ConsoleColor.Green;
 
- 
+                var text = EditSubmission();
+                if (text == null)
+                    return;
 
                 EvaluateSubmition(text);
                 _textBuilder.Clear();
