@@ -87,6 +87,12 @@ namespace Lex
                   HandleKey(key,document,view);
               }
           }
+
+        private void HandleKey(ConsoleKeyInfo key, ObservableCollection<string> document, SubmissionView view)
+        {
+            
+        }
+
         private String EditSubmissionOld()
         {
             StringBuilder _textBuilder = new StringBuilder();
