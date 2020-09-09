@@ -26,6 +26,7 @@ namespace Lex
         {
             private readonly ObservableCollection<string> _submissionDocument;
             private readonly int _cursortop;
+            private int  _maxRenderedLineCount;
 
             public SubmissionView(ObservableCollection<String> submissionDocument)
             {
@@ -40,23 +41,25 @@ namespace Lex
             {
                Console.SetCursorPosition(0,_cursortop);
 
-               var isFirst = true;
+
+               var lineCount = 0;
 
                foreach(var line in _submissionDocument)
                {
                    Console.ForegroundColor = ConsoleColor.Green;
                     
-                    if (isFirst)
+                    if (lineCount == 0)
                         Console.Write("·");
                     else
                     {
-                        isFirst = false;
+                       
                         Console.Write("» ");
                     }
                         
-
-                   Console.WriteLine(line);
-                   Console.ResetColor();
+                    Console.ResetColor();
+                    Console.WriteLine(line);
+                    lineCount++;
+                   
                }
             }
         }
