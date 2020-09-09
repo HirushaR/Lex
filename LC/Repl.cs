@@ -12,7 +12,19 @@ namespace Lex
             while (true)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                if (_textBuilder.Length != 0)
+
+ 
+
+                EvaluateSubmition(text);
+                _textBuilder.Clear();
+            }
+        }
+
+        private String EditSubmission()
+        {
+            while (true)
+            {
+                 if (_textBuilder.Length != 0)
                     Console.Write("·");
                 else
                     Console.Write("» ");
@@ -42,35 +54,10 @@ namespace Lex
                 if (!IsCompleteSubmition(text))
                     continue;
 
-                EvaluateSubmition(text);
-                _textBuilder.Clear();
+                return text;
+               
             }
-        }
-
-        private String EditSubmission()
-        {
-            var input = Console.ReadLine();
-            var isBlank = string.IsNullOrWhiteSpace(input);
-
-
-            if (_textBuilder.Length == 0)
-            {
-                if (isBlank)
-                    break;
-
-                else if (input.StartsWith("#"))
-                {
-                    EvaluateMetaCommand(input);
-                    continue;
-                }
-                
-            }
-
-            _textBuilder.AppendLine(input);
-            var text = _textBuilder.ToString();
-
-            if (!IsCompleteSubmition(text))
-                continue;
+            
         }
 
         protected virtual void EvaluateMetaCommand(string input)
