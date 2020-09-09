@@ -13,7 +13,7 @@ namespace Lex
     
             while (true)
             {
-                var text = EditSubmission();
+                var text = EditSubmissionOld();
                 if (text == null)
                     return;
 
@@ -76,7 +76,18 @@ namespace Lex
             }
         }
 
-        private String EditSubmission()
+          private String EditSubmission()
+          {
+              var document = new ObservableCollection<string>();
+              var view = new SubmissionView(document);
+
+              while (true)
+              {
+                  var key = Console.ReadKey(true);
+                  HandleKey(key,document,view);
+              }
+          }
+        private String EditSubmissionOld()
         {
             StringBuilder _textBuilder = new StringBuilder();
             while (true)
