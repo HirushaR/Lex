@@ -317,6 +317,13 @@ namespace Lex
             document[view.CurrentLine] = line.Insert(start, new string(' ', remainingSpaces));
             view.CurrentCharacter += remainingSpaces;
         }
+         private void HandlePageUp(ObservableCollection<string> document, SubmissionView view)
+        {
+            _submissionHistoryIndex--;
+            if (_submissionHistoryIndex < 0)
+                _submissionHistoryIndex = _submissionHistory.Count - 1;
+            UpdateDocumentFromHistory(document, view);
+        }
 
 
         protected virtual void EvaluateMetaCommand(string input)
