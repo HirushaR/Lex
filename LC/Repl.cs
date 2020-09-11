@@ -300,6 +300,10 @@ namespace Lex
             var after = line.Substring(start + 1);            
             document[lineIndex] = before + after;
         }
+         private void HandleHome(ObservableCollection<string> document, SubmissionView view)
+        {
+            view.CurrentCharacter = 0;
+        }
 
 
         protected virtual void EvaluateMetaCommand(string input)
