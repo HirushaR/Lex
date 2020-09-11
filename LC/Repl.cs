@@ -230,6 +230,16 @@ namespace Lex
         {
             InsertLine(document, view);
         }
+        private static void InsertLine(ObservableCollection<string> document, SubmissionView view)
+        {
+            var remainder = document[view.CurrentLine].Substring(view.CurrentCharacter);
+            document[view.CurrentLine] = document[view.CurrentLine].Substring(0, view.CurrentCharacter);
+
+            var lineIndex = view.CurrentLine + 1;
+            document.Insert(lineIndex, remainder);
+            view.CurrentCharacter = 0;
+            view.CurrentLine = lineIndex;
+        }
 
 
         protected virtual void EvaluateMetaCommand(string input)
