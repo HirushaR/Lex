@@ -35,8 +35,8 @@ namespace Lex
         {
             private readonly Action<string> _lineRenderer;
             private readonly ObservableCollection<string> _submissionDocument;
-            private readonly int _cursorTop;
-            private int _renderedLineCount;
+            private readonly int _cursortop;
+            private int  _renderedLineCount;
             private int _currentLine;
             private int _currentCharacter;
 
@@ -95,7 +95,7 @@ namespace Lex
 
             private void UpdateCursorPosition()
             {
-                Console.CursorTop = _cursorTop + _currentLine;
+                Console.CursorTop = _cursortop + _currentLine;
                 Console.CursorLeft = 2 + _currentCharacter;
             }
 
@@ -109,7 +109,7 @@ namespace Lex
                         _currentLine = value;
                         _currentCharacter = Math.Min(_submissionDocument[_currentLine].Length, _currentCharacter);
 
-                        UpdateCursorPosition();
+                        UpdateCurserPosition();
                     }
                 }
             }
@@ -122,7 +122,7 @@ namespace Lex
                     if (_currentCharacter != value)
                     {
                         _currentCharacter = value;
-                        UpdateCursorPosition();
+                        UpdateCurserPosition();
                     }
                 }
             }
@@ -224,11 +224,14 @@ namespace Lex
                 return;
             }
 
+
             InsertLine(document, view);
         }
         private void HandleControlEnter(ObservableCollection<string> document, SubmissionView view)
         {
             InsertLine(document, view);
+         
+
         }
         private static void InsertLine(ObservableCollection<string> document, SubmissionView view)
         {
@@ -242,24 +245,34 @@ namespace Lex
         }
         private void HandleLeftArrow(ObservableCollection<string> document, SubmissionView view)
         {
-            if (view.CurrentCharacter > 0)
+            if(view.CurrentCharacter > 0)
                 view.CurrentCharacter--;
         }
         private void HandleRightArrow(ObservableCollection<string> document, SubmissionView view)
         {
             var line = document[view.CurrentLine];
-            if (view.CurrentCharacter <= line.Length - 1)
+            if(view.CurrentCharacter < line.Length -1)
                 view.CurrentCharacter++;
         }
         private void HandleUpArrow(ObservableCollection<string> document, SubmissionView view)
         {
-            if (view.CurrentLine > 0)
+            if(view.CurrentLine > 0)
                 view.CurrentLine--;
         }
         private void HandleDownArrow(ObservableCollection<string> document, SubmissionView view)
         {
-            if (view.CurrentLine < document.Count - 1)
+
+            if(view.CurrentLine < document.Count -1)
                 view.CurrentLine++;
+        }
+
+        private void HandleTyping(ObservableCollection<string> document, SubmissionView view, string text)
+        {
+           var lineIndex = view.CurrentLine;
+           var start = view.CurrentCharacter;
+           document[lineIndex] = document[lineIndex].Insert(start, text);
+           view.CurrentCharacter += text.Length;
+
         }
          private void HandleBackspace(ObservableCollection<string> document, SubmissionView view)
         {
@@ -335,6 +348,13 @@ namespace Lex
         {
             if (_submissionHistory.Count == 0)
                 return;
+
+                    if (input.StartsWith("#"))
+                    {
+                        EvaluateMetaCommand(input);
+                        continue;
+                    }
+                }
 
             document.Clear();
             

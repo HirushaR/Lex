@@ -99,11 +99,6 @@ namespace Lex.CodeAnalysis.Syntax
                     return SyntaxKind.TrueKeyword;          
                  case "if":
                     return SyntaxKind.IfKeyword;
-                case "let":
-                    return SyntaxKind.LetKeyword;
-                           
-                case "var":
-                    return SyntaxKind.VarKeyword;
                  case "while":
                     return SyntaxKind.WhileKeyword;
                 default:
@@ -174,10 +169,6 @@ namespace Lex.CodeAnalysis.Syntax
                         return "to";
                     case SyntaxKind.IfKeyword: 
                         return "if";
-                    case SyntaxKind.LetKeyword: 
-                        return "let";                 
-                    case SyntaxKind.VarKeyword : 
-                        return "var";
                     case SyntaxKind.WhileKeyword : 
                         return "while";
                     

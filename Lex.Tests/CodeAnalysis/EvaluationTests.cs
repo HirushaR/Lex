@@ -74,38 +74,38 @@ namespace Lex.Tests.CodeAnalysis
         [InlineData("false", false)]
         [InlineData("!true", false)]
         [InlineData("!false", true)]
-        [InlineData("{ var a = 0 (a = 10) * a }", 100)]
-        [InlineData("{ var a = 0 if a ==0 a=10 a }", 10)]
-        [InlineData("{ var a = 0 if a == 4 a=10 a }", 0)]
+        [InlineData("{a = 0 (a = 10) * a }", 100)]
+        [InlineData("{a = 0 if a ==0 a=10 a }", 10)]
+        [InlineData("{a = 0 if a == 4 a=10 a }", 0)]
 
-        [InlineData("{ var a = 0 if a ==0 a=10 else a =5 a }", 10)]
-        [InlineData("{ var a = 0 if a == 4 a=10 else a =5 a }", 5)]
-        [InlineData("{ var i = 10 var result = 0 while i > 0 {result = result + i i = i -1} result}", 55)]
-        [InlineData("{ var result = 0 for i = 1 to 10 { result = result + i } result }", 55)]
+        [InlineData("{a = 0 if a == 0 a=10 else a =5 a }", 10)]
+        [InlineData("{a = 0 if a == 4 a=10 else a =5 a }", 5)]
+        [InlineData("{i = 10  result = 0 while i > 0 {result = result + i i = i -1} result}", 55)]
+        [InlineData("{result = 0 for i = 1 to 10 { result = result + i } result }", 55)]
         public void Evaluator_Computes_CorrectValues(string text, object expectedValue)
         {
             AssertValue(text, expectedValue);
         } 
-        [Fact]
-        public void Evaluator_VariableDeclaration_Reports_Redeclaration()
-        {
-            var text = @"
-                {
-                    var x = 10
-                    var y = 100
-                    {
-                        var x = 10
-                    }
-                    var [x] = 5
-                }
-            ";
+        // [Fact]
+        // public void Evaluator_VariableDeclaration_Reports_Redeclaration()
+        // {
+        //     var text = @"
+        //         {
+        //             x = 10
+        //             y = 100
+        //             {
+        //                  x = 10
+        //             }
+        //             [x] = 5
+        //         }
+        //     ";
 
-            var diagnostics = @"
-                Variable 'x' is already declared.
-            ";
+        //     var diagnostics = @"
+        //         Variable 'x' is already declared.
+        //     ";
 
-            AssertDiagnostics(text, diagnostics);
-        }
+        //     AssertDiagnostics(text, diagnostics);
+        // }
        
         [Fact]
         public void Evaluator_BlockStatement_NoInfiniteLoop()
@@ -126,7 +126,7 @@ namespace Lex.Tests.CodeAnalysis
         [Fact]
         public void Evaluator_Name_Reports_Undefined()
         {
-            var text = @"[x] * 10";
+            var text = @"[x] + 10";
 
             var diagnostics = @"
                 Variable 'x' doesn't exist.
@@ -149,7 +149,7 @@ namespace Lex.Tests.CodeAnalysis
         [Fact]
         public void Evaluator_Assigned_Reports_Undefined()
         {
-            var text = @"[x] = 10";
+            var text = @"[x] * 10";
 
             var diagnostics = @"
                 Variable 'x' doesn't exist.
@@ -158,29 +158,29 @@ namespace Lex.Tests.CodeAnalysis
             AssertDiagnostics(text, diagnostics);
         }
 
-        [Fact]
-        public void Evaluator_Assigned_Reports_CannotAssign()
-        {
-            var text = @"
-                {
-                    let x = 10
-                    x [=] 0
-                }
-            ";
+        // [Fact]
+        // public void Evaluator_Assigned_Reports_CannotAssign()
+        // {
+        //     var text = @"
+        //         {
+        //             let x = 10
+        //             x [=] 0
+        //         }
+        //     ";
 
-            var diagnostics = @"
-                Variable 'x' is read-only and cannot be assigned to.
-            ";
+        //     var diagnostics = @"
+        //         Variable 'x' is read-only and cannot be assigned to.
+        //     ";
 
-            AssertDiagnostics(text, diagnostics);
-        }
+        //     AssertDiagnostics(text, diagnostics);
+        // }
 
         [Fact]
         public void Evaluator_Assigned_Reports_CannotConvert()
         {
             var text = @"
                 {
-                    var x = 10
+                    x = 10
                     x = [true]
                 }
             ";
@@ -196,7 +196,7 @@ namespace Lex.Tests.CodeAnalysis
         {
             var text = @"
                 {
-                    var x = 10
+                    x = 10
                     if [10]
                         x = 10
                 }
@@ -214,7 +214,7 @@ namespace Lex.Tests.CodeAnalysis
         {
             var text = @"
                 {
-                    var x = 10
+                    x = 10
                     while [10]
                         x = 10
                 }
@@ -231,7 +231,7 @@ namespace Lex.Tests.CodeAnalysis
         {
             var text = @"
                 {
-                    var result = 10
+                    result = 10
                     for i = [false] to 10
                         result = result + i
                 }
@@ -249,7 +249,7 @@ namespace Lex.Tests.CodeAnalysis
         {
             var text = @"
                 {
-                    var result = 10
+                    result = 10
                     for i = 0 to [true]
                         result = result + i
                 }
