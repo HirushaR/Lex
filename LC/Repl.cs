@@ -282,7 +282,6 @@ namespace Lex
                 view.CurrentLine--;
                 document[view.CurrentLine] = previousLine + currentLine;
                 view.CurrentCharacter = previousLine.Length;
-                return;
             }
             else
             {
