@@ -28,6 +28,8 @@ namespace Lex
             private readonly ObservableCollection<string> _submissionDocument;
             private readonly int _cursortop;
             private int  _renderedLineCount;
+            private int _currentLine;
+            private int _currentCharacter;
 
             public SubmissionView(ObservableCollection<String> submissionDocument)
             {
@@ -81,31 +83,33 @@ namespace Lex
 
             private void UpdateCurserPosition()
             {
-                Console.CursorTop = _cursortop + currentLineIndex;
-                Console.CursorLeft = 2 + currentLineCharacter;
+                Console.CursorTop = _cursortop + _currentLine;
+                Console.CursorLeft = 2 + _currentCharacter;
             }
 
-            public int currentLineIndex
+            public int CurrentLine
             {
-                get => currentLineIndex;
-                set{
-                    if(currentLineIndex != value)
+                get => _currentLine;
+                set
+                {
+                    if (_currentLine != value)
                     {
-                        currentLineIndex = value;
+                        _currentLine = value;
+                        _currentCharacter = Math.Min(_submissionDocument[_currentLine].Length, _currentCharacter);
+
                         UpdateCurserPosition();
                     }
                 }
             }
 
-           
-
-            public int currentLineCharacter
+            public int CurrentCharacter
             {
-                get => currentLineCharacter;
-                set{
-                    if(currentLineCharacter != value)
+                get => _currentCharacter;
+                set
+                {
+                    if (_currentCharacter != value)
                     {
-                        currentLineCharacter = value;
+                        _currentCharacter = value;
                         UpdateCurserPosition();
                     }
                 }
@@ -148,12 +152,11 @@ namespace Lex
                     case ConsoleKey.DownArrow:
                         HandleDownArrow(document,view);
                         break;
-                    default:
-                        if(key.KeyChar >= ' ')
-                            HandleTyping(document,view,key.KeyChar.ToString());
-                        break;
+                    
                 }
-            }
+            } 
+            if (key.KeyChar >= ' ')
+                HandleTyping(document, view, key.KeyChar.ToString());
             
         }
 
@@ -167,41 +170,41 @@ namespace Lex
             }
 
             document.Add(string.Empty);
-            view.currentLineCharacter =0;
-            view.currentLineIndex = document.Count -1 ;
+            view.CurrentCharacter =0;
+            view.CurrentLine = document.Count -1 ;
         }
 
         private void HandleLeftArrow(ObservableCollection<string> document, SubmissionView view)
         {
-            if(view.currentLineCharacter > 0)
-                view.currentLineCharacter--;
+            if(view.CurrentCharacter > 0)
+                view.CurrentCharacter--;
         }
 
         private void HandleRightArrow(ObservableCollection<string> document, SubmissionView view)
         {
-            var line = document[view.currentLineIndex];
-            if(view.currentLineCharacter < line.Length -1)
-                view.currentLineCharacter++;
+            var line = document[view.CurrentLine];
+            if(view.CurrentCharacter < line.Length -1)
+                view.CurrentCharacter++;
         }
 
         private void HandleUpArrow(ObservableCollection<string> document, SubmissionView view)
         {
-            if(view.currentLineIndex > 0)
-                view.currentLineIndex--;
+            if(view.CurrentLine > 0)
+                view.CurrentLine--;
         }
 
         private void HandleDownArrow(ObservableCollection<string> document, SubmissionView view)
         {
-            if(view.currentLineIndex < document.Count -1)
-                view.currentLineIndex++;
+            if(view.CurrentLine < document.Count -1)
+                view.CurrentLine++;
         }
 
         private void HandleTyping(ObservableCollection<string> document, SubmissionView view, string text)
         {
-           var lineIndex = view.currentLineIndex;
-           var start = view.currentLineCharacter;
+           var lineIndex = view.CurrentLine;
+           var start = view.CurrentCharacter;
            document[lineIndex] = document[lineIndex].Insert(start, text);
-           view.currentLineCharacter += text.Length;
+           view.CurrentCharacter += text.Length;
         }
 
         private String EditSubmissionOld()
