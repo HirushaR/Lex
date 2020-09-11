@@ -261,6 +261,32 @@ namespace Lex
             if (view.CurrentLine < document.Count - 1)
                 view.CurrentLine++;
         }
+         private void HandleBackspace(ObservableCollection<string> document, SubmissionView view)
+        {
+            var start = view.CurrentCharacter;
+            if (start == 0)
+            {
+                if (view.CurrentLine == 0)
+                    return;
+
+                var currentLine = document[view.CurrentLine];
+                var previousLine = document[view.CurrentLine - 1];
+                document.RemoveAt(view.CurrentLine);
+                view.CurrentLine--;
+                document[view.CurrentLine] = previousLine + currentLine;
+                view.CurrentCharacter = previousLine.Length;
+                return;
+            }
+            else
+            {
+                var lineIndex = view.CurrentLine;
+                var line = document[lineIndex];
+                var before = line.Substring(0, start - 1);
+                var after = line.Substring(start);            
+                document[lineIndex] = before + after;
+                view.CurrentCharacter--;
+            }
+        }
 
 
         protected virtual void EvaluateMetaCommand(string input)
