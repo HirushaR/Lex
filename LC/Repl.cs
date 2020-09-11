@@ -304,6 +304,10 @@ namespace Lex
         {
             view.CurrentCharacter = 0;
         }
+        private void HandleEnd(ObservableCollection<string> document, SubmissionView view)
+        {
+            view.CurrentCharacter = document[view.CurrentLine].Length;
+        }
 
 
         protected virtual void EvaluateMetaCommand(string input)
