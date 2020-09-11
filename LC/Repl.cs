@@ -382,8 +382,6 @@ namespace Lex
             document[lineIndex] = document[lineIndex].Insert(start, text);
             view.CurrentCharacter += text.Length;
         }
-
-
         protected virtual void EvaluateMetaCommand(string input)
         {
             Console.ForegroundColor = ConsoleColor.Red;
