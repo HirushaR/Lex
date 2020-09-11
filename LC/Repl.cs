@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Text;
@@ -7,244 +8,213 @@ namespace Lex
 {
     internal abstract class Repl
     {
-        
-        private string _submissionText;
+        private List<string> _submissionHistory = new List<string>();
+        private int _submissionHistoryIndex;
+
+        private bool _done;
+
         public void Run()
         {
-    
             while (true)
             {
                 var text = EditSubmission();
-                if (text == null)
+                if (string.IsNullOrEmpty(text))
                     return;
 
-                EvaluateSubmition(text);
-               
+                if (!text.Contains(Environment.NewLine) && text.StartsWith("#"))
+                    EvaluateMetaCommand(text);
+                else
+                    EvaluateSubmition(text);
+
+                _submissionHistory.Add(text);
+                _submissionHistoryIndex = 0;
             }
         }
 
         private sealed class SubmissionView
         {
+            private readonly Action<string> _lineRenderer;
             private readonly ObservableCollection<string> _submissionDocument;
-            private readonly int _cursortop;
-            private int  _renderedLineCount;
+            private readonly int _cursorTop;
+            private int _renderedLineCount;
+            private int _currentLine;
+            private int _currentCharacter;
 
-            public SubmissionView(ObservableCollection<String> submissionDocument)
+            public SubmissionView(Action<string> lineRenderer, ObservableCollection<string> submissionDocument)
             {
+                _lineRenderer = lineRenderer;
                 _submissionDocument = submissionDocument;
-                _submissionDocument.CollectionChanged += SubmissionDocumentChange;
-                _cursortop = Console.CursorTop;
+                _submissionDocument.CollectionChanged += SubmissionDocumentChanged;
+                _cursorTop = Console.CursorTop;
+                Render();
             }
 
-            private void SubmissionDocumentChange(object sender, NotifyCollectionChangedEventArgs e) => Render();
+            private void SubmissionDocumentChanged(object sender, NotifyCollectionChangedEventArgs e)
+            {
+                Render();
+            }
 
             private void Render()
             {
-               Console.SetCursorPosition(0,_cursortop);
-               Console.CursorVisible = false;
+                Console.CursorVisible = false;
 
-               var lineCount = 0;
+                var lineCount = 0;
 
-               foreach(var line in _submissionDocument)
-               {
-                   Console.ForegroundColor = ConsoleColor.Green;
-                    
+                foreach (var line in _submissionDocument)
+                {
+                    Console.SetCursorPosition(0, _cursorTop + lineCount);
+                    Console.ForegroundColor = ConsoleColor.Green;
+
                     if (lineCount == 0)
-                        Console.Write("·");
-                    else
-                    {
-                       
                         Console.Write("» ");
-                    }
-                        
+                    else
+                        Console.Write("· ");
+
                     Console.ResetColor();
-                    Console.WriteLine(line);
+                    _lineRenderer(line);
+                    Console.WriteLine(new string(' ', Console.WindowWidth - line.Length));
                     lineCount++;
-                   
-               }
-               var numberOfBlankLines = _renderedLineCount - lineCount;
-               if(numberOfBlankLines > 0)
-               {
+                }
+
+                var numberOfBlankLines = _renderedLineCount - lineCount;
+                if (numberOfBlankLines > 0)
+                {
                     var blankLine = new string(' ', Console.WindowWidth);
-                    while(numberOfBlankLines > 0)
+                    for (var i = 0; i < numberOfBlankLines; i++)
                     {
+                        Console.SetCursorPosition(0, _cursorTop + lineCount + i);
                         Console.WriteLine(blankLine);
                     }
-               }
+                }
 
-               _renderedLineCount = lineCount;
+                _renderedLineCount = lineCount;
 
-               Console.CursorVisible = true;
-               UpdateCurserPosition();
-               
+                Console.CursorVisible = true;
+                UpdateCursorPosition();
             }
 
-            private void UpdateCurserPosition()
+            private void UpdateCursorPosition()
             {
-                Console.CursorTop = _cursortop + currentLineIndex;
-                Console.CursorLeft = 2 + currentLineCharacter;
+                Console.CursorTop = _cursorTop + _currentLine;
+                Console.CursorLeft = 2 + _currentCharacter;
             }
 
-            public int currentLineIndex
+            public int CurrentLine
             {
-                get => currentLineIndex;
-                set{
-                    if(currentLineIndex != value)
+                get => _currentLine;
+                set
+                {
+                    if (_currentLine != value)
                     {
-                        currentLineIndex = value;
-                        UpdateCurserPosition();
+                        _currentLine = value;
+                        _currentCharacter = Math.Min(_submissionDocument[_currentLine].Length, _currentCharacter);
+
+                        UpdateCursorPosition();
                     }
                 }
             }
 
-           
-
-            public int currentLineCharacter
+            public int CurrentCharacter
             {
-                get => currentLineCharacter;
-                set{
-                    if(currentLineCharacter != value)
+                get => _currentCharacter;
+                set
+                {
+                    if (_currentCharacter != value)
                     {
-                        currentLineCharacter = value;
-                        UpdateCurserPosition();
+                        _currentCharacter = value;
+                        UpdateCursorPosition();
                     }
                 }
             }
-
         }
 
-          private String EditSubmission()
-          {
-              _submissionText = null;
-              var document = new ObservableCollection<string>();
-              var view = new SubmissionView(document);
+        private string EditSubmission()
+        {
+            _done = false;
 
-              while (_submissionText == null)
-              {
-                  var key = Console.ReadKey(true);
-                  HandleKey(key,document,view);
-              }
-              return _submissionText;
-          }
+            var document = new ObservableCollection<string>() { "" };
+            var view = new SubmissionView(RenderLine, document);
+
+            while (!_done)
+            {
+                var key = Console.ReadKey(true);
+                HandleKey(key, document, view);
+            }
+
+            view.CurrentLine = document.Count - 1;
+            view.CurrentCharacter = document[view.CurrentLine].Length;
+            Console.WriteLine();
+
+            return string.Join(Environment.NewLine, document);       
+        }
 
         private void HandleKey(ConsoleKeyInfo key, ObservableCollection<string> document, SubmissionView view)
         {
-            if(key.Modifiers == default(ConsoleModifiers))
+            if (key.Modifiers == default(ConsoleModifiers))
             {
-                switch( key.Key)
+                switch (key.Key)
                 {
+                    case ConsoleKey.Escape:
+                        HandleEscape(document, view);
+                        break;
                     case ConsoleKey.Enter:
-                        HandleEnter(document,view);
+                        HandleEnter(document, view);
                         break;
                     case ConsoleKey.LeftArrow:
-                        HandleLeftArrow(document,view);
+                        HandleLeftArrow(document, view);
                         break;
                     case ConsoleKey.RightArrow:
-                        HandleRightArrow(document,view);
+                        HandleRightArrow(document, view);
                         break;
                     case ConsoleKey.UpArrow:
-                        HandleUpArrow(document,view);
+                        HandleUpArrow(document, view);
                         break;
                     case ConsoleKey.DownArrow:
-                        HandleDownArrow(document,view);
+                        HandleDownArrow(document, view);
                         break;
-                    default:
-                        if(key.KeyChar >= ' ')
-                            HandleTyping(document,view,key.KeyChar.ToString());
+                    case ConsoleKey.Backspace:
+                        HandleBackspace(document, view);
+                        break;
+                    case ConsoleKey.Delete:
+                        HandleDelete(document, view);
+                        break;
+                    case ConsoleKey.Home:
+                        HandleHome(document, view);
+                        break;
+                    case ConsoleKey.End:
+                        HandleEnd(document, view);
+                        break;
+                    case ConsoleKey.Tab:
+                        HandleTab(document, view);
+                        break;
+                    case ConsoleKey.PageUp:
+                        HandlePageUp(document, view);
+                        break;
+                    case ConsoleKey.PageDown:
+                        HandlePageDown(document, view);
                         break;
                 }
             }
-            
-        }
-
-        private void HandleEnter(ObservableCollection<string> document, SubmissionView view)
-        {
-            var submissionText = string.Join(Environment.NewLine, document);
-            if(IsCompleteSubmition(submissionText))
+            else if (key.Modifiers == ConsoleModifiers.Control)
             {
-                _submissionText = submissionText;
-                return;
-            }
-
-            document.Add(string.Empty);
-            view.currentLineCharacter =0;
-            view.currentLineIndex = document.Count -1 ;
-        }
-
-        private void HandleLeftArrow(ObservableCollection<string> document, SubmissionView view)
-        {
-            if(view.currentLineCharacter > 0)
-                view.currentLineCharacter--;
-        }
-
-        private void HandleRightArrow(ObservableCollection<string> document, SubmissionView view)
-        {
-            var line = document[view.currentLineIndex];
-            if(view.currentLineCharacter < line.Length -1)
-                view.currentLineCharacter++;
-        }
-
-        private void HandleUpArrow(ObservableCollection<string> document, SubmissionView view)
-        {
-            if(view.currentLineIndex > 0)
-                view.currentLineIndex--;
-        }
-
-        private void HandleDownArrow(ObservableCollection<string> document, SubmissionView view)
-        {
-            if(view.currentLineIndex < document.Count -1)
-                view.currentLineIndex++;
-        }
-
-        private void HandleTyping(ObservableCollection<string> document, SubmissionView view, string text)
-        {
-           var lineIndex = view.currentLineIndex;
-           var start = view.currentLineCharacter;
-           document[lineIndex] = document[lineIndex].Insert(start, text);
-           view.currentLineCharacter += text.Length;
-        }
-
-        private String EditSubmissionOld()
-        {
-            StringBuilder _textBuilder = new StringBuilder();
-            while (true)
-            {
-                Console.ForegroundColor = ConsoleColor.Green;
-                if (_textBuilder.Length != 0)
-                    Console.Write("·");
-                else
-                    Console.Write("» ");
-
-                Console.ResetColor();
-
-                var input = Console.ReadLine();
-                var isBlank = string.IsNullOrWhiteSpace(input);
-
-
-                if (_textBuilder.Length == 0)
+                switch (key.Key)
                 {
-                    if (isBlank)
-                        return null;
-
-                    if (input.StartsWith("#"))
-                    {
-                        EvaluateMetaCommand(input);
-                        continue;
-                    }
-                  
+                    case ConsoleKey.Enter:
+                        HandleControlEnter(document, view);
+                        break;
                 }
-
-                _textBuilder.AppendLine(input);
-                var text = _textBuilder.ToString();
-
-                if (!IsCompleteSubmition(text))
-                    continue;
-
-                return text;
-               
             }
-            
+
+            if (key.KeyChar >= ' ')
+                HandleTyping(document, view, key.KeyChar.ToString());
         }
+
+        private void HandleEscape(ObservableCollection<string> document, SubmissionView view)
+        {
+            document[view.CurrentLine] = string.Empty;
+            view.CurrentCharacter = 0;
+        }
+
 
         protected virtual void EvaluateMetaCommand(string input)
         {
@@ -256,7 +226,5 @@ namespace Lex
         protected abstract bool IsCompleteSubmition(string text);
 
         protected abstract void EvaluateSubmition(string text);
-      
-    
     }
 }
