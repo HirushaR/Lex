@@ -308,6 +308,15 @@ namespace Lex
         {
             view.CurrentCharacter = document[view.CurrentLine].Length;
         }
+        private void HandleTab(ObservableCollection<string> document, SubmissionView view)
+        {
+            const int TabWidth = 4;
+            var start = view.CurrentCharacter;
+            var remainingSpaces = TabWidth - start % TabWidth;
+            var line = document[view.CurrentLine];
+            document[view.CurrentLine] = line.Insert(start, new string(' ', remainingSpaces));
+            view.CurrentCharacter += remainingSpaces;
+        }
 
 
         protected virtual void EvaluateMetaCommand(string input)
