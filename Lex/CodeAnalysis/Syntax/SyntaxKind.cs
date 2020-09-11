@@ -41,9 +41,6 @@ namespace Lex.CodeAnalysis.Syntax
         ToKeyword,
         TrueKeyword,
         IfKeyword,
-        LetKeyword,
-        
-        VarKeyword,
         WhileKeyword,
               
         

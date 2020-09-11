@@ -8,6 +8,7 @@ namespace Lex.CodeAnalysis.Syntax
     {
         private readonly DiagnosticBag _diagnostics = new DiagnosticBag();
         private readonly ImmutableArray<SyntaxToken> _tokens;
+        List<string> _variables = new List<string>();
         private readonly SourceText _text;
         private int _position;
 
@@ -75,8 +76,7 @@ namespace Lex.CodeAnalysis.Syntax
             {
                 case SyntaxKind.OpenBraceToken:
                     return ParseBlockStatemnt();
-                case SyntaxKind.LetKeyword:
-                case SyntaxKind.VarKeyword:
+                case SyntaxKind.IdentifierToken:
                     return ParseVeriableDeclearation();
                 case SyntaxKind.IfKeyword:
                     return ParseIfStatement();
@@ -93,12 +93,15 @@ namespace Lex.CodeAnalysis.Syntax
 
         private StatementSyntax ParseVeriableDeclearation()
         {
-            var exprected = Current.Kind == SyntaxKind.LetKeyword ? SyntaxKind.LetKeyword : SyntaxKind.VarKeyword;
-            var keyword = MatchToken(exprected);
-            var identifier = MatchToken(SyntaxKind.IdentifierToken);
-            var equalToken = MatchToken(SyntaxKind.EaqlesToken);
-            var initializer = ParseExpression();
-             return new VeriableDeclarationSyntax(keyword,identifier,equalToken,initializer);
+            if (!_variables.Contains(Current.Text) && Peek(1).Kind == SyntaxKind.EaqlesToken)
+            {
+                _variables.Add(Current.Text);
+                var identifier = MatchToken(SyntaxKind.IdentifierToken);
+                var equalToken = MatchToken(SyntaxKind.EaqlesToken);
+                var initializer = ParseExpression();
+                return new VeriableDeclarationSyntax(identifier, equalToken, initializer);
+            }
+            return ParseExpressionStatement();
         }
         private StatementSyntax ParseIfStatement()
         {
