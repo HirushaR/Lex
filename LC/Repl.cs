@@ -256,6 +256,11 @@ namespace Lex
             if (view.CurrentLine > 0)
                 view.CurrentLine--;
         }
+        private void HandleDownArrow(ObservableCollection<string> document, SubmissionView view)
+        {
+            if (view.CurrentLine < document.Count - 1)
+                view.CurrentLine++;
+        }
 
 
         protected virtual void EvaluateMetaCommand(string input)
