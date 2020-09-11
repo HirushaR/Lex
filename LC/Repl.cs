@@ -331,6 +331,21 @@ namespace Lex
                 _submissionHistoryIndex = 0;
             UpdateDocumentFromHistory(document, view);
         }
+         private void UpdateDocumentFromHistory(ObservableCollection<string> document, SubmissionView view)
+        {
+            if (_submissionHistory.Count == 0)
+                return;
+
+            document.Clear();
+            
+            var historyItem = _submissionHistory[_submissionHistoryIndex];
+            var lines = historyItem.Split(Environment.NewLine);
+            foreach (var line in lines)
+                document.Add(line);
+
+            view.CurrentLine = document.Count - 1;
+            view.CurrentCharacter = document[view.CurrentLine].Length;
+        }
 
 
         protected virtual void EvaluateMetaCommand(string input)
