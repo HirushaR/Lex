@@ -346,6 +346,10 @@ namespace Lex
             view.CurrentLine = document.Count - 1;
             view.CurrentCharacter = document[view.CurrentLine].Length;
         }
+         protected void ClearHistory()
+        {
+            _submissionHistory.Clear();
+        }
 
          private void HandleTyping(ObservableCollection<string> document, SubmissionView view, string text)
         {
