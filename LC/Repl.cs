@@ -324,6 +324,13 @@ namespace Lex
                 _submissionHistoryIndex = _submissionHistory.Count - 1;
             UpdateDocumentFromHistory(document, view);
         }
+        private void HandlePageDown(ObservableCollection<string> document, SubmissionView view)
+        {
+            _submissionHistoryIndex++;
+            if (_submissionHistoryIndex > _submissionHistory.Count -1)
+                _submissionHistoryIndex = 0;
+            UpdateDocumentFromHistory(document, view);
+        }
 
 
         protected virtual void EvaluateMetaCommand(string input)
