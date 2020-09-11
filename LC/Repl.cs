@@ -367,7 +367,6 @@ namespace Lex
             document[lineIndex] = document[lineIndex].Insert(start, text);
             view.CurrentCharacter += text.Length;
         }
-<<<<<<< HEAD
         
         protected void ClearHistory()
         {
@@ -379,8 +378,6 @@ namespace Lex
             Console.Write(line);
         }
 
-=======
->>>>>>> af58f620ada584647e6794a39112be24ead4642f
         protected virtual void EvaluateMetaCommand(string input)
         {
             Console.ForegroundColor = ConsoleColor.Red;
