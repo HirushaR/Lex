@@ -240,6 +240,11 @@ namespace Lex
             view.CurrentCharacter = 0;
             view.CurrentLine = lineIndex;
         }
+        private void HandleLeftArrow(ObservableCollection<string> document, SubmissionView view)
+        {
+            if (view.CurrentCharacter > 0)
+                view.CurrentCharacter--;
+        }
 
 
         protected virtual void EvaluateMetaCommand(string input)
