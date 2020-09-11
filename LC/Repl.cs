@@ -350,6 +350,10 @@ namespace Lex
         {
             _submissionHistory.Clear();
         }
+        protected virtual void RenderLine(string line)
+        {
+            Console.Write(line);
+        }
 
          private void HandleTyping(ObservableCollection<string> document, SubmissionView view, string text)
         {
