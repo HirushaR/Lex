@@ -215,6 +215,18 @@ namespace Lex
             view.CurrentCharacter = 0;
         }
 
+          private void HandleEnter(ObservableCollection<string> document, SubmissionView view)
+        {
+            var submissionText = string.Join(Environment.NewLine, document);
+            if (submissionText.StartsWith("#") || IsCompleteSubmition(submissionText))
+            {
+                _done = true;
+                return;
+            }
+
+            InsertLine(document, view);
+        }
+
 
         protected virtual void EvaluateMetaCommand(string input)
         {
