@@ -288,6 +288,19 @@ namespace Lex
             }
         }
 
+        private void HandleDelete(ObservableCollection<string> document, SubmissionView view)
+        {
+            var lineIndex = view.CurrentLine;
+            var line = document[lineIndex];
+            var start = view.CurrentCharacter;
+            if (start >= line.Length)
+                return;
+
+            var before = line.Substring(0, start);
+            var after = line.Substring(start + 1);            
+            document[lineIndex] = before + after;
+        }
+
 
         protected virtual void EvaluateMetaCommand(string input)
         {
