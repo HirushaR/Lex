@@ -347,6 +347,14 @@ namespace Lex
             view.CurrentCharacter = document[view.CurrentLine].Length;
         }
 
+         private void HandleTyping(ObservableCollection<string> document, SubmissionView view, string text)
+        {
+            var lineIndex = view.CurrentLine;
+            var start = view.CurrentCharacter;
+            document[lineIndex] = document[lineIndex].Insert(start, text);
+            view.CurrentCharacter += text.Length;
+        }
+
 
         protected virtual void EvaluateMetaCommand(string input)
         {
