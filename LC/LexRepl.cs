@@ -48,19 +48,13 @@ namespace Lex
             var syntaxTree = SyntaxTree.Parse(text);
 
             //if (syntaxTree.Diagnostics.Any())
-            if(getLastToken(syntaxTree.Root.Statement).isMissing)
+            if(syntaxTree.Root.Statement.GetLastToken().isMissing)
                 return false;
             
             return true;
         }
 
-        private static SyntaxToken getLastToken(SyntaxNode node)
-        {
-            if(node is SyntaxToken token)
-                return token;
-            
-            return getLastToken(node.GetChildren().Last());
-        }
+     
 
         protected override void EvaluateSubmition(string text)
         {
