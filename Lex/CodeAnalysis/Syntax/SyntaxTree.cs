@@ -43,16 +43,28 @@ namespace Lex.CodeAnalysis.Syntax
 
         public static IEnumerable<SyntaxToken> ParseTokens(SourceText text)
         {
-            var lexer = new Lexer(text);
-            while(true)
+
+            return ParseTokens(text, out _);
+        }
+
+        public static IEnumerable<SyntaxToken> ParseTokens(SourceText text,out ImmutableArray<Diagnostic> diagnostics)
+        {
+            IEnumerable<SyntaxToken> LexTokens(Lexer lexer)
             {
-                var token = lexer.Lex();
-                if (token.Kind == SyntaxKind.EndOfFileToken)
-                    break;
+                while(true)
+                {
+                    var token = lexer.Lex();
+                    if (token.Kind == SyntaxKind.EndOfFileToken)
+                        break;
 
 
-                yield return token;
+                    yield return token;
+                }
             }
+            var l = new Lexer(text);
+            var result = LexTokens(l);
+            diagnostics = l.Diagnostics.ToImmutableArray();
+            return result;
             
         }
     }
