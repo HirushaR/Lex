@@ -66,6 +66,11 @@ namespace Lex
         {
             if (string.IsNullOrEmpty(text))
                 return true;
+            
+            var LastTwoLinesAreBlank = text.Split(Environment.NewLine).Reverse().TakeWhile(s=>string.IsNullOrEmpty(s)).Take(2).Count() == 2;
+
+            if(LastTwoLinesAreBlank)
+                return true;
 
             var syntaxTree = SyntaxTree.Parse(text);
 
