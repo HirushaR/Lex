@@ -90,7 +90,7 @@ namespace Lex.CodeAnalysis.Lowering
                 var elseLabel = GenerateLabel();
                 var endLabel = GenerateLabel();
 
-                var gotoFalse = new BoundConditionalGotoStatment(elseLabel, node.Condition, true);
+                var gotoFalse = new BoundConditionalGotoStatment(elseLabel, node.Condition, false);
                 var gotoEndStatement = new BoundGotoStatment(endLabel);
                 var elseLabelStatement = new BoundLabelStatement(elseLabel);
                 var endLabelStatement = new BoundLabelStatement(endLabel);
