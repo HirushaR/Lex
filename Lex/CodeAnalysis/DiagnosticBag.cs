@@ -40,6 +40,12 @@ namespace Lex.CodeAnalysis
             Report(span, message);
         }
 
+        public void ReportUnterminatedString(TextSpan span)
+        {
+             var message = $"Unterminated string Literal.";
+            Report(span, message);
+        }
+
         public void ReportUnexpectedToken(TextSpan span, SyntaxKind actualKind, SyntaxKind expectKind)
         {
             var message = $"ERROR: Unexpected token <{actualKind}>, expected <{expectKind}>.";
@@ -81,6 +87,8 @@ namespace Lex.CodeAnalysis
            var message =  $"Variable '{name}' is read-only and cannot be assigned to.";
             Report(span, message);
         }
+
+       
     }
 
 
