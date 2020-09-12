@@ -21,6 +21,8 @@ namespace Lex.CodeAnalysis.Syntax
 
         public override TextSpan Span => new TextSpan(Position, Text?.Length ?? 0);
 
+        public bool isMissing => Text == null;
+
       
     }
 }
