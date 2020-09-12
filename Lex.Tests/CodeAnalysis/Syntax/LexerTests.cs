@@ -10,6 +10,21 @@ namespace Lex.Tests.CodeAnalysis.Syntax
     {
 
         [Fact]
+        public void Lexer_Lexes_UnterminatedString()
+        {
+            var text = "\"text";
+            var tokens = SyntaxTree.ParseTokens(text, out var diagnostics);
+            var token = Assert.Single(tokens);
+            Assert.Equal(SyntaxKind.StringToken, token.Kind);
+            Assert.Equal("text", token.Text);
+
+            var diagnostic = Assert.Single(diagnostics);
+            Assert.Equal(new TextSpan(0,1), diagnostic.Span);
+            Assert.Equal("Unterminated string Literal.", diagnostic.Span);
+        }
+
+
+        [Fact]
         public void Lexer_Tests_AllToken()
         {
             var tokendKinds = Enum.GetValues(typeof(SyntaxKind))
