@@ -7,6 +7,7 @@ namespace Lex.CodeAnalysis.Syntax
         EndOfFileToken,
         WhitespaceToken,
         NumberToken,
+        StringToken,
         PlusToken,
         MinusToken,
         StarToken,
@@ -65,6 +66,6 @@ namespace Lex.CodeAnalysis.Syntax
         BinaryExpression,
         ParenthesizedExpression,
         AssigmentExpression,
-        
+       
     }
 }
