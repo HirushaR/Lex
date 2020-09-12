@@ -252,6 +252,9 @@ namespace Lex.CodeAnalysis.Syntax
                 case SyntaxKind.NumberToken:
                     return ParseNumberLiteral();
                 
+                 case SyntaxKind.StringToken:
+                    return ParseStringLiteral();
+                
                 case SyntaxKind.IdentifierToken:  
                 default:
                      return ParseNameExpression();
