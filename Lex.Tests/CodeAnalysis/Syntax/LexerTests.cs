@@ -104,7 +104,8 @@ namespace Lex.Tests.CodeAnalysis.Syntax
                 (SyntaxKind.NumberToken, "1"),
                 (SyntaxKind.NumberToken, "123"),
                 (SyntaxKind.IdentifierToken, "a"),
-                (SyntaxKind.IdentifierToken, "abc"),
+                (SyntaxKind.StringToken, "\"Test\""),
+                (SyntaxKind.StringToken, "\"Te \"\"st\""),
             };
 
             return fixedTokens.Concat(dynamicTokens);
@@ -164,6 +165,8 @@ namespace Lex.Tests.CodeAnalysis.Syntax
             if (t1Kind == SyntaxKind.StarToken && t2Kind == SyntaxKind.StarStarToken)
                 return true;
             if (t1Kind == SyntaxKind.StarToken && t2Kind == SyntaxKind.StarToken)
+                return true;
+            if (t1Kind == SyntaxKind.StringToken && t2Kind == SyntaxKind.StringToken)
                 return true;
             if (t1Kind == SyntaxKind.PipeToken && t2Kind == SyntaxKind.PipeToken)
                 return true;
