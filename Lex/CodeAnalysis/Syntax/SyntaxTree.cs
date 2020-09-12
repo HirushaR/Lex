@@ -40,6 +40,11 @@ namespace Lex.CodeAnalysis.Syntax
            var sourceText = SourceText.From(text);
             return ParseTokens(sourceText);           
         }
+         public static IEnumerable<SyntaxToken> ParseTokens(string text,out ImmutableArray<Diagnostic> diagnostics)
+        {
+           var sourceText = SourceText.From(text);
+            return ParseTokens(sourceText, out diagnostics);           
+        }
 
         public static IEnumerable<SyntaxToken> ParseTokens(SourceText text)
         {
