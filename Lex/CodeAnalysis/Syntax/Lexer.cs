@@ -254,8 +254,8 @@ namespace Lex.CodeAnalysis.Syntax
 
                         break;
                     default:
-                        _position++;
                         sb.Append(Current);
+                        _position++;
                         break;
                 }
             }
