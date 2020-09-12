@@ -14,6 +14,28 @@ namespace Lex
         private bool _showProgram;
         private readonly Dictionary<VariableSymble, object> _variables = new Dictionary<VariableSymble, object>();
 
+        protected override void RenderLine(string line)
+        {
+            var tokens = SyntaxTree.ParseTokens(line);
+            foreach(var token in tokens)
+            {
+                var isKeyWord = token.Kind.ToString().EndsWith("Keyword");
+                var isNumber = token.Kind == SyntaxKind.NumberToken;
+                var isIdentifier = token.Kind == SyntaxKind.IdentifierToken;
+                if(isKeyWord)
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                else if (isIdentifier)
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                else if (!isNumber)
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                else
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+
+                Console.Write(token.Text);
+
+                Console.ResetColor();
+            }
+        }
       
         protected override void EvaluateMetaCommand(string input)
         {
