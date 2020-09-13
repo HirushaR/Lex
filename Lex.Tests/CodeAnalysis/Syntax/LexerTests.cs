@@ -17,11 +17,11 @@ namespace Lex.Tests.CodeAnalysis.Syntax
             var tokens = SyntaxTree.ParseTokens(text, out var diagnostics);
             var token = Assert.Single(tokens);
             Assert.Equal(SyntaxKind.StringToken, token.Kind);
-            Assert.Equal("text", token.Text);
+            Assert.Equal(text, token.Text);
 
             var diagnostic = Assert.Single(diagnostics);
             Assert.Equal(new TextSpan(0,1), diagnostic.Span);
-            Assert.Equal("Unterminated string Literal.", diagnostic.Span);
+            Assert.Equal("Unterminated string Literal.", diagnostic.Message);
         }
 
 
