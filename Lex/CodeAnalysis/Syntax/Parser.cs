@@ -124,14 +124,22 @@ namespace Lex.CodeAnalysis.Syntax
        
           private StatementSyntax ParseForStatement()
         {
+            
             var keyword = MatchToken(SyntaxKind.ForKeyword);
             var identifier = MatchToken(SyntaxKind.IdentifierToken);
             var equalsToken = MatchToken(SyntaxKind.EaqlesToken);
             var lowerBound = ParseExpression();
             var toKeyword = MatchToken(SyntaxKind.ToKeyword);
             var upperBound = ParseExpression();
+            var byKeyWord  = MatchToken(SyntaxKind.ByKeyWord);
+            var itterator  = ParseExpression();
             var body = ParseStatemnet();
-            return new ForStatementSyntax(keyword, identifier, equalsToken, lowerBound, toKeyword, upperBound, body);
+           
+            
+            return new ForStatementSyntax(keyword, identifier, equalsToken, lowerBound, toKeyword, upperBound,byKeyWord, itterator, body);
+            
+            
+            
         }
 
         
