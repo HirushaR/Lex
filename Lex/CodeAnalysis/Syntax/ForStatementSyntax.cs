@@ -16,6 +16,17 @@ namespace Lex.CodeAnalysis.Syntax
             ByKeword = byKeyword;
             Itterator = itterator;
         }
+        public ForStatementSyntax(SyntaxToken keyword,SyntaxToken identifier, SyntaxToken equalsToken, ExpressionSyntax lowerBound,SyntaxToken tokeyword, ExpressionSyntax upperBoud,StatementSyntax body)
+        {
+            Keyword = keyword;
+            Identifier = identifier;
+            EqualsToken = equalsToken;
+            LowerBound = lowerBound;
+            Tokeyword = tokeyword;
+            UpperBoud = upperBoud;
+            Body = body;
+
+        }
     
         
 

@@ -125,7 +125,8 @@ namespace Lex.CodeAnalysis.Binding
             _scope = new BoundScope(_scope);
 
             var name = syntax.Identifier.Text;
-            var Ittetarot = BindExpression(syntax.Itterator, typeof(int));
+            var Ittetarot = syntax.Itterator ==null ? null : BindExpression(syntax.Itterator, typeof(int));
+            //var Ittetarot = BindExpression(syntax.Itterator, typeof(int));
             var variable = new VariableSymble(name, true, typeof(int));
             if (!_scope.TryDeclare(variable))
                 _diagnostics.ReportVariableAlreadyDecleard(syntax.Identifier.Span, name);
