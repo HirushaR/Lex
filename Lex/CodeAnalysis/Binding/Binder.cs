@@ -125,6 +125,7 @@ namespace Lex.CodeAnalysis.Binding
             _scope = new BoundScope(_scope);
 
             var name = syntax.Identifier.Text;
+            var Ittetarot = BindExpression(syntax.Itterator, typeof(int));
             var variable = new VariableSymble(name, true, typeof(int));
             if (!_scope.TryDeclare(variable))
                 _diagnostics.ReportVariableAlreadyDecleard(syntax.Identifier.Span, name);
@@ -133,7 +134,7 @@ namespace Lex.CodeAnalysis.Binding
 
             _scope = _scope.Parent;
 
-            return new BoundForStatement(variable, lowerBound, upperBound, body);
+            return new BoundForStatement(variable, lowerBound, upperBound,Ittetarot, body);
         }
           private BoundStatement BindWhileStatement(WhileStatementSyntax syntax)
         {
