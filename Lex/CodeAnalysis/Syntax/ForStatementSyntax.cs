@@ -4,7 +4,7 @@ namespace Lex.CodeAnalysis.Syntax
 
     public sealed class ForStatementSyntax: StatementSyntax
     {
-        public ForStatementSyntax(SyntaxToken keyword,SyntaxToken identifier, SyntaxToken equalsToken, ExpressionSyntax lowerBound,SyntaxToken tokeyword, ExpressionSyntax upperBoud,StatementSyntax body)
+        public ForStatementSyntax(SyntaxToken keyword,SyntaxToken identifier, SyntaxToken equalsToken, ExpressionSyntax lowerBound,SyntaxToken tokeyword, ExpressionSyntax upperBoud,SyntaxToken byKeyword, ExpressionSyntax itterator,StatementSyntax body)
         {
             Keyword = keyword;
             Identifier = identifier;
@@ -13,7 +13,11 @@ namespace Lex.CodeAnalysis.Syntax
             Tokeyword = tokeyword;
             UpperBoud = upperBoud;
             Body = body;
+            ByKeword = byKeyword;
+            Itterator = itterator;
         }
+    
+        
 
         public override SyntaxKind Kind => SyntaxKind.ForStatement;
 
@@ -24,5 +28,7 @@ namespace Lex.CodeAnalysis.Syntax
         public SyntaxToken Tokeyword { get; }
         public ExpressionSyntax UpperBoud { get; }
         public StatementSyntax Body { get; }
+        public SyntaxToken ByKeword { get; }
+        public ExpressionSyntax Itterator { get; }
     }
 }
