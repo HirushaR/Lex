@@ -131,14 +131,25 @@ namespace Lex.CodeAnalysis.Syntax
             var lowerBound = ParseExpression();
             var toKeyword = MatchToken(SyntaxKind.ToKeyword);
             var upperBound = ParseExpression();
-            var byKeyWord  = MatchToken(SyntaxKind.ByKeyWord);
-            var itterator  = ParseExpression();
-            var body = ParseStatemnet();
+            
+            if(Current.Kind != SyntaxKind.ByKeyWord)
+            {
+                 var body = ParseStatemnet();
+                 return new ForStatementSyntax(keyword, identifier, equalsToken, lowerBound, toKeyword, upperBound, body);
+            }
+            else
+            {
+                
+                var byKeyWord  = MatchToken(SyntaxKind.ByKeyWord);
+                var itterator  = ParseExpression();
+                var body = ParseStatemnet();
+                return new ForStatementSyntax(keyword, identifier, equalsToken, lowerBound, toKeyword, upperBound,byKeyWord, itterator, body);
+            }
+            
+           // var body = ParseStatemnet();
+
+
            
-            
-            return new ForStatementSyntax(keyword, identifier, equalsToken, lowerBound, toKeyword, upperBound,byKeyWord, itterator, body);
-            
-            
             
         }
 
