@@ -2,11 +2,12 @@ namespace Lex.CodeAnalysis.Binding
 {
     internal sealed class BoundForStatement : BoundStatement
     {
-        public BoundForStatement(VariableSymble variable, BoundExpression lowerBound, BoundExpression upperBound, BoundStatement body)
+        public BoundForStatement(VariableSymble variable, BoundExpression lowerBound, BoundExpression upperBound,BoundExpression itterator, BoundStatement body)
         {
             Variable = variable;
             LowerBound = lowerBound;
             UpperBound = upperBound;
+            Itterator = itterator;
             Body = body;
         }
 
@@ -14,6 +15,7 @@ namespace Lex.CodeAnalysis.Binding
         public VariableSymble Variable { get; }
         public BoundExpression LowerBound { get; }
         public BoundExpression UpperBound { get; }
+        public BoundExpression Itterator { get; }
         public BoundStatement Body { get; }
     }
 }
