@@ -161,6 +161,7 @@ namespace Lex.CodeAnalysis.Lowering
 
             var variableDeclaration = new BoundVeriableDeclaration(node.Variable, node.LowerBound);
             var variableExpression = new BoundVariableExpression(node.Variable);
+            
             var upperBoundSybmle = new VariableSymble("upperBound",true, typeof(int));
             var upperBoundDeclaration = new BoundVeriableDeclaration(upperBoundSybmle,node.UpperBound);
             var condition = new BoundBinaryExpression(
@@ -170,17 +171,18 @@ namespace Lex.CodeAnalysis.Lowering
             );            
 
             var Ittertator = node.Itterator;
+            var Operator = SyntaxKind.PlusToken;
             if(Ittertator == null)
             {
                 Ittertator =new BoundLiteralExpression(1);
             }
-
+            
             var increment = new BoundExpressionStatemnet(
                 new BoundAssignmentExpression(
                     node.Variable,
                     new BoundBinaryExpression(
                             variableExpression,
-                            BoundBinaryOperator.Bind(SyntaxKind.PlusToken, typeof(int), typeof(int)),
+                            BoundBinaryOperator.Bind(Operator, typeof(int), typeof(int)),
                             Ittertator
                     )
                 )
