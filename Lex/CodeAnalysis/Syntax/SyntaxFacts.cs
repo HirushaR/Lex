@@ -94,7 +94,9 @@ namespace Lex.CodeAnalysis.Syntax
                  case "for":
                     return SyntaxKind.ForKeyword;
                 case "to":
-                    return SyntaxKind.ToKeyword;  
+                    return SyntaxKind.ToKeyword; 
+                case "by":
+                    return SyntaxKind.ByKeyWord; 
                 case "true":
                     return SyntaxKind.TrueKeyword;          
                  case "if":
@@ -171,6 +173,8 @@ namespace Lex.CodeAnalysis.Syntax
                         return "if";
                     case SyntaxKind.WhileKeyword : 
                         return "while";
+                    case SyntaxKind.ByKeyWord: 
+                        return "by";
                     
                     default:
                         return null;

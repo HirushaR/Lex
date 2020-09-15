@@ -168,13 +168,20 @@ namespace Lex.CodeAnalysis.Lowering
                 BoundBinaryOperator.Bind(SyntaxKind.LessOrEqualToken, typeof(int), typeof(int)),
                 new BoundVariableExpression(upperBoundSybmle)
             );            
+
+            var Ittertator = node.Itterator;
+            if(Ittertator == null)
+            {
+                Ittertator =new BoundLiteralExpression(1);
+            }
+
             var increment = new BoundExpressionStatemnet(
                 new BoundAssignmentExpression(
                     node.Variable,
                     new BoundBinaryExpression(
                             variableExpression,
                             BoundBinaryOperator.Bind(SyntaxKind.PlusToken, typeof(int), typeof(int)),
-                            new BoundLiteralExpression(1)
+                            Ittertator
                     )
                 )
             );

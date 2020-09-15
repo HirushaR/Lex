@@ -40,6 +40,7 @@ namespace Lex.CodeAnalysis.Syntax
         FalseKeyword,
         ForKeyword,
         ToKeyword,
+        ByKeyWord,
         TrueKeyword,
         IfKeyword,
         WhileKeyword,
@@ -66,6 +67,6 @@ namespace Lex.CodeAnalysis.Syntax
         BinaryExpression,
         ParenthesizedExpression,
         AssigmentExpression,
-       
+        
     }
 }

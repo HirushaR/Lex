@@ -80,12 +80,13 @@ namespace Lex.CodeAnalysis.Binding
         {
             var lowerBound = RewriteExpression(node.LowerBound);
             var upperBound = RewriteExpression(node.UpperBound);
+            var Itterator = RewriteExpression(node.Itterator);
             var body = RewriteStatement(node.Body);
             
             if( lowerBound == node.LowerBound && upperBound == node.LowerBound && body == node.Body)
                 return node;
             
-            return new BoundForStatement(node.Variable, lowerBound,upperBound, body);
+            return new BoundForStatement(node.Variable, lowerBound,upperBound,Itterator, body);
             
         }
 
