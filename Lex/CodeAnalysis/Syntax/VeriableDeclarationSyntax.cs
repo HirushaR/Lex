@@ -10,8 +10,6 @@ namespace Lex.CodeAnalysis.Syntax
             Initializer = initializer;
         }
         public override SyntaxKind Kind => SyntaxKind.VeriableDeclaration;
-
-  
         public SyntaxToken Identifier { get; }
         public SyntaxToken EqualsToken { get; }
         public ExpressionSyntax Initializer { get; }
