@@ -172,7 +172,7 @@ namespace Lex.CodeAnalysis.Lowering
             var Ittertator = node.Itterator;
             if(Ittertator == null)
             {
-                Ittertator =1;
+                Ittertator =new BoundLiteralExpression(1);
             }
 
             var increment = new BoundExpressionStatemnet(
