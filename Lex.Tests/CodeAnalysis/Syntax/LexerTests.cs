@@ -192,7 +192,40 @@ namespace Lex.Tests.CodeAnalysis.Syntax
                 return true;
             if (t1Kind == SyntaxKind.PipeToken && t2Kind == SyntaxKind.PipePieToken)
                 return true;
-            
+            if (t1Kind == SyntaxKind.WhileKeyword  && t2Kind == SyntaxKind.ByKeyWord)
+                return true;
+            if (t1Kind == SyntaxKind.ByKeyWord  && t2Kind == SyntaxKind.WhileKeyword)
+                return true;
+            if (t1Kind == SyntaxKind.ByKeyWord  && t2Kind == SyntaxKind.ToKeyword )
+                return true;
+            if (t1Kind == SyntaxKind.ToKeyword  && t2Kind == SyntaxKind.ByKeyWord )
+                return true;
+            if (t1Kind == SyntaxKind.IfKeyword  && t2Kind == SyntaxKind.ByKeyWord )
+                return true;
+            if (t1Kind == SyntaxKind.ByKeyWord  && t2Kind == SyntaxKind.TrueKeyword )
+                return true;
+            if (t1Kind == SyntaxKind.TrueKeyword  && t2Kind == SyntaxKind.ByKeyWord )
+                return true;
+            if (t1Kind == SyntaxKind.ForKeyword  && t2Kind == SyntaxKind.ByKeyWord )
+                return true;
+            if (t1Kind == SyntaxKind.ElseKeyword  && t2Kind == SyntaxKind.ByKeyWord )
+                return true;
+            if (t1Kind == SyntaxKind.ByKeyWord  && t2Kind == SyntaxKind.ForKeyword )
+                return true;
+             if (t1Kind == SyntaxKind.ByKeyWord  && t2Kind == SyntaxKind.ElseKeyword )
+                return true;
+            if (t1Kind == SyntaxKind.ByKeyWord  && t2Kind == SyntaxKind.FalseKeyword )
+                return true;
+            if (t1Kind == SyntaxKind.ByKeyWord  && t2Kind == SyntaxKind.ByKeyWord )
+                return true;
+            if (t1Kind == SyntaxKind.ByKeyWord  && t2Kind == SyntaxKind.IfKeyword )
+                return true;
+            if (t1Kind == SyntaxKind.FalseKeyword && t2Kind == SyntaxKind.ByKeyWord )
+                return true;
+            if (t1Kind == SyntaxKind.ByKeyWord  && t2Kind == SyntaxKind.IdentifierToken )
+                return true;
+            if (t1Kind == SyntaxKind.IdentifierToken  && t2Kind == SyntaxKind.ByKeyWord )
+                return true;
 
             return false;
         }
