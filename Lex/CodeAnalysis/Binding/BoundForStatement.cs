@@ -1,3 +1,5 @@
+using Lex.CodeAnalysis.Symbols;
+
 namespace Lex.CodeAnalysis.Binding
 {
     internal sealed class BoundForStatement : BoundStatement
