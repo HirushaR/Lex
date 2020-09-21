@@ -4,7 +4,7 @@ namespace Lex.CodeAnalysis.Symbols
 {
     public sealed class VariableSymble: Symbol
     {
-        public VariableSymble(string name,bool isreadOnly, Type type)
+        public VariableSymble(string name,bool isreadOnly, TypeSymbol type)
         :base(name)
         {
    
@@ -15,7 +15,7 @@ namespace Lex.CodeAnalysis.Symbols
         public override SymbolKind kind => SymbolKind.Variable;
 
         public bool isReadOnly { get; }
-        public Type Type { get; }
+        public TypeSymbol Type { get; }
 
     }
 

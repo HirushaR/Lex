@@ -1,4 +1,5 @@
 using System;
+using Lex.CodeAnalysis.Symbols;
 
 namespace Lex.CodeAnalysis.Binding
 {
@@ -7,10 +8,20 @@ namespace Lex.CodeAnalysis.Binding
         public BoundLiteralExpression(object value)
         {
             Value = value;
+            if(Value is bool)
+                Type = TypeSymbol.Bool;
+            else if ( Value is int)
+                Type = TypeSymbol.Int;
+            else if ( Value is string)
+                Type = TypeSymbol.String;
+            else 
+                throw new Exception($"Unexpected literal '{Value}' of type {value.GetType()}.");
         }
 
         public override BoundNodeKind Kind => BoundNodeKind.LiteralExpression;
-        public override Type Type => Value.GetType();
+
         public object Value { get; }
+
+        public override TypeSymbol Type {get;}
     }
 }

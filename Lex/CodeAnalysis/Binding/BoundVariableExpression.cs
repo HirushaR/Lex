@@ -13,8 +13,11 @@ namespace Lex.CodeAnalysis.Binding
         }
 
         public string Name { get; }
-        public override Type Type => Variable.Type;
+
+     
         public override BoundNodeKind Kind => BoundNodeKind.VariableExpression;
         public VariableSymble Variable { get; }
+
+        public override TypeSymbol Type => Variable.Type;
     }
 }

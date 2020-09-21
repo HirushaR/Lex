@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Lex.CodeAnalysis.Symbols;
 using Lex.CodeAnalysis.Syntax;
 using Lex.CodeAnalysis.Text;
 
@@ -22,7 +23,7 @@ namespace Lex.CodeAnalysis
             _diagnostics.Add(diagnostics);
         }
 
-        public void ReportInvalidNumber(TextSpan textSpan, string text, Type type)
+        public void ReportInvalidNumber(TextSpan textSpan, string text, TypeSymbol type)
         {
             var message = $"The number {text} isn't valid {type}.";
             Report(textSpan, message);
@@ -52,13 +53,13 @@ namespace Lex.CodeAnalysis
             Report(span, message);
         }
 
-        public void ReportUndefinedUnaryOperator(TextSpan span, string operatorText, Type OperandType)
+        public void ReportUndefinedUnaryOperator(TextSpan span, string operatorText, TypeSymbol OperandType)
         {
             var message = $"Unary operator '{operatorText}' is not defined for type '{OperandType}'.";
             Report(span, message);
         }
 
-        public void ReportUndefinedBinaryOperator(TextSpan span, string Operatortext, Type leftType, Type rightType)
+        public void ReportUndefinedBinaryOperator(TextSpan span, string Operatortext, TypeSymbol leftType, TypeSymbol rightType)
         {
 
             var message = $"Binary operator '{Operatortext}' is not defined for types '{leftType}' and '{rightType}'.";
@@ -76,7 +77,7 @@ namespace Lex.CodeAnalysis
             var message = $"Variable '{name}' is already declared.";
             Report(span, message);
         }
-        public void ReportCannotConvert(TextSpan span, Type fromType, Type toType)
+        public void ReportCannotConvert(TextSpan span, TypeSymbol fromType, TypeSymbol toType)
         {
             var message = $"Cannot convert type '{fromType}' to '{toType}'.";
             Report(span, message);
