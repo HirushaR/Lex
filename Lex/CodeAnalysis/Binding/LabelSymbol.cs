@@ -1,4 +1,4 @@
-namespace Lex.CodeAnalysis
+namespace Lex.CodeAnalysis.Binding
 {
     public sealed class LabelSymbol
     {
