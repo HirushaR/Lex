@@ -126,7 +126,7 @@ namespace Lex.CodeAnalysis.Binding
                 return b.Op.Kind.ToString() + "Expression";
             
             if (node is BoundUnaryExpression u)
-                return u.op.Kind.ToString() + "Expression";
+                return u.Op.Kind.ToString() + "Expression";
             
             return node.Kind.ToString();
         }
