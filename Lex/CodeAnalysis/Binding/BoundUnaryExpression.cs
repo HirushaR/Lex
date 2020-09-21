@@ -1,4 +1,5 @@
 using System;
+using Lex.CodeAnalysis.Symbols;
 
 namespace Lex.CodeAnalysis.Binding
 {
@@ -7,13 +8,15 @@ namespace Lex.CodeAnalysis.Binding
         public BoundUnaryExpression(BoundUnaryOperator op, BoundExpression operand)
         {
             
-            this.op = op;
+            this.Op = op;
             Operand = operand;
         }
 
         public override BoundNodeKind Kind => BoundNodeKind.UnaryExpression;
-        public override Type Type => op.ResultType;
-        public BoundUnaryOperator op { get; }
+
+        public BoundUnaryOperator Op { get; }
         public BoundExpression Operand { get; }
+
+        public override TypeSymbol Type =>Op.Type ;
     }
 }
