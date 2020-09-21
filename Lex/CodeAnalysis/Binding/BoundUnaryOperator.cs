@@ -30,7 +30,7 @@ namespace Lex.CodeAnalysis.Binding
 
         private static BoundUnaryOperator[] _operator =
         {
-            new BoundUnaryOperator(SyntaxKind.BangToken,BoundUnaryOperatorKind.LogicalNegation, TypeSymbol.Int),
+            new BoundUnaryOperator(SyntaxKind.BangToken,BoundUnaryOperatorKind.LogicalNegation, TypeSymbol.Bool),
             new BoundUnaryOperator(SyntaxKind.PlusToken,BoundUnaryOperatorKind.Identity, TypeSymbol.Int),
             new BoundUnaryOperator(SyntaxKind.MinusToken,BoundUnaryOperatorKind.Negation, TypeSymbol.Int),
             new BoundUnaryOperator(SyntaxKind.TildToken,BoundUnaryOperatorKind.OnceComplement, TypeSymbol.Int),

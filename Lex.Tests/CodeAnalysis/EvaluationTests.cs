@@ -1,7 +1,7 @@
+using System;
 using Lex.CodeAnalysis;
 using Lex.CodeAnalysis.Syntax;
 using Lex.CodeAnalysis.Symbols;
-using System;
 using System.Collections.Generic;
 using Xunit;
 
@@ -82,6 +82,7 @@ namespace Lex.Tests.CodeAnalysis
         [InlineData("{a = 0 if a == 0 a=10 else a =5 a }", 10)]
         [InlineData("{a = 0 if a == 4 a=10 else a =5 a }", 5)]
         [InlineData("{i = 10  result = 0 while i > 0 {result = result + i i = i -1} result}", 55)]
+         [InlineData("{result = 0 for i = 1 to 10 by 1 { result = result + i } result }", 55)]
         [InlineData("{result = 0 for i = 1 to 10 { result = result + i } result }", 55)]
         public void Evaluator_Computes_CorrectValues(string text, object expectedValue)
         {
@@ -187,7 +188,7 @@ namespace Lex.Tests.CodeAnalysis
             ";
 
             var diagnostics = @"
-                Cannot convert type 'System.Boolean' to 'System.Int32'.
+                Cannot convert type 'bool' to 'int'.
             ";
 
             AssertDiagnostics(text, diagnostics);
@@ -204,7 +205,7 @@ namespace Lex.Tests.CodeAnalysis
             ";
 
             var diagnostics = @"
-                Cannot convert type 'System.Int32' to 'System.Boolean'.
+                Cannot convert type 'int' to 'bool'.
             ";
 
             AssertDiagnostics(text, diagnostics);
@@ -222,7 +223,7 @@ namespace Lex.Tests.CodeAnalysis
             ";
 
             var diagnostics = @"
-                Cannot convert type 'System.Int32' to 'System.Boolean'.
+                Cannot convert type 'int' to 'bool'.
             ";
 
             AssertDiagnostics(text, diagnostics);
@@ -239,7 +240,7 @@ namespace Lex.Tests.CodeAnalysis
             ";
 
             var diagnostics = @"
-                Cannot convert type 'System.Boolean' to 'System.Int32'.
+                Cannot convert type 'bool' to 'int'.
             ";
 
             AssertDiagnostics(text, diagnostics);
@@ -257,7 +258,7 @@ namespace Lex.Tests.CodeAnalysis
             ";
 
             var diagnostics = @"
-                Cannot convert type 'System.Boolean' to 'System.Int32'.
+                Cannot convert type 'bool' to 'int'.
             ";
 
             AssertDiagnostics(text, diagnostics);
@@ -270,7 +271,7 @@ namespace Lex.Tests.CodeAnalysis
             var text = @"[+]true";
 
             var diagnostics = @"
-                Unary operator '+' is not defined for type 'System.Boolean'.
+                Unary operator '+' is not defined for type 'bool'.
             ";
 
             AssertDiagnostics(text, diagnostics);
@@ -282,7 +283,7 @@ namespace Lex.Tests.CodeAnalysis
             var text = @"10 [*] false";
 
             var diagnostics = @"
-                Binary operator '*' is not defined for types 'System.Int32' and 'System.Boolean'.
+                Binary operator '*' is not defined for types 'int' and 'bool'.
             ";
 
             AssertDiagnostics(text, diagnostics);
