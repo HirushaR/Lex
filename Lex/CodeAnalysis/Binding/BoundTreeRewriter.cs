@@ -170,7 +170,7 @@ namespace Lex.CodeAnalysis.Binding
             if(operand == node.Operand)
                 return node;
             
-            return new BoundUnaryExpression(node.op, operand);
+            return new BoundUnaryExpression(node.Op, operand);
         }
 
         protected virtual BoundExpression RewriteVariableExpression(BoundVariableExpression node)
