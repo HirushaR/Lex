@@ -16,10 +16,10 @@ namespace Lex.CodeAnalysis.Lowering
         {            
         }
 
-        private LabelSymbol GenerateLabel()
+        private BoundLabel GenerateLabel()
         {
             var name = $"Label{++_labelCount}";
-            return new LabelSymbol(name);
+            return new BoundLabel(name);
         }
 
         public static BoundBlockStatemnet Lower(BoundStatement statement)

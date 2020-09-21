@@ -4,7 +4,7 @@ namespace Lex.CodeAnalysis.Binding
     {
     
 
-        public BoundConditionalGotoStatment(LabelSymbol label,BoundExpression condition,bool jumpIfTrue =true)
+        public BoundConditionalGotoStatment(BoundLabel label,BoundExpression condition,bool jumpIfTrue =true)
         {
             Label = label;
             Condition = condition;
@@ -13,7 +13,7 @@ namespace Lex.CodeAnalysis.Binding
 
         public override BoundNodeKind Kind => BoundNodeKind.ConditionalGotoStatment;
 
-        public LabelSymbol Label { get; }
+        public BoundLabel Label { get; }
         public BoundExpression Condition { get; }
         public bool JumpIfTrue { get; }
     }
