@@ -19,6 +19,6 @@ namespace Lex.CodeAnalysis.Binding
         AssignmentExpression,
         BinaryExpression,
         VariableExpression,
-       
+        ErrorExpression,
     }
 }
