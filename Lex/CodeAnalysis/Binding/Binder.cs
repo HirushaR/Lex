@@ -233,12 +233,14 @@ namespace Lex.CodeAnalysis.Binding
         private BoundExpression BindUnaryExpression(UnaryExpressionSyntax syntax)
         {
             var boundOperand = BindExpression(syntax.Operand);
+            if(boundOperand.Type == TypeSymbol.Error)
+                return new BoundErrorExpression();
             var boundOperator = BoundUnaryOperator.Bind(syntax.OperatorToken.Kind, boundOperand.Type);
 
             if (boundOperator == null)
             {
                 _diagnostics.ReportUndefinedUnaryOperator(syntax.OperatorToken.Span, syntax.OperatorToken.Text, boundOperand.Type);
-                return boundOperand;
+                return new BoundErrorExpression();
             }
 
             return new BoundUnaryExpression(boundOperator, boundOperand);
