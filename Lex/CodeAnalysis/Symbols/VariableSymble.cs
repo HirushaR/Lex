@@ -17,9 +17,6 @@ namespace Lex.CodeAnalysis.Symbols
         public bool isReadOnly { get; }
         public Type Type { get; }
 
-        
-
-        public override string ToString() => Name;
     }
 
 }
