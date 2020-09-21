@@ -196,13 +196,13 @@ namespace Lex.CodeAnalysis.Binding
             {
                 // this means the token was inserted by the parser. We already
                 // reported the error we can just return an error expression
-                return new BoundLiteralExpression(0);
+                return new BoundErrorExpression();
             }
 
             if (!_scope.TryLookup(name, out var variable))
             {
                 _diagnostics.ReportUndefinedName(syntax.IdentifierToken.Span, name);
-                return new BoundLiteralExpression(0);
+                return new BoundErrorExpression();
             }
 
             return new BoundVariableExpression(variable);
