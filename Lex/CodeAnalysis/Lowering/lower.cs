@@ -163,11 +163,11 @@ namespace Lex.CodeAnalysis.Lowering
             var variableDeclaration = new BoundVeriableDeclaration(node.Variable, node.LowerBound);
             var variableExpression = new BoundVariableExpression(node.Variable);
             
-            var upperBoundSybmle = new VariableSymble("upperBound",true, typeof(int));
+            var upperBoundSybmle = new VariableSymble("upperBound",true, TypeSymbol.Int);
             var upperBoundDeclaration = new BoundVeriableDeclaration(upperBoundSybmle,node.UpperBound);
             var condition = new BoundBinaryExpression(
                 variableExpression,
-                BoundBinaryOperator.Bind(SyntaxKind.LessOrEqualToken, typeof(int), typeof(int)),
+                BoundBinaryOperator.Bind(SyntaxKind.LessOrEqualToken, TypeSymbol.Int, TypeSymbol.Int),
                 new BoundVariableExpression(upperBoundSybmle)
             );            
 
@@ -183,7 +183,7 @@ namespace Lex.CodeAnalysis.Lowering
                     node.Variable,
                     new BoundBinaryExpression(
                             variableExpression,
-                            BoundBinaryOperator.Bind(Operator, typeof(int), typeof(int)),
+                            BoundBinaryOperator.Bind(Operator, TypeSymbol.Int, TypeSymbol.Int),
                             Ittertator
                     )
                 )
