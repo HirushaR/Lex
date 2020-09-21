@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using Lex.CodeAnalysis.Symbols;
 using Lex.CodeAnalysis.Syntax;
 
 
