@@ -1,4 +1,4 @@
-namespace Lex.CodeAnalysis.Binding
+﻿namespace Lex.CodeAnalysis.Binding
 {
     public sealed class BoundLabel
     {

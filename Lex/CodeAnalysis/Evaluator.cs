@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Lex.CodeAnalysis.Binding;
+using Lex.CodeAnalysis.Symbols;
 
 namespace Lex.CodeAnalysis
 {

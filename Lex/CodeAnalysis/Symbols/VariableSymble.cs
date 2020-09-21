@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lex.CodeAnalysis
+namespace Lex.CodeAnalysis.Symbols
 {
     public sealed class VariableSymble
     {

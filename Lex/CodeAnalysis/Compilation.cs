@@ -7,6 +7,7 @@ using Lex.CodeAnalysis.Syntax;
 using System.Threading;
 using System.IO;
 using Lex.CodeAnalysis.Lowering;
+using Lex.CodeAnalysis.Symbols;
 
 namespace Lex.CodeAnalysis
 {

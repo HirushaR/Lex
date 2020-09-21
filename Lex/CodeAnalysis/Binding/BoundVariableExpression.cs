@@ -1,5 +1,5 @@
 ﻿using System;
-
+using Lex.CodeAnalysis.Symbols;
 
 namespace Lex.CodeAnalysis.Binding
 {

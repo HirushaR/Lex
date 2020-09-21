@@ -4,6 +4,7 @@ using Lex.CodeAnalysis.Syntax;
 using System.Collections.Generic;
 using System.Linq;
 using Lex.CodeAnalysis.Text;
+using Lex.CodeAnalysis.Symbols;
 
 namespace Lex
 {

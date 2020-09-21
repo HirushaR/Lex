@@ -1,5 +1,6 @@
 using Lex.CodeAnalysis;
 using Lex.CodeAnalysis.Syntax;
+using Lex.CodeAnalysis.Symbols;
 using System;
 using System.Collections.Generic;
 using Xunit;
