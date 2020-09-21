@@ -19,7 +19,7 @@ namespace Lex.CodeAnalysis
 
         public object Evaluate()
         {
-            var labeleToIndex = new Dictionary<LabelSymbol, int>();
+            var labeleToIndex = new Dictionary<BoundLabel, int>();
 
             for (var i = 0; i<_root.Statements.Length;i++)
             {

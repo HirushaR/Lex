@@ -4,13 +4,13 @@ namespace Lex.CodeAnalysis.Binding
     {
     
 
-        public BoundGotoStatment(LabelSymbol label)
+        public BoundGotoStatment(BoundLabel label)
         {
             Label = label;
         }
 
         public override BoundNodeKind Kind => BoundNodeKind.GotoStatment;
 
-        public LabelSymbol Label { get; }
+        public BoundLabel Label { get; }
     }
 }
