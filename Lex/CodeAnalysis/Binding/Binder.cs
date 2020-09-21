@@ -112,10 +112,9 @@ namespace Lex.CodeAnalysis.Binding
          private BoundStatement BindIfStatement(IfStatementSyntax syntax)
         {
             var condition = BindExpression(syntax.Condition, TypeSymbol.Bool);
-            var thenstatement = BindStatement(syntax.ThenStatement);
-            var elseStatement = syntax.ElseClouse ==null ? null : BindStatement(syntax.ElseClouse.ElseStatement);
-
-            return new BoundIfStatement(condition,thenstatement,elseStatement);
+            var thenStatement = BindStatement(syntax.ThenStatement);
+            var elseStatement = syntax.ElseClouse == null ? null : BindStatement(syntax.ElseClouse.ElseStatement);
+            return new BoundIfStatement(condition, thenStatement, elseStatement);
         }
          private BoundStatement BindForStatement(ForStatementSyntax syntax)
         {
@@ -127,7 +126,6 @@ namespace Lex.CodeAnalysis.Binding
 
             var name = syntax.Identifier.Text;
             var Ittetarot = syntax.Itterator ==null ? null : BindExpression(syntax.Itterator, TypeSymbol.Int);
-            //var Ittetarot = BindExpression(syntax.Itterator, typeof(int));
             var variable = new VariableSymble(name, true, TypeSymbol.Int);
             if (!_scope.TryDeclare(variable))
                 _diagnostics.ReportVariableAlreadyDecleard(syntax.Identifier.Span, name);
@@ -138,11 +136,11 @@ namespace Lex.CodeAnalysis.Binding
 
             return new BoundForStatement(variable, lowerBound, upperBound,Ittetarot, body);
         }
-          private BoundStatement BindWhileStatement(WhileStatementSyntax syntax)
+        private BoundStatement BindWhileStatement(WhileStatementSyntax syntax)
         {
             var condition = BindExpression(syntax.Condition, TypeSymbol.Bool);
             var body = BindStatement(syntax.Body);
-            return new BoundWhileStatement(condition,body);
+            return new BoundWhileStatement(condition, body);
         }
 
         private BoundStatement BindExpressionStatement(ExpressionStatemnetSyntax syntax)
@@ -154,7 +152,7 @@ namespace Lex.CodeAnalysis.Binding
         {
             var result = BindExpression(syntax);
             if (result.Type != TargetType)
-                _diagnostics.ReportCannotConvert(syntax.Span, result.Type, TargetType);
+                _diagnostics.ReportCannotConvert(syntax.Span, result.Type,TargetType);
             
             return result;
         }
