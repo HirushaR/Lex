@@ -132,6 +132,8 @@ namespace Lex.CodeAnalysis.Binding
         {
             switch(node.Kind)
            {
+               case BoundNodeKind.ErrorExpression:
+                    return RewriteErrorExpression((BoundErrorExpression)node);
                case BoundNodeKind.BinaryExpression:
                     return RewriteBinaryExpression((BoundBinaryExpression)node);
                case BoundNodeKind.LiteralExpression:
@@ -148,7 +150,11 @@ namespace Lex.CodeAnalysis.Binding
            }
         }
 
-        
+        protected virtual BoundExpression RewriteErrorExpression(BoundErrorExpression node)
+        {
+            return node;
+        }
+
         protected virtual BoundExpression RewriteBinaryExpression(BoundBinaryExpression node)
         {
             var left = RewriteExpression(node.Left);
