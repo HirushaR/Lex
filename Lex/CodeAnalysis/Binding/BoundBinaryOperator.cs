@@ -7,33 +7,30 @@ namespace Lex.CodeAnalysis.Binding
 
         internal sealed class BoundBinaryOperator
         {
-            private BoundBinaryOperator(SyntaxKind syntaxkind, BoundBinaryOperatorKind kind, TypeSymbol type)
-                :this(syntaxkind, kind,type,type,type)
-            {
+         private BoundBinaryOperator(SyntaxKind syntaxKind, BoundBinaryOperatorKind kind, TypeSymbol type)
+            : this(syntaxKind, kind, type, type, type)
+        {
+        }
 
-            }
-            private BoundBinaryOperator(SyntaxKind syntaxkind, BoundBinaryOperatorKind kind, TypeSymbol operandType,TypeSymbol resultType)
-                  : this(syntaxkind, kind, operandType, operandType, resultType)
-            {
+        private BoundBinaryOperator(SyntaxKind syntaxKind, BoundBinaryOperatorKind kind, TypeSymbol operandType, TypeSymbol resultType)
+            : this(syntaxKind, kind, operandType, operandType, resultType)
+        {
+        }
 
-            }
+        private BoundBinaryOperator(SyntaxKind syntaxKind, BoundBinaryOperatorKind kind, TypeSymbol leftType, TypeSymbol rightType, TypeSymbol resultType)
+        {
+            SyntaxKind = syntaxKind;
+            Kind = kind;
+            LeftType = leftType;
+            RightType = rightType;
+            Type = resultType;
+        }
 
-        private BoundBinaryOperator(SyntaxKind syntaxkind, BoundBinaryOperatorKind kind, TypeSymbol leftType, TypeSymbol rightType, TypeSymbol resultType)
-            {
-                Syntaxkind = syntaxkind;
-                Kind = kind;
-                LeftType = leftType;
-                RightType = rightType;
-                ResultType = resultType;
-            }
-
-            public SyntaxKind Syntaxkind { get; }
-            public BoundBinaryOperatorKind Kind { get; }
-            public TypeSymbol LeftType { get; }
-            public TypeSymbol RightType { get; }
-            public TypeSymbol ResultType { get; }
-        public TypeSymbol Type { get; internal set; }
-
+        public SyntaxKind SyntaxKind { get; }
+        public BoundBinaryOperatorKind Kind { get; }
+        public TypeSymbol LeftType { get; }
+        public TypeSymbol RightType { get; }
+        public TypeSymbol Type { get; }
         private static BoundBinaryOperator[] _operator =
             {
             new BoundBinaryOperator(SyntaxKind.PlusToken,BoundBinaryOperatorKind.Addition, TypeSymbol.Int),
@@ -71,7 +68,7 @@ namespace Lex.CodeAnalysis.Binding
             {
                 foreach (var op in _operator)
                 {
-                    if (op.Syntaxkind == syntaxkind && op.LeftType == leftType && op.RightType == rightType)
+                    if (op.SyntaxKind == syntaxkind && op.LeftType == leftType && op.RightType == rightType)
                         return op;
                 }
                 return null;
