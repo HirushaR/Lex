@@ -128,7 +128,7 @@ namespace Lex.CodeAnalysis
             var operand = EvaluateExpression(u.Operand);
 
 
-            switch (u.op.Kind)
+            switch (u.Op.Kind)
             {
                 case BoundUnaryOperatorKind.Identity:
                     return (int)operand;
@@ -139,7 +139,7 @@ namespace Lex.CodeAnalysis
                 case BoundUnaryOperatorKind.OnceComplement:
                     return ~(int)operand;
                 default:
-                    throw new Exception($"Unexpected unary operator {u.op.Kind}");
+                    throw new Exception($"Unexpected unary operator {u.Op.Kind}");
             }
         }
 
@@ -173,17 +173,17 @@ namespace Lex.CodeAnalysis
                     return (int)left <= (int)right;
 
                 case BoundBinaryOperatorKind.BitwiseAnd:
-                    if(b.Type == typeof(int))
+                    if(b.Type == TypeSymbol.Int)
                         return (int)left & (int)right;
                     else
                         return (bool)left & (bool)right;
                 case BoundBinaryOperatorKind.BitwiseOr:
-                   if(b.Type == typeof(int))
+                   if(b.Type == TypeSymbol.Int)
                         return (int)left | (int)right;
                     else
                         return (bool)left | (bool)right;
                 case BoundBinaryOperatorKind.BitwiseXor:
-                    if(b.Type == typeof(int))
+                    if(b.Type == TypeSymbol.Int)
                         return (int)left ^ (int)right;
                     else
                         return (bool)left ^ (bool)right;
