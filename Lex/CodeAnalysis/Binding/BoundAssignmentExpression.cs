@@ -3,6 +3,7 @@ using Lex.CodeAnalysis.Symbols;
 
 namespace Lex.CodeAnalysis.Binding
 {
+
     internal sealed class BoundAssignmentExpression : BoundExpression
     {
 
