@@ -83,11 +83,12 @@ namespace Lex.CodeAnalysis.Binding
         
         private BoundStatement BindVeriableDeclaration(VeriableDeclarationSyntax syntax)
         {
-            var name = syntax.Identifier.Text;
+            var name = syntax.Identifier.Text ?? "?";
+            var declare = !syntax.Identifier.isMissing;
             var initializer = BindExpression(syntax.Initializer);
             var variable = new VariableSymble(name,false,initializer.Type);
 
-            if(!_scope.TryDeclare(variable))            
+            if(declare && !_scope.TryDeclare(variable))            
                 _diagnostics.ReportVariableAlreadyDecleard(syntax.Identifier.Span, name);
 
             return new BoundVeriableDeclaration(variable,initializer);
