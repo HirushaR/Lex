@@ -146,7 +146,7 @@ namespace Lex.CodeAnalysis.Lowering
 
         protected override BoundStatement RewriteForStatement(BoundForStatement node)
         {
-            // for <var> = <lower> to <upper>
+            // for <var> = <lower> to <upper> by <incriment>
             //      <body>
             //
             // ---->
@@ -159,12 +159,15 @@ namespace Lex.CodeAnalysis.Lowering
             //          <var> = <var> + 1
             //      }   
             // }
+            
+
 
             var variableDeclaration = new BoundVeriableDeclaration(node.Variable, node.LowerBound);
             var variableExpression = new BoundVariableExpression(node.Variable);
             
             var upperBoundSybmle = new VariableSymble("upperBound",true, TypeSymbol.Int);
             var upperBoundDeclaration = new BoundVeriableDeclaration(upperBoundSybmle,node.UpperBound);
+
             var condition = new BoundBinaryExpression(
                 variableExpression,
                 BoundBinaryOperator.Bind(SyntaxKind.LessOrEqualToken, TypeSymbol.Int, TypeSymbol.Int),

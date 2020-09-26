@@ -117,7 +117,7 @@ namespace Lex.CodeAnalysis.Binding
             var elseStatement = syntax.ElseClouse == null ? null : BindStatement(syntax.ElseClouse.ElseStatement);
             return new BoundIfStatement(condition, thenStatement, elseStatement);
         }
-         private BoundStatement BindForStatement(ForStatementSyntax syntax)
+        private BoundStatement BindForStatement(ForStatementSyntax syntax)
         {
             var lowerBound = BindExpression(syntax.LowerBound, TypeSymbol.Int);
             var upperBound = BindExpression(syntax.UpperBoud, TypeSymbol.Int);
@@ -128,6 +128,7 @@ namespace Lex.CodeAnalysis.Binding
             var name = syntax.Identifier.Text;
             var Ittetarot = syntax.Itterator ==null ? null : BindExpression(syntax.Itterator, TypeSymbol.Int);
             var variable = new VariableSymble(name, true, TypeSymbol.Int);
+
             if (!_scope.TryDeclare(variable))
                 _diagnostics.ReportVariableAlreadyDecleard(syntax.Identifier.Span, name);
 
