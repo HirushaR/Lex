@@ -7,7 +7,7 @@ namespace Lex.CodeAnalysis.Syntax
 {
     public sealed class SyntaxTree
     {
-        //, ImmutableArray<Diagnostic> diagnostics, CompilationUnitSyntax root
+        //ImmutableArray<Diagnostic> diagnostics, CompilationUnitSyntax root
         private SyntaxTree(SourceText text)
         {
             var parser = new Parser(text);
