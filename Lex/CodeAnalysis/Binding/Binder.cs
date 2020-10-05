@@ -121,23 +121,32 @@ namespace Lex.CodeAnalysis.Binding
         {
             var lowerBound = BindExpression(syntax.LowerBound, TypeSymbol.Int);
             var upperBound = BindExpression(syntax.UpperBoud, TypeSymbol.Int);
-            
+
 
             _scope = new BoundScope(_scope);
 
-            var name = syntax.Identifier.Text;
-            var Ittetarot = syntax.Itterator ==null ? null : BindExpression(syntax.Itterator, TypeSymbol.Int);
-            var variable = new VariableSymble(name, true, TypeSymbol.Int);
-
-            if (!_scope.TryDeclare(variable))
-                _diagnostics.ReportVariableAlreadyDecleard(syntax.Identifier.Span, name);
+            SyntaxToken identifier = syntax.Identifier;
+            ExpressionSyntax itterator = syntax.Itterator;
+            BoundExpression Ittetarot;
+            VariableSymble variable = BindVariable(syntax, identifier, itterator, out Ittetarot, out variable);
 
             var body = BindStatement(syntax.Body);
 
             _scope = _scope.Parent;
 
-            return new BoundForStatement(variable, lowerBound, upperBound,Ittetarot, body);
+            return new BoundForStatement(variable, lowerBound, upperBound, Ittetarot, body);
         }
+
+        private VariableSymble BindVariable(ForStatementSyntax syntax, SyntaxToken identifier, ExpressionSyntax itterator, out BoundExpression Ittetarot, out VariableSymble variable)
+        {
+            var name = identifier.Text;
+            Ittetarot = itterator == null ? null : BindExpression(syntax.Itterator, TypeSymbol.Int);
+            variable = new VariableSymble(name, true, TypeSymbol.Int);
+            if (!_scope.TryDeclare(variable))
+                _diagnostics.ReportVariableAlreadyDecleard(syntax.Identifier.Span, name);
+            return variable;
+        }
+
         private BoundStatement BindWhileStatement(WhileStatementSyntax syntax)
         {
             var condition = BindExpression(syntax.Condition, TypeSymbol.Bool);
