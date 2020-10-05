@@ -129,7 +129,7 @@ namespace Lex.CodeAnalysis.Binding
             TypeSymbol @int = TypeSymbol.Int;
             ExpressionSyntax itterator = syntax.Itterator;
             BoundExpression Ittetarot;
-            VariableSymble variable = BindVariable(syntax, identifier, itterator, out Ittetarot,@int);
+            VariableSymble variable = BindVariable(syntax, identifier, itterator, out Ittetarot,TypeSymbol.Int);
 
             var body = BindStatement(syntax.Body);
 
@@ -138,7 +138,7 @@ namespace Lex.CodeAnalysis.Binding
             return new BoundForStatement(variable, lowerBound, upperBound, Ittetarot, body);
         }
 
-        private VariableSymble BindVariable(SyntaxToken identifier, ExpressionSyntax itterator, out BoundExpression Ittetarot,TypeSymbol @int)
+        private VariableSymble BindVariable(ForStatementSyntax syntax, SyntaxToken identifier, ExpressionSyntax itterator, out BoundExpression Ittetarot,TypeSymbol @int)
         {
             var name = identifier.Text;
             Ittetarot = itterator == null ? null : BindExpression(itterator, TypeSymbol.Int);
