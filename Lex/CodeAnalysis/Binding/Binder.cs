@@ -160,7 +160,9 @@ namespace Lex.CodeAnalysis.Binding
         private BoundExpression BindExpression(ExpressionSyntax syntax,TypeSymbol TargetType)
         {
             var result = BindExpression(syntax);
-            if (result.Type != TargetType)
+            if (result.Type != TypeSymbol.Error &&
+                TargetType != TypeSymbol.Error &&
+                 result.Type != TargetType)
                 _diagnostics.ReportCannotConvert(syntax.Span, result.Type,TargetType);
             
             return result;
