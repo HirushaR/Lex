@@ -140,7 +140,7 @@ namespace Lex.CodeAnalysis.Binding
      
             var variable = new VariableSymble(name, true, @int);
 
-            if (!_scope.TryDeclare(variable))
+            if (declare &&!_scope.TryDeclare(variable))
                 _diagnostics.ReportVariableAlreadyDecleard(identifier.Span, name);
             return variable;
         }
