@@ -203,7 +203,7 @@ namespace Lex.CodeAnalysis.Binding
         private BoundExpression BindNameExpression(NameExpressionSyntax syntax)
         {
             var name = syntax.IdentifierToken.Text;
-            if(string.IsNullOrEmpty(name))
+            if(syntax.IdentifierToken.isMissing)
             {
                 // this means the token was inserted by the parser. We already
                 // reported the error we can just return an error expression
