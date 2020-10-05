@@ -83,13 +83,10 @@ namespace Lex.CodeAnalysis.Binding
         
         private BoundStatement BindVeriableDeclaration(VeriableDeclarationSyntax syntax)
         {
-            var name = syntax.Identifier.Text ?? "?";
-            var declare = !syntax.Identifier.isMissing;
+ 
             var initializer = BindExpression(syntax.Initializer);
-            var variable = new VariableSymble(name,false,initializer.Type);
-
-            if(declare && !_scope.TryDeclare(variable))            
-                _diagnostics.ReportVariableAlreadyDecleard(syntax.Identifier.Span, name);
+            var variable = BindVariable(syntax.Identifier, initializer.Type);
+            
 
             return new BoundVeriableDeclaration(variable,initializer);
             
@@ -126,10 +123,8 @@ namespace Lex.CodeAnalysis.Binding
             _scope = new BoundScope(_scope);
 
             SyntaxToken identifier = syntax.Identifier;
-            TypeSymbol @int = TypeSymbol.Int;
-            ExpressionSyntax itterator = syntax.Itterator;
-            BoundExpression Ittetarot;
-            VariableSymble variable = BindVariable(syntax, identifier, itterator, out Ittetarot,TypeSymbol.Int);
+            var Ittetarot = syntax.Itterator == null ? null : BindExpression(syntax.Itterator, TypeSymbol.Int);
+            VariableSymble variable = BindVariable(identifier,TypeSymbol.Int);
 
             var body = BindStatement(syntax.Body);
 
@@ -138,16 +133,15 @@ namespace Lex.CodeAnalysis.Binding
             return new BoundForStatement(variable, lowerBound, upperBound, Ittetarot, body);
         }
 
-        private VariableSymble BindVariable(ForStatementSyntax syntax, SyntaxToken identifier, ExpressionSyntax itterator, out BoundExpression Ittetarot,TypeSymbol @int)
+        private VariableSymble BindVariable(SyntaxToken identifier,TypeSymbol @int)
         {
             var name = identifier.Text ?? "?";
             var declare = !identifier.isMissing;
-
-
-            Ittetarot = itterator == null ? null : BindExpression(itterator, TypeSymbol.Int);
+     
             var variable = new VariableSymble(name, true, @int);
-            if (declare && !_scope.TryDeclare(variable))
-                _diagnostics.ReportVariableAlreadyDecleard(itterator.Span, name);
+
+            if (!_scope.TryDeclare(variable))
+                _diagnostics.ReportVariableAlreadyDecleard(identifier.Span, name);
             return variable;
         }
 
