@@ -126,9 +126,10 @@ namespace Lex.CodeAnalysis.Binding
             _scope = new BoundScope(_scope);
 
             SyntaxToken identifier = syntax.Identifier;
+            TypeSymbol @int = TypeSymbol.Int;
             ExpressionSyntax itterator = syntax.Itterator;
             BoundExpression Ittetarot;
-            VariableSymble variable = BindVariable(syntax, identifier, itterator, out Ittetarot, out variable);
+            VariableSymble variable = BindVariable(syntax, identifier, itterator, out Ittetarot,@int);
 
             var body = BindStatement(syntax.Body);
 
@@ -137,13 +138,13 @@ namespace Lex.CodeAnalysis.Binding
             return new BoundForStatement(variable, lowerBound, upperBound, Ittetarot, body);
         }
 
-        private VariableSymble BindVariable(ForStatementSyntax syntax, SyntaxToken identifier, ExpressionSyntax itterator, out BoundExpression Ittetarot, out VariableSymble variable)
+        private VariableSymble BindVariable(SyntaxToken identifier, ExpressionSyntax itterator, out BoundExpression Ittetarot,TypeSymbol @int)
         {
             var name = identifier.Text;
-            Ittetarot = itterator == null ? null : BindExpression(syntax.Itterator, TypeSymbol.Int);
-            variable = new VariableSymble(name, true, TypeSymbol.Int);
+            Ittetarot = itterator == null ? null : BindExpression(itterator, TypeSymbol.Int);
+            var variable = new VariableSymble(name, true, @int);
             if (!_scope.TryDeclare(variable))
-                _diagnostics.ReportVariableAlreadyDecleard(syntax.Identifier.Span, name);
+                _diagnostics.ReportVariableAlreadyDecleard(itterator.Span, name);
             return variable;
         }
 
