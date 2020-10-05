@@ -140,10 +140,13 @@ namespace Lex.CodeAnalysis.Binding
 
         private VariableSymble BindVariable(ForStatementSyntax syntax, SyntaxToken identifier, ExpressionSyntax itterator, out BoundExpression Ittetarot,TypeSymbol @int)
         {
-            var name = identifier.Text;
+            var name = identifier.Text ?? "?";
+            var declare = !identifier.isMissing;
+
+
             Ittetarot = itterator == null ? null : BindExpression(itterator, TypeSymbol.Int);
             var variable = new VariableSymble(name, true, @int);
-            if (!_scope.TryDeclare(variable))
+            if (declare && !_scope.TryDeclare(variable))
                 _diagnostics.ReportVariableAlreadyDecleard(itterator.Span, name);
             return variable;
         }
