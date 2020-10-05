@@ -83,13 +83,10 @@ namespace Lex.CodeAnalysis.Binding
         
         private BoundStatement BindVeriableDeclaration(VeriableDeclarationSyntax syntax)
         {
-            var name = syntax.Identifier.Text ?? "?";
-            var declare = !syntax.Identifier.isMissing;
+ 
             var initializer = BindExpression(syntax.Initializer);
-            var variable = new VariableSymble(name,false,initializer.Type);
-
-            if(declare && !_scope.TryDeclare(variable))            
-                _diagnostics.ReportVariableAlreadyDecleard(syntax.Identifier.Span, name);
+            var variable = BindVariable(syntax.Identifier, initializer.Type);
+            
 
             return new BoundVeriableDeclaration(variable,initializer);
             
@@ -121,23 +118,33 @@ namespace Lex.CodeAnalysis.Binding
         {
             var lowerBound = BindExpression(syntax.LowerBound, TypeSymbol.Int);
             var upperBound = BindExpression(syntax.UpperBoud, TypeSymbol.Int);
-            
+
 
             _scope = new BoundScope(_scope);
 
-            var name = syntax.Identifier.Text;
-            var Ittetarot = syntax.Itterator ==null ? null : BindExpression(syntax.Itterator, TypeSymbol.Int);
-            var variable = new VariableSymble(name, true, TypeSymbol.Int);
-
-            if (!_scope.TryDeclare(variable))
-                _diagnostics.ReportVariableAlreadyDecleard(syntax.Identifier.Span, name);
+            SyntaxToken identifier = syntax.Identifier;
+            var Ittetarot = syntax.Itterator == null ? null : BindExpression(syntax.Itterator, TypeSymbol.Int);
+            VariableSymble variable = BindVariable(identifier,TypeSymbol.Int);
 
             var body = BindStatement(syntax.Body);
 
             _scope = _scope.Parent;
 
-            return new BoundForStatement(variable, lowerBound, upperBound,Ittetarot, body);
+            return new BoundForStatement(variable, lowerBound, upperBound, Ittetarot, body);
         }
+
+        private VariableSymble BindVariable(SyntaxToken identifier,TypeSymbol @int)
+        {
+            var name = identifier.Text ?? "?";
+            var declare = !identifier.isMissing;
+     
+            var variable = new VariableSymble(name, true, @int);
+
+            if (declare &&!_scope.TryDeclare(variable))
+                _diagnostics.ReportVariableAlreadyDecleard(identifier.Span, name);
+            return variable;
+        }
+
         private BoundStatement BindWhileStatement(WhileStatementSyntax syntax)
         {
             var condition = BindExpression(syntax.Condition, TypeSymbol.Bool);
@@ -153,7 +160,9 @@ namespace Lex.CodeAnalysis.Binding
         private BoundExpression BindExpression(ExpressionSyntax syntax,TypeSymbol TargetType)
         {
             var result = BindExpression(syntax);
-            if (result.Type != TargetType)
+            if (result.Type != TypeSymbol.Error &&
+                TargetType != TypeSymbol.Error &&
+                 result.Type != TargetType)
                 _diagnostics.ReportCannotConvert(syntax.Span, result.Type,TargetType);
             
             return result;
