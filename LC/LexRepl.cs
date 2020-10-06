@@ -21,14 +21,18 @@ namespace Lex
             foreach(var token in tokens)
             {
                 var isKeyWord = token.Kind.ToString().EndsWith("Keyword");
-                var isNumber = token.Kind == SyntaxKind.NumberToken;
                 var isIdentifier = token.Kind == SyntaxKind.IdentifierToken;
+                var isNumber = token.Kind == SyntaxKind.NumberToken;       
+                var isString = token.Kind == SyntaxKind.StringToken;       
+
                 if(isKeyWord)
                     Console.ForegroundColor = ConsoleColor.Blue;
                 else if (isIdentifier)
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
-                else if (!isNumber)
-                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                else if (isNumber)
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                else if (isString)
+                    Console.ForegroundColor = ConsoleColor.Magenta;
                 else
                     Console.ForegroundColor = ConsoleColor.DarkGray;
 
@@ -102,7 +106,7 @@ namespace Lex
 
             if (!result.Diagnostics.Any())
             {
-                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine(result.Value);
                 Console.ResetColor();
                 _previous = compilation;
