@@ -85,7 +85,7 @@ namespace Lex.CodeAnalysis.Binding
         {
  
             var initializer = BindExpression(syntax.Initializer);
-            var variable = BindVariable(syntax.Identifier, initializer.Type);
+            var variable = BindVariable(syntax.Identifier,false, initializer.Type);
             
 
             return new BoundVeriableDeclaration(variable,initializer);
@@ -124,7 +124,7 @@ namespace Lex.CodeAnalysis.Binding
 
             SyntaxToken identifier = syntax.Identifier;
             var Ittetarot = syntax.Itterator == null ? null : BindExpression(syntax.Itterator, TypeSymbol.Int);
-            VariableSymble variable = BindVariable(identifier,TypeSymbol.Int);
+            VariableSymble variable = BindVariable(identifier,true,TypeSymbol.Int);
 
             var body = BindStatement(syntax.Body);
 
@@ -133,12 +133,12 @@ namespace Lex.CodeAnalysis.Binding
             return new BoundForStatement(variable, lowerBound, upperBound, Ittetarot, body);
         }
 
-        private VariableSymble BindVariable(SyntaxToken identifier,TypeSymbol @int)
+        private VariableSymble BindVariable(SyntaxToken identifier,bool isreadonly,TypeSymbol @int)
         {
             var name = identifier.Text ?? "?";
             var declare = !identifier.isMissing;
      
-            var variable = new VariableSymble(name, true, @int);
+            var variable = new VariableSymble(name, isreadonly, @int);
 
             if (declare &&!_scope.TryDeclare(variable))
                 _diagnostics.ReportVariableAlreadyDecleard(identifier.Span, name);
