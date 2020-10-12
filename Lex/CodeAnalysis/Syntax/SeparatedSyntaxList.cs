@@ -22,11 +22,14 @@ namespace Lex.CodeAnalysis.Syntax
         }
         public int Count => _separatorAndNodes.Length + 1 /2;
         public T this[int index] => (T) _separatorAndNodes[index * 2];
-
-        public SyntaxToken GetSeparator(int index) =>(SyntaxToken) _separatorAndNodes[index * 2 +1];
-
+        public SyntaxToken GetSeparator(int index)
+        {
+            if(index == Count - 1)
+                return null;
+            return (SyntaxToken) _separatorAndNodes[index * 2 +1];
+        }
+        
         public override ImmutableArray<SyntaxNode> GetWithSeparators() => _separatorAndNodes;
-
         public IEnumerator<T> GetEnumerator()
         {
             for (var i = 0;i<Count; i++)

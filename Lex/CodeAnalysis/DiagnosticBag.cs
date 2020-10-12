@@ -83,13 +83,29 @@ namespace Lex.CodeAnalysis
             Report(span, message);
         }
 
-        internal void ReportCannotAssign(TextSpan span, string name)
+        public void ReportCannotAssign(TextSpan span, string name)
         {
            var message =  $"Variable '{name}' is read-only and cannot be assigned to.";
             Report(span, message);
         }
 
-       
+        public void ReportWrongArgumentCount(TextSpan span, string name, int exprectedCount, int actualCount)
+        {
+           var message =  $"Function '{name}'  requires '{exprectedCount}' arguments but was given '{actualCount}'.";
+            Report(span, message);
+        }
+
+        public void ReportUndefinedFunction(TextSpan span, string name)
+        {
+           var message =  $"Function '{name}'  doesn't exist.";
+            Report(span, message);
+        }
+
+        public void ReportWrongArgumentType(TextSpan span, string name, string pname, TypeSymbol ptype, TypeSymbol actualType)
+        {
+            var message =  $"Function '{name}', parameter '{pname}' requires a value of type '{ptype}' arguments but was given a value of type  '{actualType}'.";
+            Report(span, message);
+        }
     }
 
 

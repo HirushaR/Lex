@@ -193,8 +193,42 @@ namespace Lex.CodeAnalysis.Binding
 
         private BoundExpression BindCallExpression(CallExpressionSyntax syntax)
         {
-            _diagnostics.ReportBadCharactor(syntax.Identifier.Span.Start,'X');
-            return new BoundErrorExpression();
+            var boundArguments = ImmutableArray.CreateBuilder<BoundExpression>();
+
+            foreach(var argument in syntax.Arguments)
+            {
+                var boundArgument = BindExpression(argument);
+                boundArguments.Add(boundArgument);
+            }
+            var functions = BuiltinFunctions.GetAll();
+
+            var function = functions.SingleOrDefault(f => f.Name ==syntax.Identifier.Text);
+            if(function == null)
+            {
+                 _diagnostics.ReportUndefinedFunction(syntax.Identifier.Span,syntax.Identifier.Text);
+                return new BoundErrorExpression();
+            }
+            
+            if(syntax.Arguments.Count != function.Parameter.Length)
+            {
+                 _diagnostics.ReportWrongArgumentCount(syntax.Span,function.Name, function.Parameter.Length, syntax.Arguments.Count);
+                return new BoundErrorExpression();
+            }
+
+            for (var i = 0; i<syntax.Arguments.Count;i++)
+            {
+               
+                var Argument = boundArguments[i];
+                var parameter = function.Parameter[i];
+
+                if(Argument.Type != parameter.Type)
+                {
+                     _diagnostics.ReportWrongArgumentType(syntax.Span,function.Name, parameter.Name, parameter.Type,Argument.Type);
+                    return new BoundErrorExpression();
+                }
+            }
+            return new BoundCallExpression(function, boundArguments.ToImmutable());
+           
         }
 
         private BoundExpression BindParenthesizedExpression(ParenthesizedExpressionSyntax syntax)
