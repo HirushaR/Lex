@@ -193,6 +193,7 @@ namespace Lex.CodeAnalysis.Binding
 
         private BoundExpression BindCallExpression(CallExpressionSyntax syntax)
         {
+            var function = BuiltinFunctions.GetAll();
             _diagnostics.ReportBadCharactor(syntax.Identifier.Span.Start,'X');
             return new BoundErrorExpression();
         }
