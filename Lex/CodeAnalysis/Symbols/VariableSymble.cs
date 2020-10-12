@@ -2,7 +2,7 @@
 
 namespace Lex.CodeAnalysis.Symbols
 {
-    public sealed class VariableSymble: Symbol
+    public class VariableSymble: Symbol
     {
         public VariableSymble(string name,bool isreadOnly, TypeSymbol type)
         :base(name)

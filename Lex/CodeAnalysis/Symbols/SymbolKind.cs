@@ -3,7 +3,9 @@ namespace Lex.CodeAnalysis.Symbols
     public enum SymbolKind
     {
         Variable,
-        Type
+        Type,
+        Function,
+        Parameter
     }
 
 }
