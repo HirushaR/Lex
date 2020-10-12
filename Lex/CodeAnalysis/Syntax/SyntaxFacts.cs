@@ -155,7 +155,9 @@ namespace Lex.CodeAnalysis.Syntax
                         return "(";
                     case SyntaxKind.CloseParenthesisToken: 
                         return ")";
-                     case SyntaxKind.OpenBraceToken: 
+                    case SyntaxKind.CommaToken: 
+                        return ",";
+                    case SyntaxKind.OpenBraceToken: 
                         return "{";
                     case SyntaxKind.CloseBraceToken: 
                         return "}";

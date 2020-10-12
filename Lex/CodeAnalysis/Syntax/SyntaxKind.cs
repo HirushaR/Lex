@@ -32,6 +32,7 @@ namespace Lex.CodeAnalysis.Syntax
         CloseParenthesisToken,      
         OpenBraceToken,
         CloseBraceToken,
+         CommaToken,
         IdentifierToken,
 
 
@@ -67,6 +68,7 @@ namespace Lex.CodeAnalysis.Syntax
         BinaryExpression,
         ParenthesizedExpression,
         AssigmentExpression,
-        
+        CallExpression,
+       
     }
 }
