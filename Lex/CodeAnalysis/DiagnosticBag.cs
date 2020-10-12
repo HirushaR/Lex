@@ -89,7 +89,17 @@ namespace Lex.CodeAnalysis
             Report(span, message);
         }
 
-       
+        internal void ReportWrongArgument(TextSpan span, string name, int exprectedCount, int actualCount)
+        {
+           var message =  $"Function '{name}'  requires {exprectedCount} arguments but was given {actualCount}.";
+            Report(span, message);
+        }
+
+        internal void ReportUndefinedFunction(TextSpan span, string name)
+        {
+           var message =  $"Function '{name}'  doesn't exist.";
+            Report(span, message);
+        }
     }
 
 
