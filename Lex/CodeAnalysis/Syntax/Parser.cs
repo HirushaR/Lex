@@ -276,12 +276,48 @@ namespace Lex.CodeAnalysis.Syntax
                 
                 case SyntaxKind.IdentifierToken:  
                 default:
-                     return ParseNameExpression();
+                     return ParseNameOrCallExpression();
             }
             
             
         }
 
+        private ExpressionSyntax ParseNameOrCallExpression()
+        {
+            if(Peek(0).Kind == SyntaxKind.IdentifierToken && Peek(1).Kind == SyntaxKind.OpenParenthesisToken)
+                return ParseCallExpression();
+            
+            return ParseNameExpression();
+        }
+
+        private ExpressionSyntax ParseCallExpression()
+        {
+            var identifier = MatchToken(SyntaxKind.IdentifierToken);
+            var OpenParenthesisToken = MatchToken(SyntaxKind.OpenParenthesisToken);
+            var arguments = ParseArguments();
+            var CloseParenthesisToken = MatchToken(SyntaxKind.CloseParenthesisToken);
+
+            return new CallExpressionSyntax(identifier, OpenParenthesisToken,arguments,CloseParenthesisToken);
+        }
+
+        private SeparatedSyntaxList<ExpressionSyntax> ParseArguments()
+        {
+            var nodesAndSeparator = ImmutableArray.CreateBuilder<SyntaxNode>();
+
+            while(Current.Kind  != SyntaxKind.CloseParenthesisToken &&
+                  Current.Kind != SyntaxKind.EndOfFileToken)
+                {
+                    var expression = ParseExpression();
+                    nodesAndSeparator.Add(expression);
+                    if(Current.Kind != SyntaxKind.CloseParenthesisToken)
+                    {
+                        var comma = MatchToken(SyntaxKind.CommaToken);
+                        nodesAndSeparator.Add(comma);
+                    }
+                }
+
+            return new SeparatedSyntaxList<ExpressionSyntax>(nodesAndSeparator.ToImmutableArray());
+        }
 
         private ExpressionSyntax ParseParenthesizedExpression()
         {

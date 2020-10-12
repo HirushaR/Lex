@@ -40,6 +40,16 @@ namespace Lex.CodeAnalysis.Syntax
                     if (child != null)
                         yield return child;
                 }
+                else if (typeof(SeparatedSyntaxList).IsAssignableFrom(property.PropertyType))
+                {
+                    var separatedSyantaxList = (SeparatedSyntaxList)property.GetValue(this);
+                    foreach(var child in separatedSyantaxList.GetWithSeparators())
+                    {
+            
+                        yield return child;
+                    }
+                    
+                }
                 else if (typeof(IEnumerable<SyntaxNode>).IsAssignableFrom(property.PropertyType))
                 {
                     var childern = (IEnumerable<SyntaxNode>)property.GetValue(this);
