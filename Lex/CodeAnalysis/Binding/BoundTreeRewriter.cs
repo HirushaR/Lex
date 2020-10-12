@@ -144,10 +144,38 @@ namespace Lex.CodeAnalysis.Binding
                     return RewriteVariableExpression((BoundVariableExpression)node);
                case BoundNodeKind.AssignmentExpression:
                     return RewriteAssignmentExpression((BoundAssignmentExpression)node);
+                 case BoundNodeKind.CallExpression:
+                    return RewriteCallExpression((BoundCallExpression)node);
                
                default:
                     throw new Exception($"Unexepected node : {node.Kind}");
            }
+        }
+
+        protected virtual BoundCallExpression RewriteCallExpression(BoundCallExpression node)
+        {
+             ImmutableArray<BoundExpression>.Builder builder = null;
+
+            for (var i = 0; i < node.Argument.Length; i++)
+            {
+                var oldArgument = node.Argument[i];
+                var newArguments = RewriteExpression(oldArgument);
+                if(newArguments != oldArgument)
+                {
+                    if(builder == null)
+                    {
+                        builder = ImmutableArray.CreateBuilder<BoundExpression>(node.Argument.Length);
+                        for( var j =0; j<i ;j++)
+                            builder.Add(node.Argument[j]);
+                    }
+                }
+                if( builder != null)
+                    builder.Add(newArguments);
+            }
+            if(builder == null)
+                return node;
+            
+            return new BoundCallExpression(node.Function,builder.MoveToImmutable());
         }
 
         protected virtual BoundExpression RewriteErrorExpression(BoundErrorExpression node)

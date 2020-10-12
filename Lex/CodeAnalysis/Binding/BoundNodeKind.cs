@@ -14,11 +14,13 @@ namespace Lex.CodeAnalysis.Binding
         WhileStatement,
 
         //Expression
+        CallExpression,
         LiteralExpression,
         UnaryExpression,
         AssignmentExpression,
         BinaryExpression,
         VariableExpression,
         ErrorExpression,
+      
     }
 }
