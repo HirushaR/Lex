@@ -1,3 +1,5 @@
+using System.Collections.Immutable;
+
 namespace Lex.CodeAnalysis.Symbols
 {
 
@@ -19,7 +21,7 @@ namespace Lex.CodeAnalysis.Symbols
 
     public sealed class FunctionSymbol : Symbol
     {
-        public FunctionSymbol(string name)
+        public FunctionSymbol(string name, ImmutableArray<ParameterSymbole> parameter)
             :base(name)
         {
             
