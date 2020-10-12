@@ -1,7 +1,7 @@
 namespace Lex.CodeAnalysis.Symbols
 {
 
-   
+
     public sealed class TypeSymbol : Symbol
     {
         public static readonly TypeSymbol Error = new TypeSymbol("?");

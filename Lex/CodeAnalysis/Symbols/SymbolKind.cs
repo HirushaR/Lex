@@ -4,7 +4,8 @@ namespace Lex.CodeAnalysis.Symbols
     {
         Variable,
         Type,
-        Function
+        Function,
+        Parameter
     }
 
 }
