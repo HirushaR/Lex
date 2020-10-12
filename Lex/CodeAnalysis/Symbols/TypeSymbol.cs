@@ -17,4 +17,15 @@ namespace Lex.CodeAnalysis.Symbols
         public override SymbolKind kind => SymbolKind.Type;
     }
 
+    public sealed class FunctionSymbol : Symbol
+    {
+        public FunctionSymbol(string name)
+            :base(name)
+        {
+            
+        }
+
+        public override SymbolKind kind => SymbolKind.Function;
+    }
+
 }
