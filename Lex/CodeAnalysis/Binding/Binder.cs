@@ -227,7 +227,7 @@ namespace Lex.CodeAnalysis.Binding
                     return new BoundErrorExpression();
                 }
             }
-            return new BoundErrorExpression();
+            return new BoundCallExpression(function, boundArguments.ToImmutable());
            
         }
 
