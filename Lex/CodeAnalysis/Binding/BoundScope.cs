@@ -63,10 +63,14 @@ namespace Lex.CodeAnalysis.Binding
 
         public ImmutableArray<VariableSymble> GetDeclaredVariables()
         {
+            if(_variables == null)
+                return ImmutableArray<VariableSymble>.Empty;
             return _variables.Values.ToImmutableArray();
         }
         public ImmutableArray<FunctionSymbol> GetDeclaredFunction()
         {
+             if(_functions == null)
+                return ImmutableArray<FunctionSymbol>.Empty;
             return _functions.Values.ToImmutableArray();
         }
     }
