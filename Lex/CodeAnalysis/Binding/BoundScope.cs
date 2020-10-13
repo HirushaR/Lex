@@ -18,7 +18,7 @@ namespace Lex.CodeAnalysis.Binding
 
         public bool TryDeclareVariable(VariableSymble variable)
         {
-            if( _variables == null)
+            if(_variables == null)
                 _variables = new Dictionary<string, VariableSymble>();
             if (_variables.ContainsKey(variable.Name))
                 return false;
@@ -29,7 +29,8 @@ namespace Lex.CodeAnalysis.Binding
 
         public bool TryLookupVariable(string name, out VariableSymble variable)
         {
-            if (_variables.TryGetValue(name, out variable))
+            variable = null;
+            if (_variables != null && _variables.TryGetValue(name, out variable))
                 return true;
 
             if (Parent == null)
@@ -50,7 +51,8 @@ namespace Lex.CodeAnalysis.Binding
 
         public bool TryLookupFunction(string name, out FunctionSymbol function)
         {
-            if (_functions.TryGetValue(name, out function))
+            function = null;
+            if (_functions != null && _functions.TryGetValue(name, out function))
                 return true;
 
             if (Parent == null)
