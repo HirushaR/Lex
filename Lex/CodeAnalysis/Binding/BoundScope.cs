@@ -15,7 +15,7 @@ namespace Lex.CodeAnalysis.Binding
 
         public BoundScope Parent { get; }
 
-        public bool TryDeclare(VariableSymble variable)
+        public bool TryDeclareVariable(VariableSymble variable)
         {
             if (_variables.ContainsKey(variable.Name))
                 return false;
@@ -24,7 +24,7 @@ namespace Lex.CodeAnalysis.Binding
             return true;
         }
 
-        public bool TryLookup(string name, out VariableSymble variable)
+        public bool TryLookupVariable(string name, out VariableSymble variable)
         {
             if (_variables.TryGetValue(name, out variable))
                 return true;
@@ -32,7 +32,7 @@ namespace Lex.CodeAnalysis.Binding
             if (Parent == null)
                 return false;
             
-            return Parent.TryLookup(name, out variable);
+            return Parent.TryLookupVariable(name, out variable);
         }
 
         public ImmutableArray<VariableSymble> GetDeclaredVariables()
