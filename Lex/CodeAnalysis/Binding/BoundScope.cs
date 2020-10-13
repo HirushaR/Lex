@@ -6,8 +6,8 @@ namespace Lex.CodeAnalysis.Binding
 {
     internal sealed class BoundScope
     {        
-        private Dictionary<string, VariableSymble> _variables = new Dictionary<string, VariableSymble>();
-        private Dictionary<string, FunctionSymbol> _functions = new Dictionary<string, FunctionSymbol>();
+        private Dictionary<string, VariableSymble> _variables;
+        private Dictionary<string, FunctionSymbol> _functions;
 
         public BoundScope(BoundScope parent)
         {
@@ -18,6 +18,8 @@ namespace Lex.CodeAnalysis.Binding
 
         public bool TryDeclareVariable(VariableSymble variable)
         {
+            if( _variables == null)
+                _variables = new Dictionary<string, VariableSymble>();
             if (_variables.ContainsKey(variable.Name))
                 return false;
 
@@ -37,6 +39,8 @@ namespace Lex.CodeAnalysis.Binding
         }
          public bool TryDeclareFunction(FunctionSymbol function)
         {
+            if(_functions == null)
+                _functions = new Dictionary<string, FunctionSymbol>();
             if (_functions.ContainsKey(function.Name))
                 return false;
 
