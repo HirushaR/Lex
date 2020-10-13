@@ -154,7 +154,7 @@ namespace Lex.CodeAnalysis.Binding
 
         private BoundStatement BindExpressionStatement(ExpressionStatemnetSyntax syntax)
         {
-            var expression = BindExpression(syntax.Expression);
+            var expression = BindExpression(syntax.Expression,canBeVoid: true);
             return new BoundExpressionStatemnet(expression);
         }
         private BoundExpression BindExpression(ExpressionSyntax syntax,TypeSymbol TargetType)
@@ -168,7 +168,18 @@ namespace Lex.CodeAnalysis.Binding
             return result;
         }
 
-        private BoundExpression BindExpression(ExpressionSyntax syntax)
+         private BoundExpression BindExpression(ExpressionSyntax syntax,bool canBeVoid = false)
+         {
+             
+             var result = BindExpressionInternal(syntax);
+             if(!canBeVoid && result.Type == TypeSymbol.Void)
+             {
+                 _diagnostics.ReportExpressionMustHaveVale(syntax.Span);
+                 return new BoundErrorExpression();
+             }
+             return result;
+         }
+        private BoundExpression BindExpressionInternal(ExpressionSyntax syntax)
         {
             switch (syntax.Kind)
             {

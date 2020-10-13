@@ -106,6 +106,12 @@ namespace Lex.CodeAnalysis
             var message =  $"Function '{name}', parameter '{pname}' requires a value of type '{ptype}' arguments but was given a value of type  '{actualType}'.";
             Report(span, message);
         }
+
+        public void ReportExpressionMustHaveVale(TextSpan span)
+        {
+            var message =  "Expression must have a Value.";
+            Report(span, message);
+        }
     }
 
 
