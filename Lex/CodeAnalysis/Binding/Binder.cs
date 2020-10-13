@@ -41,8 +41,7 @@ namespace Lex.CodeAnalysis.Binding
                 stack.Push(previous);
                 previous = previous.Previous;
             }
-
-            BoundScope parent = null;
+            var parent = CreateRootScope();
 
             while (stack.Count > 0)
             {
@@ -55,6 +54,16 @@ namespace Lex.CodeAnalysis.Binding
             }
 
             return parent;
+        }
+
+        private static BoundScope CreateRootScope()
+        {
+            var result = new BoundScope(null);
+
+            foreach(var f in BuiltinFunctions.GetAll())
+                result.TryDeclareFunction(f);
+
+            return result;
         }
 
         public DiagnosticBag Diagnostics => _diagnostics;
@@ -211,10 +220,7 @@ namespace Lex.CodeAnalysis.Binding
                 var boundArgument = BindExpression(argument);
                 boundArguments.Add(boundArgument);
             }
-            var functions = BuiltinFunctions.GetAll();
-
-            var function = functions.SingleOrDefault(f => f.Name ==syntax.Identifier.Text);
-            if(function == null)
+            if(!_scope.TryLookupFunction(syntax.Identifier.Text, out var function))
             {
                  _diagnostics.ReportUndefinedFunction(syntax.Identifier.Span,syntax.Identifier.Text);
                 return new BoundErrorExpression();
