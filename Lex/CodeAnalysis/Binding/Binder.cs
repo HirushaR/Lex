@@ -41,8 +41,7 @@ namespace Lex.CodeAnalysis.Binding
                 stack.Push(previous);
                 previous = previous.Previous;
             }
-
-            BoundScope parent = null;
+            BoundScope parent = CreateRootScope();
 
             while (stack.Count > 0)
             {
@@ -55,6 +54,15 @@ namespace Lex.CodeAnalysis.Binding
             }
 
             return parent;
+        }
+
+        private static BoundScope CreateRootScope()
+        {
+            var result = new BoundScope(null);
+            foreach(var f in BuiltinFunctions.GetAll())
+                result.TryDeclareFunction(f);
+
+            return result;
         }
 
         public DiagnosticBag Diagnostics => _diagnostics;
