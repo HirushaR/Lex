@@ -10,7 +10,9 @@ namespace Lex.CodeAnalysis
     {
         private readonly BoundBlockStatemnet _root;
         private readonly Dictionary<VariableSymble, object> _variables;
+        private Random _random;
         private object _lastValue;
+        
      
         public Evaluator(BoundBlockStatemnet root, Dictionary<VariableSymble, object> variables) 
         {
@@ -119,6 +121,14 @@ namespace Lex.CodeAnalysis
                var message = (string)EvaluateExpression(node.Argument[0]);
                Console.WriteLine(message);
                return null;
+           }
+            else if(node.Function == BuiltinFunctions.Rnd)
+           {
+              var max = (int)EvaluateExpression(node.Argument[0]);
+                if (_random == null)
+                    _random = new Random();
+
+                return _random.Next(max);
            }
            else
            {
