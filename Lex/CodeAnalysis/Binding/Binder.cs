@@ -49,7 +49,7 @@ namespace Lex.CodeAnalysis.Binding
                 previous = stack.Pop();
                 var scope = new BoundScope(parent);
                 foreach (var v in previous.Variables)
-                    scope.TryDeclare(v);
+                    scope.TryDeclareVariable(v);
 
                 parent = scope;
             }
@@ -140,7 +140,7 @@ namespace Lex.CodeAnalysis.Binding
      
             var variable = new VariableSymble(name, isreadonly, @int);
 
-            if (declare &&!_scope.TryDeclare(variable))
+            if (declare &&!_scope.TryDeclareVariable(variable))
                 _diagnostics.ReportVariableAlreadyDecleard(identifier.Span, name);
             return variable;
         }
@@ -263,7 +263,7 @@ namespace Lex.CodeAnalysis.Binding
                 return new BoundErrorExpression();
             }
 
-            if (!_scope.TryLookup(name, out var variable))
+            if (!_scope.TryLookupVariable(name, out var variable))
             {
                 _diagnostics.ReportUndefinedName(syntax.IdentifierToken.Span, name);
                 return new BoundErrorExpression();
@@ -277,7 +277,7 @@ namespace Lex.CodeAnalysis.Binding
             var name = syntax.IdentifierToken.Text;
             var boundExpression = BindExpression(syntax.Expression);
 
-            if (!_scope.TryLookup(name, out var variable))
+            if (!_scope.TryLookupVariable(name, out var variable))
             {
                 _diagnostics.ReportUndefinedName(syntax.IdentifierToken.Span, name);
                 return boundExpression;
