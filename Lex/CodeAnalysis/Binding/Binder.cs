@@ -41,7 +41,7 @@ namespace Lex.CodeAnalysis.Binding
                 stack.Push(previous);
                 previous = previous.Previous;
             }
-            BoundScope parent = CreateRootScope();
+            var parent = CreateRootScope();
 
             while (stack.Count > 0)
             {
@@ -59,6 +59,7 @@ namespace Lex.CodeAnalysis.Binding
         private static BoundScope CreateRootScope()
         {
             var result = new BoundScope(null);
+
             foreach(var f in BuiltinFunctions.GetAll())
                 result.TryDeclareFunction(f);
 
@@ -219,7 +220,7 @@ namespace Lex.CodeAnalysis.Binding
                 var boundArgument = BindExpression(argument);
                 boundArguments.Add(boundArgument);
             }
-            if(_scope.TryLookupFunction(syntax.Identifier.Text, out var function))
+            if(!_scope.TryLookupFunction(syntax.Identifier.Text, out var function))
             {
                  _diagnostics.ReportUndefinedFunction(syntax.Identifier.Span,syntax.Identifier.Text);
                 return new BoundErrorExpression();
