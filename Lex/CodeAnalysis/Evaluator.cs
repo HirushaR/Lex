@@ -105,9 +105,24 @@ namespace Lex.CodeAnalysis
                     return EvaluateBinaryExpression((BoundBinaryExpression)node);
                 case BoundNodeKind.CallExpression:
                     return EvaluateCallExpression((BoundCallExpression)node);
+                case BoundNodeKind.ConversionExpression:
+                    return EvaluateConversionExpression((BoundConversionExpression)node);
                 default:
                     throw new Exception($"Unexpected node {node.Kind}");
             }
+        }
+
+        private object EvaluateConversionExpression(BoundConversionExpression node)
+        {
+            var value = EvaluateExpression(node.Expression);
+            if(node.Type  == TypeSymbol.Bool)
+                return  Convert.ToBoolean(value);
+            else if(node.Type  == TypeSymbol.Int)
+                return  Convert.ToInt32(value);
+            else if(node.Type  == TypeSymbol.String)
+                return  Convert.ToString(value);
+            else
+                throw new Exception($"Unexpected Type {node.Type}");
         }
 
         private object EvaluateCallExpression(BoundCallExpression node)
@@ -182,7 +197,7 @@ namespace Lex.CodeAnalysis
             {
                 case BoundBinaryOperatorKind.Addition:
                     if(b.Type == TypeSymbol.Int)
-                        return (int)left & (int)right;
+                        return (int)left + (int)right;
                     else
                         return (string)left + (string)right;
                 case BoundBinaryOperatorKind.Subtraction:

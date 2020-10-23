@@ -8,6 +8,7 @@ using Lex.CodeAnalysis.Syntax;
 
 namespace Lex.CodeAnalysis.Binding
 {
+
     internal sealed class Binder
     {
         private readonly DiagnosticBag _diagnostics = new DiagnosticBag();
@@ -213,6 +214,9 @@ namespace Lex.CodeAnalysis.Binding
 
         private BoundExpression BindCallExpression(CallExpressionSyntax syntax)
         {
+            if(syntax.Arguments.Count == 1 && LookupType(syntax.Identifier.Text) is TypeSymbol type )
+                return BindConversion(type, syntax.Arguments[0]);
+            
             var boundArguments = ImmutableArray.CreateBuilder<BoundExpression>();
 
             foreach(var argument in syntax.Arguments)
@@ -246,6 +250,19 @@ namespace Lex.CodeAnalysis.Binding
             }
             return new BoundCallExpression(function, boundArguments.ToImmutable());
            
+        }
+
+        private BoundExpression BindConversion(TypeSymbol type, ExpressionSyntax Syntax)
+        {
+            var expression  = BindExpression(Syntax);
+            var conversion = Conversion.Classify(expression.Type, type);
+            if(!conversion.Exist)
+            {
+                _diagnostics.ReportCannotConvert(Syntax.Span,expression.Type,type);
+                return new BoundErrorExpression();
+            }
+
+            return  new BoundConversionExpression(type , expression);
         }
 
         private BoundExpression BindParenthesizedExpression(ParenthesizedExpressionSyntax syntax)
@@ -334,5 +351,21 @@ namespace Lex.CodeAnalysis.Binding
 
             return new BoundBinaryExpression(boundLeft, boundOperator, boundRight);
         }
+    
+        private TypeSymbol LookupType(string  name)  
+        {
+            switch (name)
+            {
+                case "bool" :
+                     return TypeSymbol.Bool;
+                case "int" :
+                     return TypeSymbol.Int;
+                case "string" :
+                     return TypeSymbol.String;
+                default:
+                     return  null;
+            }
+        }
+    
     }
 }
