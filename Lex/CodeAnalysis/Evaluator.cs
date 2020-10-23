@@ -197,7 +197,7 @@ namespace Lex.CodeAnalysis
             {
                 case BoundBinaryOperatorKind.Addition:
                     if(b.Type == TypeSymbol.Int)
-                        return (int)left & (int)right;
+                        return (int)left + (int)right;
                     else
                         return (string)left + (string)right;
                 case BoundBinaryOperatorKind.Subtraction:

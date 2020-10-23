@@ -194,7 +194,9 @@ namespace Lex.CodeAnalysis.Lowering
             var whileBody = new BoundBlockStatemnet(ImmutableArray.Create<BoundStatement>(node.Body, increment));
             var whileStatement = new BoundWhileStatement(condition, whileBody);
             var result = new BoundBlockStatemnet(ImmutableArray.Create<BoundStatement>(
-                variableDeclaration,upperBoundDeclaration, whileStatement));
+                variableDeclaration,
+                upperBoundDeclaration,
+                whileStatement));
      
             return RewriteStatement(result);
         }

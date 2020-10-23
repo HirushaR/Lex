@@ -128,6 +128,7 @@ namespace Lex.CodeAnalysis.Binding
             
             return new BoundWhileStatement(condition, body);
         }
+       
         public virtual BoundExpression RewriteExpression(BoundExpression node)
         {
             switch(node.Kind)
@@ -153,7 +154,6 @@ namespace Lex.CodeAnalysis.Binding
                     throw new Exception($"Unexepected node : {node.Kind}");
            }
         }
-
         protected virtual  BoundExpression RewriteConversionExpression(BoundConversionExpression node)
         {
             var expression = RewriteExpression(node.Expression);
