@@ -144,12 +144,23 @@ namespace Lex.CodeAnalysis.Binding
                     return RewriteVariableExpression((BoundVariableExpression)node);
                case BoundNodeKind.AssignmentExpression:
                     return RewriteAssignmentExpression((BoundAssignmentExpression)node);
-                 case BoundNodeKind.CallExpression:
+               case BoundNodeKind.CallExpression:
                     return RewriteCallExpression((BoundCallExpression)node);
+               case BoundNodeKind.ConversionExpression:
+                    return RewriteConversionExpression((BoundConversionExpression)node);
                
                default:
                     throw new Exception($"Unexepected node : {node.Kind}");
            }
+        }
+
+        protected virtual  BoundExpression RewriteConversionExpression(BoundConversionExpression node)
+        {
+            var expression = RewriteExpression(node.Expression);
+            if(expression == node.Expression)
+                return node;
+            
+            return new BoundConversionExpression(node.Type, expression);
         }
 
         protected virtual BoundCallExpression RewriteCallExpression(BoundCallExpression node)
