@@ -214,6 +214,8 @@ namespace Lex.CodeAnalysis.Binding
 
         private BoundExpression BindCallExpression(CallExpressionSyntax syntax)
         {
+         
+            
             var boundArguments = ImmutableArray.CreateBuilder<BoundExpression>();
 
             foreach(var argument in syntax.Arguments)
@@ -335,5 +337,21 @@ namespace Lex.CodeAnalysis.Binding
 
             return new BoundBinaryExpression(boundLeft, boundOperator, boundRight);
         }
+    
+        private TypeSymbol LookupType(string  name)  
+        {
+            switch (name)
+            {
+                case "bool" :
+                     return TypeSymbol.Bool;
+                case "int" :
+                     return TypeSymbol.Int;
+                case "string" :
+                     return TypeSymbol.String;
+                default:
+                     return  null;
+            }
+        }
+    
     }
 }
