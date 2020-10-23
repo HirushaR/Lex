@@ -4,11 +4,15 @@ namespace Lex.CodeAnalysis.Binding
 {
     internal sealed class Conversion 
    {
-       public Conversion(bool exist, bool isIdentity, bool isImplicity)
+       public static  readonly Conversion None = new Conversion(exists: false, isIdentity: false, isImplicit: false);
+       public static  readonly Conversion Identity = new Conversion(exists: true, isIdentity: true, isImplicit: true);
+       public static  readonly Conversion Implicit = new Conversion(exists: true, isIdentity: false, isImplicit: true);
+       public static  readonly Conversion Explicit = new Conversion(exists: true, isIdentity: false, isImplicit: false);
+       public Conversion(bool exists, bool isIdentity, bool isImplicit)
        {
-            Exist = exist;
+            Exist = exists;
             IsIdentity = isIdentity;
-            IsImplicity = isImplicity;
+            IsImplicity = isImplicit;
         }
 
         public bool Exist { get; }
