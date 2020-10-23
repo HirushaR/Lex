@@ -29,7 +29,7 @@ namespace Lex.CodeAnalysis.Binding
             if(from == TypeSymbol.Bool || from == TypeSymbol.Int)
             {
                 if(to == TypeSymbol.String)
-                    return Conversion.Explicty;
+                    return Conversion.Explicit;
             }
 
             return Conversion.None;
