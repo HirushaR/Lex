@@ -128,8 +128,7 @@ namespace Lex.CodeAnalysis.Binding
         {
             var lowerBound = BindExpression(syntax.LowerBound, TypeSymbol.Int);
             var upperBound = BindExpression(syntax.UpperBoud, TypeSymbol.Int);
-
-
+           
             _scope = new BoundScope(_scope);
 
             SyntaxToken identifier = syntax.Identifier;
