@@ -8,7 +8,7 @@ namespace Lex.CodeAnalysis.Syntax
     {
         private readonly DiagnosticBag _diagnostics = new DiagnosticBag();
         private readonly ImmutableArray<SyntaxToken> _tokens;
-        List<string> _variables = new List<string>();
+        HashSet<string> _variables = new HashSet<string>();
         private readonly SourceText _text;
         private int _position;
 
