@@ -1,9 +1,12 @@
 .vs
 lex/bin/
 lex/obj/
-lex.Tests/bin/
-lex.Tests/obj/
+lex.Tests/bin/Debug
+lex.Tests/obj/Debug
 LC/bin/Debug/netcoreapp3.0
 LC/obj/Debug/netcoreapp3.0
 diagm/
 
+Lex.Tests/bin/Debug/netcoreapp3.0/Lex.dll
+Lex.Tests/bin/Debug/netcoreapp3.0/Lex.pdb
+Lex.Tests/obj/Debug/netcoreapp3.0/Lex.Tests.csprojAssemblyReference.cache
