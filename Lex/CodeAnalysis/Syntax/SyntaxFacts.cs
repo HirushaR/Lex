@@ -18,9 +18,7 @@ namespace Lex.CodeAnalysis.Syntax
                 default:
                     return 0;
             }
-        }
-        
-         
+        }                 
         public static int GetBinaryOperatorPrecedence(this SyntaxKind kind)
         {
             switch (kind)
