@@ -4,6 +4,8 @@ using System.Collections.Immutable;
 using System.Linq;
 using Lex.CodeAnalysis.Symbols;
 using Lex.CodeAnalysis.Syntax;
+using Lex.CodeAnalysis.Text;
+
 
 
 namespace Lex.CodeAnalysis.Binding
@@ -168,13 +170,7 @@ namespace Lex.CodeAnalysis.Binding
         }
         private BoundExpression BindExpression(ExpressionSyntax syntax,TypeSymbol TargetType)
         {
-            var result = BindExpression(syntax);
-            if (result.Type != TypeSymbol.Error &&
-                TargetType != TypeSymbol.Error &&
-                 result.Type != TargetType)
-                _diagnostics.ReportCannotConvert(syntax.Span, result.Type,TargetType);
-            
-            return result;
+            return BindConversion(syntax, TargetType);
         }
 
          private BoundExpression BindExpression(ExpressionSyntax syntax,bool canBeVoid = false)
@@ -214,7 +210,7 @@ namespace Lex.CodeAnalysis.Binding
         private BoundExpression BindCallExpression(CallExpressionSyntax syntax)
         {
             if(syntax.Arguments.Count == 1 && LookupType(syntax.Identifier.Text) is TypeSymbol type )
-                return BindConversion(type, syntax.Arguments[0]);
+                return BindConversion(syntax.Arguments[0], type);
             
             var boundArguments = ImmutableArray.CreateBuilder<BoundExpression>();
 
@@ -251,17 +247,30 @@ namespace Lex.CodeAnalysis.Binding
            
         }
 
-        private BoundExpression BindConversion(TypeSymbol type, ExpressionSyntax Syntax)
+        private BoundExpression BindConversion(ExpressionSyntax syntax, TypeSymbol type)
         {
-            var expression  = BindExpression(Syntax);
+            var expression = BindExpression(syntax);
+            return BindConversion(syntax.Span, expression, type);
+        }
+
+        private BoundExpression BindConversion(TextSpan diagnosticSpan, BoundExpression expression, TypeSymbol type)
+        {
             var conversion = Conversion.Classify(expression.Type, type);
-            if(!conversion.Exist)
+
+            if (!conversion.Exist)
             {
-                _diagnostics.ReportCannotConvert(Syntax.Span,expression.Type,type);
+                if (expression.Type != TypeSymbol.Error && type != TypeSymbol.Error)
+                {
+                    _diagnostics.ReportCannotConvert(diagnosticSpan, expression.Type, type);
+                }
+
                 return new BoundErrorExpression();
             }
 
-            return  new BoundConversionExpression(type , expression);
+            if (conversion.IsIdentity)
+                return expression;
+
+            return new BoundConversionExpression(type, expression);
         }
 
         private BoundExpression BindParenthesizedExpression(ParenthesizedExpressionSyntax syntax)
