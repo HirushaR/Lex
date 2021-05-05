@@ -14,4 +14,5 @@ namespace Lex.CodeAnalysis.Syntax
         public SyntaxToken ColonToken { get; }
         public SyntaxToken Identifier { get; }
     }
+
 }

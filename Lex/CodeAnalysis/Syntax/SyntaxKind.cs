@@ -72,5 +72,9 @@ namespace Lex.CodeAnalysis.Syntax
         LetKeyword,
         TypeClause,
         ColonToken,
+        FunctionDeclaration,
+        Parameter,
+        FunctionKeyword,
+        GlobalStatement,
     }
 }

@@ -80,7 +80,7 @@ namespace Lex
             var syntaxTree = SyntaxTree.Parse(text);
 
             //if (syntaxTree.Diagnostics.Any())
-            if(syntaxTree.Root.Statement.GetLastToken().isMissing)
+           if (syntaxTree.Root.Members.Last().GetLastToken().isMissing)
                 return false;
             
             return true;

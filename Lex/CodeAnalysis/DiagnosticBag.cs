@@ -106,13 +106,19 @@ namespace Lex.CodeAnalysis
             var message =  $"Function '{name}', parameter '{pname}' requires a value of type '{ptype}' arguments but was given a value of type  '{actualType}'.";
             Report(span, message);
         }
-
+    
         public void ReportExpressionMustHaveVale(TextSpan span)
         {
             var message =  "Expression must have a Value.";
             Report(span, message);
         }
-   
+
+        internal void ReportSymbolAlreadyDeclared(TextSpan span, string name)
+        {
+            var message = $"'{name}' is already declared.";
+            Report(span, message);
+        }
+
         public void ReportUndefinedType(TextSpan span, string name)
         {
             var message = $"Type '{name}' doesn't exist.";
@@ -124,7 +130,18 @@ namespace Lex.CodeAnalysis
             Report(span, message);
         }
 
-   
+        public void ReportParameterAlreadyDeclared(TextSpan span, string parameterName)
+        {
+            var message = $"A parameter with the name '{parameterName}' already exists.";
+            Report(span, message);
+        }
+        public void XXX_ReportFunctionsAreUnsupported(TextSpan span)
+        {
+            var message = "Functions with return values are unsupported.";
+            Report(span, message);
+        }
+
+        
     }
 
 

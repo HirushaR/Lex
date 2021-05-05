@@ -166,7 +166,7 @@ namespace Lex.CodeAnalysis.Lowering
             var variableExpression = new BoundVariableExpression(node.Variable);
 
             
-            var upperBoundSybmle = new VariableSymble("upperBound",true, TypeSymbol.Int);
+            var upperBoundSybmle = new LocalVariableSymbol("upperBound",true, TypeSymbol.Int);
             var upperBoundDeclaration = new BoundVeriableDeclaration(upperBoundSybmle,node.UpperBound);
             
             var condition = new BoundBinaryExpression(
