@@ -93,16 +93,34 @@ namespace Lex.CodeAnalysis.Syntax
 
         private StatementSyntax ParseVeriableDeclearation()
         {
-            if (!_variables.Contains(Current.Text) && Peek(1).Kind == SyntaxKind.EaqlesToken)
+            if (!_variables.Contains(Current.Text) && Peek(1).Kind == SyntaxKind.EaqlesToken ||!_variables.Contains(Current.Text) && Peek(1).Kind == SyntaxKind.ColonToken)
             {
                 _variables.Add(Current.Text);
                 var identifier = MatchToken(SyntaxKind.IdentifierToken);
+                var typeClause = ParseOptionalTypeClause();
                 var equalToken = MatchToken(SyntaxKind.EaqlesToken);
                 var initializer = ParseExpression();
-                return new VeriableDeclarationSyntax(identifier, equalToken, initializer);
+               
+                return new VeriableDeclarationSyntax(identifier,typeClause, equalToken, initializer);
             }
             return ParseExpressionStatement();
         }
+
+        private TypeClauseSyntax ParseOptionalTypeClause()
+        {
+            if (Current.Kind != SyntaxKind.ColonToken)
+                return null;
+
+            return ParseTypeClause();
+        }
+
+        private TypeClauseSyntax ParseTypeClause()
+        {
+            var colonToken = MatchToken(SyntaxKind.ColonToken);
+            var identifier = MatchToken(SyntaxKind.IdentifierToken);
+            return new TypeClauseSyntax(colonToken, identifier);
+        }
+       
         private StatementSyntax ParseIfStatement()
         {
            var keyword = MatchToken(SyntaxKind.IfKeyword);

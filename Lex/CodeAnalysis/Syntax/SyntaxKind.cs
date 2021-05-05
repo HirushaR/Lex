@@ -69,6 +69,8 @@ namespace Lex.CodeAnalysis.Syntax
         ParenthesizedExpression,
         AssigmentExpression,
         CallExpression,
-       
+        LetKeyword,
+        TypeClause,
+        ColonToken,
     }
 }
