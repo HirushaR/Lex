@@ -226,6 +226,10 @@ namespace Lex.Tests.CodeAnalysis.Syntax
                 return true;
             if (t1Kind == SyntaxKind.IdentifierToken  && t2Kind == SyntaxKind.ByKeyWord )
                 return true;
+            if (t1Kind == SyntaxKind.ByKeyWord  && t2Kind == SyntaxKind.FunctionKeyword )
+                return true;
+            if (t1Kind == SyntaxKind.FunctionKeyword  && t2Kind == SyntaxKind.ByKeyWord )
+                return true;
 
             return false;
         }

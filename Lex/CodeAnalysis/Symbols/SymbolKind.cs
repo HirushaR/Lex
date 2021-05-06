@@ -5,7 +5,9 @@ namespace Lex.CodeAnalysis.Symbols
         Variable,
         Type,
         Function,
-        Parameter
+        Parameter,
+        GlobalVariable,
+        LocalVariable
     }
 
 }

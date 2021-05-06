@@ -2,7 +2,7 @@
 
 namespace Lex.CodeAnalysis.Symbols
 {
-    public class VariableSymble: Symbol
+    public abstract class VariableSymble: Symbol
     {
         public VariableSymble(string name,bool isreadOnly, TypeSymbol type)
         :base(name)
@@ -12,7 +12,7 @@ namespace Lex.CodeAnalysis.Symbols
             Type = type;
         }
 
-        public override SymbolKind kind => SymbolKind.Variable;
+     //   public override SymbolKind kind => SymbolKind.Variable;
 
         public bool isReadOnly { get; }
         public TypeSymbol Type { get; }

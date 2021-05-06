@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using Lex.CodeAnalysis.Binding;
 using Lex.CodeAnalysis.Symbols;
 
@@ -8,31 +9,40 @@ namespace Lex.CodeAnalysis
 
     internal sealed class Evaluator
     {
+        private readonly ImmutableDictionary<FunctionSymbol, BoundBlockStatemnet> _functionBodies;
         private readonly BoundBlockStatemnet _root;
-        private readonly Dictionary<VariableSymble, object> _variables;
+        private readonly Dictionary<VariableSymble, object> _globals;
+        private readonly Stack<Dictionary<VariableSymble, object>> _locals = new Stack<Dictionary<VariableSymble, object>>();
         private Random _random;
         private object _lastValue;
         
      
-        public Evaluator(BoundBlockStatemnet root, Dictionary<VariableSymble, object> variables) 
+        public Evaluator(ImmutableDictionary<FunctionSymbol, BoundBlockStatemnet> functionBodies,BoundBlockStatemnet root, Dictionary<VariableSymble, object> variables) 
         {
+            _functionBodies = functionBodies;
             _root = root;
-            _variables = variables;
+            _globals = variables;
+            _locals.Push(new Dictionary<VariableSymble, object>());
         }
 
         public object Evaluate()
         {
+            return EvaluateStatement(_root);
+        }
+
+        private object EvaluateStatement(BoundBlockStatemnet body)
+        {
             var labeleToIndex = new Dictionary<BoundLabel, int>();
 
-            for (var i = 0; i<_root.Statements.Length;i++)
+            for (var i = 0; i<body.Statements.Length;i++)
             {
-                if(_root.Statements[i] is BoundLabelStatement l)
+                if(body.Statements[i] is BoundLabelStatement l)
                     labeleToIndex.Add(l.Label,i+1);
             }
             var index = 0;
-            while(index <_root.Statements.Length)
+            while(index <body.Statements.Length)
             {
-                var s = _root.Statements[index];
+                var s = body.Statements[index];
                 switch (s.Kind)
                     {
                        
@@ -78,8 +88,9 @@ namespace Lex.CodeAnalysis
         private void EvaluateVariableDeclaration(BoundVeriableDeclaration node)
         {
            var value = EvaluateExpression(node.Initializer);
-           _variables[node.Variable] = value;
+           
            _lastValue = value;
+           Assign(node.Variable, value);
         }
 
       
@@ -147,7 +158,22 @@ namespace Lex.CodeAnalysis
            }
            else
            {
-               throw new Exception($"Unexpected function {node.Function}");
+              var locals = new Dictionary<VariableSymble, object>();
+                for (int i = 0; i < node.Argument.Length; i++)
+                {
+                    var parameter = node.Function.Parameter[i];
+                    var value = EvaluateExpression(node.Argument[i]);
+                    locals.Add(parameter, value);
+                }
+
+                _locals.Push(locals);
+
+                var statement = _functionBodies[node.Function];
+                var result = EvaluateStatement(statement);
+
+                _locals.Pop();
+
+                return result;
            }
         }
 
@@ -158,13 +184,21 @@ namespace Lex.CodeAnalysis
 
          private object EvaluateVeriableExpression(BoundVariableExpression v)
         {
-            return _variables[v.Variable];
+           if (v.Variable.kind == SymbolKind.GlobalVariable)
+            {
+                return _globals[v.Variable];
+            }
+            else
+            {
+                var locals = _locals.Peek();
+                return locals[v.Variable];
+            }
         }
 
          private object EvaluateAssigmentExpression(BoundAssignmentExpression a)
         {
             var value = EvaluateExpression(a.Expression);
-            _variables[a.Variable] = value;
+            Assign(a.Variable, value);
             return value;
         }
 
@@ -247,6 +281,18 @@ namespace Lex.CodeAnalysis
                     return !Equals(left, right);
                 default:
                     throw new Exception($"Unexpected binary operator {b.Op.Kind}");
+            }
+        }
+        private void Assign(VariableSymble variable, object value)
+        {
+            if (variable.kind == SymbolKind.GlobalVariable)
+            {
+                _globals[variable] = value;
+            }
+            else
+            {
+                var locals = _locals.Peek();
+                locals[variable] = value;
             }
         }
     }

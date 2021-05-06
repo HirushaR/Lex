@@ -80,7 +80,7 @@ namespace Lex
             var syntaxTree = SyntaxTree.Parse(text);
 
             //if (syntaxTree.Diagnostics.Any())
-            if(syntaxTree.Root.Statement.GetLastToken().isMissing)
+           if (syntaxTree.Root.Members.Last().GetLastToken().isMissing)
                 return false;
             
             return true;
@@ -117,7 +117,7 @@ namespace Lex
             }
             else
             {
-                foreach (var diagnostic in result.Diagnostics)
+                foreach (var diagnostic in result.Diagnostics.OrderBy(diag =>diag.Span, new TextSpanComparer()))
                 {
                     var lineIndex = syntaxTree.Text.GetLineIndex(diagnostic.Span.Start);
                     var line = syntaxTree.Text.Lines[lineIndex];

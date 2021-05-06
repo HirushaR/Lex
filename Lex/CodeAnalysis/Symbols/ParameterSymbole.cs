@@ -1,9 +1,9 @@
 namespace Lex.CodeAnalysis.Symbols
 {
-    public class ParameterSymbole : VariableSymble
+    public sealed class ParameterSymbol : LocalVariableSymbol
     {
-        public ParameterSymbole(string name, TypeSymbol type)
-            : base(name, isreadOnly:true,type)
+        public ParameterSymbol(string name, TypeSymbol type)
+            : base(name, isReadOnly:true,type)
         {
             
         }

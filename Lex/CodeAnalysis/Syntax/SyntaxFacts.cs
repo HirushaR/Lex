@@ -89,8 +89,10 @@ namespace Lex.CodeAnalysis.Syntax
                     return SyntaxKind.ElseKeyword;
                 case "false":
                     return SyntaxKind.FalseKeyword; 
-                 case "for":
+                case "for":
                     return SyntaxKind.ForKeyword;
+                case "function":
+                    return SyntaxKind.FunctionKeyword;
                 case "to":
                     return SyntaxKind.ToKeyword; 
                 case "by":
@@ -159,12 +161,16 @@ namespace Lex.CodeAnalysis.Syntax
                         return "{";
                     case SyntaxKind.CloseBraceToken: 
                         return "}";
+                    case SyntaxKind.ColonToken:
+                        return ":";
                     case SyntaxKind.ElseKeyword: 
                         return "else";
                     case SyntaxKind.FalseKeyword : 
                         return "false";
                     case SyntaxKind.ForKeyword : 
                         return "for";
+                    case SyntaxKind.FunctionKeyword:
+                        return "function";
                     case SyntaxKind.TrueKeyword: 
                         return "true";
                     case SyntaxKind.ToKeyword: 

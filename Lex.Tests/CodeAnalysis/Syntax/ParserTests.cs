@@ -108,8 +108,9 @@ namespace Lex.Tests.CodeAnalysis.Syntax
         {
             var syntaxTree = SyntaxTree.Parse(text);
             var root = syntaxTree.Root;
-            var statement = root.Statement;
-            return Assert.IsType<ExpressionStatemnetSyntax>(statement).Expression;
+            var member = Assert.Single(root.Members);
+            var globalStatement = Assert.IsType<GlobalStatementSyntax>(member);
+            return Assert.IsType<ExpressionStatemnetSyntax>(globalStatement.Statement).Expression;
         }
 
         public static IEnumerable<object[]> GetBinaryOperatorPairsData()

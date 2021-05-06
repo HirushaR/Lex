@@ -78,6 +78,10 @@ namespace Lex.CodeAnalysis.Syntax
                     _kind = SyntaxKind.RemainderToken;
                     _position++;
                     break;
+                case ':':
+                    _kind = SyntaxKind.ColonToken;
+                    _position++;
+                    break;
                 case '<':
                     _position++;
                     if (Current != '=')
