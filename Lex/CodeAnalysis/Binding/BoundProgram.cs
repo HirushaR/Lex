@@ -5,15 +5,18 @@ namespace Lex.CodeAnalysis.Binding
 {
     internal sealed class BoundProgram
     {
-        public BoundProgram(BoundGlobalScope globalScope, DiagnosticBag diagnostics, ImmutableDictionary<FunctionSymbol, BoundBlockStatemnet> functionBodies)
+      public BoundProgram(ImmutableArray<Diagnostic> diagnostics, ImmutableDictionary<FunctionSymbol, BoundBlockStatemnet> functions, BoundBlockStatemnet statement)
         {
-            GlobalScope = globalScope;
+       
             Diagnostics = diagnostics;
-            FunctionBodies = functionBodies;
+           
+            Functions = functions;
+            Statement = statement;
         }
 
-        public BoundGlobalScope GlobalScope { get; }
-        public DiagnosticBag Diagnostics { get; }
-        public ImmutableDictionary<FunctionSymbol, BoundBlockStatemnet> FunctionBodies { get; }
+        public ImmutableArray<Diagnostic> Diagnostics { get; }
+        public ImmutableDictionary<FunctionSymbol, BoundBlockStatemnet> Functions { get; }
+        public BoundBlockStatemnet Statement { get; }
     }
 }
+
