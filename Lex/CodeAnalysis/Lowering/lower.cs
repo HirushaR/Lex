@@ -119,18 +119,20 @@ namespace Lex.CodeAnalysis.Lowering
             // <body>
             // check:
             // gotoTrue <condition> continue
-            // end:
+            // Break
             //
                 
-            var continueLabel = GenerateLabel();
+           
             var checkLabel = GenerateLabel();
-            var endLabel = GenerateLabel();
+          
 
             var gotoCheck = new BoundGotoStatment(checkLabel);
-            var continueLabelStatement = new BoundLabelStatement(continueLabel);
+            var continueLabelStatement = new BoundLabelStatement(node.ContinueLabel);
             var checkLabelStatement = new BoundLabelStatement(checkLabel);
-            var gotoTrue = new BoundConditionalGotoStatment(continueLabel, node.Condition);
-            var endLabelStatement = new BoundLabelStatement(endLabel);
+            var gotoTrue = new BoundConditionalGotoStatment(node.ContinueLabel, node.Condition);
+            var breakLabelStatement = new BoundLabelStatement(node.BreakLabel);
+
+          
 
             var result = new BoundBlockStatemnet(ImmutableArray.Create<BoundStatement>(
                 gotoCheck,
@@ -138,7 +140,7 @@ namespace Lex.CodeAnalysis.Lowering
                 node.Body,
                 checkLabelStatement,
                 gotoTrue,
-                endLabelStatement
+                breakLabelStatement
             ));
 
             return RewriteStatement(result);
@@ -156,6 +158,7 @@ namespace Lex.CodeAnalysis.Lowering
             //      while (<var> <= <upper>)
             //      {
             //          <body>
+            //          continue:
             //          <var> = <var> + 1
             //      }   
             // }
@@ -181,7 +184,7 @@ namespace Lex.CodeAnalysis.Lowering
             {
                 Ittertator =new BoundLiteralExpression(1);
             }
-            
+            var continueLabelStatement = new BoundLabelStatement(node.ContinueLabel);
             var increment = new BoundExpressionStatemnet(
                 new BoundAssignmentExpression(
                     node.Variable,
@@ -192,8 +195,12 @@ namespace Lex.CodeAnalysis.Lowering
                     )
                 )
             );
-            var whileBody = new BoundBlockStatemnet(ImmutableArray.Create<BoundStatement>(node.Body, increment));
-            var whileStatement = new BoundWhileStatement(condition, whileBody);
+            var whileBody = new BoundBlockStatemnet(ImmutableArray.Create<BoundStatement>(
+                    node.Body,
+                    continueLabelStatement,
+                    increment)
+            );
+            var whileStatement = new BoundWhileStatement(condition, whileBody, node.BreakLabel, GenerateLabel());
             var result = new BoundBlockStatemnet(ImmutableArray.Create<BoundStatement>(
                 variableDeclaration,
                 upperBoundDeclaration,

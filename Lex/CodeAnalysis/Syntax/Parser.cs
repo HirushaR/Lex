@@ -171,6 +171,10 @@ namespace Lex.CodeAnalysis.Syntax
                     return ParseWhileStatement();
                 case SyntaxKind.ForKeyword:
                     return ParseForStatement();
+                case SyntaxKind.BreakKeyword:
+                    return ParseBreakStatement();
+                case SyntaxKind.ContinueKeyword:
+                    return ParseContinueStatement();
                 default:
                     return ParseExpressionStatement();
             }
@@ -251,11 +255,7 @@ namespace Lex.CodeAnalysis.Syntax
                 return new ForStatementSyntax(keyword, identifier, equalsToken, lowerBound, toKeyword, upperBound,byKeyWord, itterator, body);
             }
             
-           // var body = ParseStatemnet();
-
-
-           
-            
+           // var body = ParseStatemnet();    
         }
 
         
@@ -267,6 +267,18 @@ namespace Lex.CodeAnalysis.Syntax
 
            return new WhileStatementSyntax(keyword,condition,body);
 
+        }
+
+         private StatementSyntax ParseBreakStatement()
+        {
+            var keyword = MatchToken(SyntaxKind.BreakKeyword);
+            return new BreakStatementSyntax(keyword);
+        }
+
+        private StatementSyntax ParseContinueStatement()
+        {
+            var keyword = MatchToken(SyntaxKind.ContinueKeyword);
+            return new ContinueStatementSyntax(keyword);
         }
 
 

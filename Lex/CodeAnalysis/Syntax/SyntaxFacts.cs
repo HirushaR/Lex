@@ -99,10 +99,14 @@ namespace Lex.CodeAnalysis.Syntax
                     return SyntaxKind.ByKeyWord; 
                 case "true":
                     return SyntaxKind.TrueKeyword;          
-                 case "if":
+                case "if":
                     return SyntaxKind.IfKeyword;
-                 case "while":
+                case "while":
                     return SyntaxKind.WhileKeyword;
+                case "break":
+                    return SyntaxKind.BreakKeyword;
+                case "continue":
+                    return SyntaxKind.ContinueKeyword;
                 default:
                     return SyntaxKind.IdentifierToken;
             }
@@ -181,6 +185,10 @@ namespace Lex.CodeAnalysis.Syntax
                         return "while";
                     case SyntaxKind.ByKeyWord: 
                         return "by";
+                    case SyntaxKind.BreakKeyword:
+                    return "break";
+                    case SyntaxKind.ContinueKeyword:
+                        return "continue";
                     
                     default:
                         return null;

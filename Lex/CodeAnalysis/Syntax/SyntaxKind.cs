@@ -76,5 +76,9 @@ namespace Lex.CodeAnalysis.Syntax
         Parameter,
         FunctionKeyword,
         GlobalStatement,
+        BreakKeyword,
+        ContinueKeyword,
+        ContinueStatement,
+        BreakStatement,
     }
 }

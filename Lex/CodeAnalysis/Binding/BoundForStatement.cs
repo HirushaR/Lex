@@ -2,9 +2,10 @@ using Lex.CodeAnalysis.Symbols;
 
 namespace Lex.CodeAnalysis.Binding
 {
-    internal sealed class BoundForStatement : BoundStatement
+    internal sealed class BoundForStatement : BoundLoopStatement
     {
-        public BoundForStatement(VariableSymble variable, BoundExpression lowerBound, BoundExpression upperBound,BoundExpression itterator, BoundStatement body)
+         public BoundForStatement(VariableSymble variable, BoundExpression lowerBound, BoundExpression upperBound,BoundExpression itterator, BoundStatement body, BoundLabel breakLabel, BoundLabel continueLabel)
+            : base(breakLabel, continueLabel)
         {
             Variable = variable;
             LowerBound = lowerBound;
