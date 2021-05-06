@@ -140,7 +140,7 @@ namespace Lex.Tests.CodeAnalysis
         [Fact]
         public void Evaluator_Name_Reports_NoErrorForInserted()
         {
-            var text = @"[]";
+            var text = @"1 +[]";
 
             var diagnostics = @"
                 ERROR: Unexpected token <EndOfFileToken>, expected <IdentifierToken>.

@@ -19,9 +19,10 @@ namespace Lex.CodeAnalysis
      
         public Evaluator(ImmutableDictionary<FunctionSymbol, BoundBlockStatemnet> functionBodies,BoundBlockStatemnet root, Dictionary<VariableSymble, object> variables) 
         {
-             _functionBodies = functionBodies;
+            _functionBodies = functionBodies;
             _root = root;
             _globals = variables;
+            _locals.Push(new Dictionary<VariableSymble, object>());
         }
 
         public object Evaluate()
