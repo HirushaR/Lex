@@ -84,6 +84,13 @@ namespace Lex.Tests.CodeAnalysis
         [InlineData("{i = 10  result = 0 while i > 0 {result = result + i i = i -1} result}", 55)]
         [InlineData("{result = 0 for i = 1 to 10 by 1 { result = result + i } result }", 55)]
         [InlineData("{result = 0 for i = 1 to 10 { result = result + i } result }", 55)]
+
+        [InlineData("\"test\"", "test")]
+        [InlineData("\"te\"\"st\"", "te\"st")]
+        [InlineData("\"test\" == \"test\"", true)]
+        [InlineData("\"test\" != \"test\"", false)]
+        [InlineData("\"test\" == \"abc\"", false)]
+        [InlineData("\"test\" != \"abc\"", true)]
         public void Evaluator_Computes_CorrectValues(string text, object expectedValue)
         {
             AssertValue(text, expectedValue);

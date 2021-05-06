@@ -16,6 +16,8 @@ namespace Lex.CodeAnalysis.Binding
     {
         private readonly DiagnosticBag _diagnostics = new DiagnosticBag();
 
+        private Stack<(BoundLabel BreakLabel, BoundLabel ContinueLabel)> _loopStack = new Stack<(BoundLabel BreakLabel, BoundLabel ContinueLabel)>();
+        private int _labelCounter;
         private BoundScope _scope;
         private readonly FunctionSymbol _function;
 
@@ -155,6 +157,10 @@ namespace Lex.CodeAnalysis.Binding
 
         public DiagnosticBag Diagnostics => _diagnostics;
 
+        private BoundStatement BindErrorStatement()
+        {
+            return new BoundExpressionStatemnet(new BoundErrorExpression());
+        }
         private BoundStatement BindStatement(StatementSyntax syntax)
         {
             switch (syntax.Kind)
@@ -171,6 +177,10 @@ namespace Lex.CodeAnalysis.Binding
                     return BindForStatement((ForStatementSyntax)syntax); 
                 case SyntaxKind.ExpressionStatemnet:
                     return BindExpressionStatement((ExpressionStatemnetSyntax)syntax);
+                case SyntaxKind.BreakStatement:
+                    return BindBreakStatement((BreakStatementSyntax)syntax);
+                case SyntaxKind.ContinueStatement:
+                    return BindContinueStatement((ContinueStatementSyntax)syntax);
                 default:
                     throw new Exception($"Unexpected syntax {syntax.Kind}");
             }
@@ -236,12 +246,50 @@ namespace Lex.CodeAnalysis.Binding
             var Ittetarot = syntax.Itterator == null ? null : BindExpression(syntax.Itterator, TypeSymbol.Int);
             VariableSymble variable = BindVariable(identifier,true,TypeSymbol.Int);
 
-            var body = BindStatement(syntax.Body);
+            var body = BindLoopBody(syntax.Body, out var breakLabel, out var continueLabel);
 
             _scope = _scope.Parent;
 
-            return new BoundForStatement(variable, lowerBound, upperBound, Ittetarot, body);
+            return new BoundForStatement(variable, lowerBound, upperBound, Ittetarot, body, breakLabel, continueLabel);
         }
+
+        private BoundStatement BindLoopBody(StatementSyntax body, out BoundLabel breakLabel, out BoundLabel continueLabel)
+        {
+            _labelCounter++;
+            breakLabel = new BoundLabel($"break{_labelCounter}");
+            continueLabel = new BoundLabel($"continue{_labelCounter}");
+
+            _loopStack.Push((breakLabel, continueLabel));
+            var boundBody = BindStatement(body);
+            _loopStack.Pop();
+
+            return boundBody;
+        }
+
+        private BoundStatement BindBreakStatement(BreakStatementSyntax syntax)
+        {
+            if (_loopStack.Count == 0)
+            {
+                _diagnostics.ReportInvalidBreakOrContinue(syntax.Keyword.Span, syntax.Keyword.Text);
+                return BindErrorStatement();
+            }
+
+            var breakLabel = _loopStack.Peek().BreakLabel;
+            return new BoundGotoStatment(breakLabel);
+        }
+
+        private BoundStatement BindContinueStatement(ContinueStatementSyntax syntax)
+        {
+            if (_loopStack.Count == 0)
+            {
+                _diagnostics.ReportInvalidBreakOrContinue(syntax.Keyword.Span, syntax.Keyword.Text);
+                return BindErrorStatement();
+            }
+
+            var continueLabel = _loopStack.Peek().ContinueLabel;
+            return new BoundGotoStatment(continueLabel);
+        }
+
 
         private VariableSymble BindVariable(SyntaxToken identifier,bool isreadonly,TypeSymbol type)
         {
@@ -261,8 +309,8 @@ namespace Lex.CodeAnalysis.Binding
         private BoundStatement BindWhileStatement(WhileStatementSyntax syntax)
         {
             var condition = BindExpression(syntax.Condition, TypeSymbol.Bool);
-            var body = BindStatement(syntax.Body);
-            return new BoundWhileStatement(condition, body);
+             var body = BindLoopBody(syntax.Body, out var breakLabel, out var continueLabel);
+            return new BoundWhileStatement(condition, body, breakLabel, continueLabel);
         }
 
         private BoundStatement BindExpressionStatement(ExpressionStatemnetSyntax syntax)
