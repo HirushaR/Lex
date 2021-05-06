@@ -69,7 +69,7 @@ namespace Lex.CodeAnalysis.Syntax
         ParenthesizedExpression,
         AssigmentExpression,
         CallExpression,
-        LetKeyword,
+      //  LetKeyword,
         TypeClause,
         ColonToken,
         FunctionDeclaration,
