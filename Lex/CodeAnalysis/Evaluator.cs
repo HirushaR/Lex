@@ -9,25 +9,23 @@ namespace Lex.CodeAnalysis
 
     internal sealed class Evaluator
     {
-        private readonly ImmutableDictionary<FunctionSymbol, BoundBlockStatemnet> _functionBodies;
-        private readonly BoundBlockStatemnet _root;
+        private readonly BoundProgram _program;
         private readonly Dictionary<VariableSymble, object> _globals;
         private readonly Stack<Dictionary<VariableSymble, object>> _locals = new Stack<Dictionary<VariableSymble, object>>();
         private Random _random;
         private object _lastValue;
         
      
-        public Evaluator(ImmutableDictionary<FunctionSymbol, BoundBlockStatemnet> functionBodies,BoundBlockStatemnet root, Dictionary<VariableSymble, object> variables) 
+         public Evaluator(BoundProgram program, Dictionary<VariableSymble, object> variables)
         {
-            _functionBodies = functionBodies;
-            _root = root;
+            _program = program;
             _globals = variables;
             _locals.Push(new Dictionary<VariableSymble, object>());
         }
 
         public object Evaluate()
         {
-            return EvaluateStatement(_root);
+            return EvaluateStatement(_program.Statement);
         }
 
         private object EvaluateStatement(BoundBlockStatemnet body)
@@ -168,7 +166,7 @@ namespace Lex.CodeAnalysis
 
                 _locals.Push(locals);
 
-                var statement = _functionBodies[node.Function];
+                 var statement = _program.Functions[node.Function];
                 var result = EvaluateStatement(statement);
 
                 _locals.Pop();

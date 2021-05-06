@@ -288,6 +288,43 @@ namespace Lex.Tests.CodeAnalysis
 
             AssertDiagnostics(text, diagnostics);
         }
+        [Fact]
+        public void Evaluator_InvokeFunctionArguments_NoInfiniteLoop()
+        {
+            var text = @"
+                print(""Hi""[[=]][)]
+            ";
+
+            var diagnostics = @"
+               ERROR: Unexpected token <EaqlesToken>, expected <CloseParenthesisToken>.
+               ERROR: Unexpected token <EaqlesToken>, expected <IdentifierToken>.
+               ERROR: Unexpected token <CloseParenthesisToken>, expected <IdentifierToken>.
+            ";
+
+            AssertDiagnostics(text, diagnostics);
+        }
+
+        [Fact]
+        public void Evaluator_FunctionParameters_NoInfiniteLoop()
+        {
+            var text = @"
+                function hi(name: string[[[=]]][)]
+                {
+                    print(""Hi "" + name + ""!"" )
+                }[]
+            ";
+
+            var diagnostics = @"
+               
+                ERROR: Unexpected token <EaqlesToken>, expected <CloseParenthesisToken>.
+                ERROR: Unexpected token <EaqlesToken>, expected <OpenBraceToken>.
+                ERROR: Unexpected token <EaqlesToken>, expected <IdentifierToken>.
+                ERROR: Unexpected token <CloseParenthesisToken>, expected <IdentifierToken>.
+                ERROR: Unexpected token <EndOfFileToken>, expected <CloseBraceToken>.
+            ";
+
+            AssertDiagnostics(text, diagnostics);
+        }
 
         private static void AssertValue(string text, object expectedValue)
         {
