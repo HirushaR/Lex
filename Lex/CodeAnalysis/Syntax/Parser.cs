@@ -119,16 +119,24 @@ namespace Lex.CodeAnalysis.Syntax
         {
             var nodesAndSeparators = ImmutableArray.CreateBuilder<SyntaxNode>();
 
-            while (Current.Kind != SyntaxKind.CloseParenthesisToken &&
-                   Current.Kind != SyntaxKind.EndOfFileToken)
+            var parseNextParameter = true;
+            while (parseNextParameter &&
+                   Current.Kind != SyntaxKind.CloseParenthesisToken &&
+                   Current.Kind != SyntaxKind.EndOfFileToken
+
+                   )
             {
                 var parameter = ParseParameter();
                 nodesAndSeparators.Add(parameter);
 
-                if (Current.Kind != SyntaxKind.CloseParenthesisToken)
+                if (Current.Kind == SyntaxKind.CommaToken)
                 {
                     var comma = MatchToken(SyntaxKind.CommaToken);
                     nodesAndSeparators.Add(comma);
+                }
+                else
+                {
+                    parseNextParameter = false;
                 }
             }
 
@@ -401,17 +409,24 @@ namespace Lex.CodeAnalysis.Syntax
         {
             var nodesAndSeparator = ImmutableArray.CreateBuilder<SyntaxNode>();
 
-            while(Current.Kind  != SyntaxKind.CloseParenthesisToken &&
-                  Current.Kind != SyntaxKind.EndOfFileToken)
+            var parseNextArgument = true;
+            while (parseNextArgument && 
+                Current.Kind != SyntaxKind.CloseParenthesisToken &&
+                Current.Kind != SyntaxKind.EndOfFileToken)
+            {
+                var expression = ParseExpression();
+                nodesAndSeparator.Add(expression);
+
+                if (Current.Kind == SyntaxKind.CommaToken)
                 {
-                    var expression = ParseExpression();
-                    nodesAndSeparator.Add(expression);
-                    if(Current.Kind != SyntaxKind.CloseParenthesisToken)
-                    {
-                        var comma = MatchToken(SyntaxKind.CommaToken);
-                        nodesAndSeparator.Add(comma);
-                    }
+                    var comma = MatchToken(SyntaxKind.CommaToken);
+                    nodesAndSeparator.Add(comma);
                 }
+                else
+                {
+                    parseNextArgument = false;
+                }
+            }
 
             return new SeparatedSyntaxList<ExpressionSyntax>(nodesAndSeparator.ToImmutableArray());
         }
