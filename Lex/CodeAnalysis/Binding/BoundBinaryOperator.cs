@@ -63,6 +63,10 @@ namespace Lex.CodeAnalysis.Binding
             new BoundBinaryOperator(SyntaxKind.LessOrEqualToken,BoundBinaryOperatorKind.LessOrEqual, TypeSymbol.Bool),
             new BoundBinaryOperator(SyntaxKind.GreaterOrEqualToken,BoundBinaryOperatorKind.GreaterOrEqual, TypeSymbol.Bool),
             new BoundBinaryOperator(SyntaxKind.PlusToken,BoundBinaryOperatorKind.Addition, TypeSymbol.String),
+            new BoundBinaryOperator(SyntaxKind.EaqulesEaqlesToken, BoundBinaryOperatorKind.Equals, TypeSymbol.String, TypeSymbol.Bool),
+            new BoundBinaryOperator(SyntaxKind.BangEaqlesToken, BoundBinaryOperatorKind.NotEquals, TypeSymbol.String, TypeSymbol.Bool),
+            
+
         };
 
             public static BoundBinaryOperator Bind(SyntaxKind syntaxkind, TypeSymbol leftType, TypeSymbol rightType)

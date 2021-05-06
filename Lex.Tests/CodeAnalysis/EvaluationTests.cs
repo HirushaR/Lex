@@ -87,6 +87,10 @@ namespace Lex.Tests.CodeAnalysis
 
         [InlineData("\"test\"", "test")]
         [InlineData("\"te\"\"st\"", "te\"st")]
+        [InlineData("\"test\" == \"test\"", true)]
+        [InlineData("\"test\" != \"test\"", false)]
+        [InlineData("\"test\" == \"abc\"", false)]
+        [InlineData("\"test\" != \"abc\"", true)]
         public void Evaluator_Computes_CorrectValues(string text, object expectedValue)
         {
             AssertValue(text, expectedValue);
