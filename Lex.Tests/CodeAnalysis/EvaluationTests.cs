@@ -83,6 +83,7 @@ namespace Lex.Tests.CodeAnalysis
         [InlineData("{a = 0 if a == 4 a=10 else a =5 a }", 5)]
         [InlineData("{i = 10  result = 0 while i > 0 {result = result + i i = i -1} result}", 55)]
         [InlineData("{result = 0 for i = 1 to 10 by 1 { result = result + i } result }", 55)]
+        [InlineData("{ var i = 0 while i < 5 { i = i + 1 if i == 5 continue } i }", 5)]
         [InlineData("{result = 0 for i = 1 to 10 { result = result + i } result }", 55)]
 
         [InlineData("\"test\"", "test")]
