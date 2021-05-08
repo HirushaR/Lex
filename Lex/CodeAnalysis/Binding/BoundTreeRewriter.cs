@@ -86,7 +86,7 @@ namespace Lex.CodeAnalysis.Binding
             if( lowerBound == node.LowerBound && upperBound == node.LowerBound && body == node.Body)
                 return node;
             
-           return new BoundForStatement(node.Variable, lowerBound, upperBound,Itterator, body, node.BreakLabel, node.ContinueLabel);
+           return new BoundForStatement(node.Variable, lowerBound, upperBound,Itterator, body,node.BodyLabel, node.BreakLabel, node.ContinueLabel);
             
         }
 
@@ -126,7 +126,7 @@ namespace Lex.CodeAnalysis.Binding
             if( condition == node.Condition && body == node.Body)
                 return node;
             
-            return new BoundWhileStatement(condition, body, node.BreakLabel, node.ContinueLabel);
+            return new BoundWhileStatement(condition, body,node.BodyLabel, node.BreakLabel, node.ContinueLabel);
         }
        
         public virtual BoundExpression RewriteExpression(BoundExpression node)

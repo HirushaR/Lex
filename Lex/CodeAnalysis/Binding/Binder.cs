@@ -246,16 +246,17 @@ namespace Lex.CodeAnalysis.Binding
             var Ittetarot = syntax.Itterator == null ? null : BindExpression(syntax.Itterator, TypeSymbol.Int);
             VariableSymble variable = BindVariable(identifier,true,TypeSymbol.Int);
 
-            var body = BindLoopBody(syntax.Body, out var breakLabel, out var continueLabel);
+            var body = BindLoopBody(syntax.Body, out var bodyLabel, out var breakLabel, out var continueLabel);
 
             _scope = _scope.Parent;
 
-            return new BoundForStatement(variable, lowerBound, upperBound, Ittetarot, body, breakLabel, continueLabel);
+            return new BoundForStatement(variable, lowerBound, upperBound, Ittetarot, body,bodyLabel, breakLabel, continueLabel);
         }
 
-        private BoundStatement BindLoopBody(StatementSyntax body, out BoundLabel breakLabel, out BoundLabel continueLabel)
+        private BoundStatement BindLoopBody(StatementSyntax body, out BoundLabel bodyLabel,out BoundLabel breakLabel, out BoundLabel continueLabel)
         {
             _labelCounter++;
+            bodyLabel = new BoundLabel($"body{_labelCounter}");
             breakLabel = new BoundLabel($"break{_labelCounter}");
             continueLabel = new BoundLabel($"continue{_labelCounter}");
 
@@ -309,8 +310,8 @@ namespace Lex.CodeAnalysis.Binding
         private BoundStatement BindWhileStatement(WhileStatementSyntax syntax)
         {
             var condition = BindExpression(syntax.Condition, TypeSymbol.Bool);
-             var body = BindLoopBody(syntax.Body, out var breakLabel, out var continueLabel);
-            return new BoundWhileStatement(condition, body, breakLabel, continueLabel);
+            var body = BindLoopBody(syntax.Body, out var bodyLabel, out var breakLabel, out var continueLabel);
+            return new BoundWhileStatement(condition, body, bodyLabel, breakLabel, continueLabel);
         }
 
         private BoundStatement BindExpressionStatement(ExpressionStatemnetSyntax syntax)

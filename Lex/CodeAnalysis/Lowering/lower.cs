@@ -123,12 +123,12 @@ namespace Lex.CodeAnalysis.Lowering
             //
                 
            
-            var bodyLabel = GenerateLabel();
+      
 
             var gotoContinue = new BoundGotoStatment(node.ContinueLabel);
-            var bodyLabelStatement = new BoundLabelStatement(bodyLabel);
+            var bodyLabelStatement = new BoundLabelStatement(node.BodyLabel);
             var continueLabelStatement = new BoundLabelStatement(node.ContinueLabel);
-            var gotoTrue = new BoundConditionalGotoStatment(bodyLabel, node.Condition);
+            var gotoTrue = new BoundConditionalGotoStatment(node.BodyLabel, node.Condition);
             var breakLabelStatement = new BoundLabelStatement(node.BreakLabel);
 
             var result = new BoundBlockStatemnet(ImmutableArray.Create<BoundStatement>(
@@ -198,7 +198,7 @@ namespace Lex.CodeAnalysis.Lowering
                     continueLabelStatement,
                     increment)
             );
-            var whileStatement = new BoundWhileStatement(condition, whileBody, node.BreakLabel, GenerateLabel());
+            var whileStatement = new BoundWhileStatement(condition, whileBody, node.BodyLabel,node.BreakLabel, GenerateLabel());
             var result = new BoundBlockStatemnet(ImmutableArray.Create<BoundStatement>(
                 variableDeclaration,
                 upperBoundDeclaration,
