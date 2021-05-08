@@ -13,11 +13,6 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-# We only want to kick off indexing runs for Master
-trigger: ['master']
-
-# We don't want to build PRs
-pr: none
 
 steps:
 - task: NuGetToolInstaller@1
