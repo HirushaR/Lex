@@ -114,34 +114,32 @@ namespace Lex.CodeAnalysis.Lowering
             //
             // ----->
             //
-            // goto check
-            // continue:
+            // goto continue
+        
             // <body>
-            // check:
-            // gotoTrue <condition> continue
+            // continue:
+            // gotoTrue <condition> body
             // Break
             //
                 
            
-            var checkLabel = GenerateLabel();
-          
+            var bodyLabel = GenerateLabel();
 
-            var gotoCheck = new BoundGotoStatment(checkLabel);
+            var gotoContinue = new BoundGotoStatment(node.ContinueLabel);
+            var bodyLabelStatement = new BoundLabelStatement(bodyLabel);
             var continueLabelStatement = new BoundLabelStatement(node.ContinueLabel);
-            var checkLabelStatement = new BoundLabelStatement(checkLabel);
-            var gotoTrue = new BoundConditionalGotoStatment(node.ContinueLabel, node.Condition);
+            var gotoTrue = new BoundConditionalGotoStatment(bodyLabel, node.Condition);
             var breakLabelStatement = new BoundLabelStatement(node.BreakLabel);
 
-          
-
             var result = new BoundBlockStatemnet(ImmutableArray.Create<BoundStatement>(
-                gotoCheck,
-                continueLabelStatement,
+                gotoContinue,
+                bodyLabelStatement,
                 node.Body,
-                checkLabelStatement,
+                continueLabelStatement,
                 gotoTrue,
                 breakLabelStatement
             ));
+
 
             return RewriteStatement(result);
         }
