@@ -66,7 +66,7 @@ namespace Lex.CodeAnalysis
             Report(span, message);
         }
 
-        public void ReportUndefinedName(TextSpan span, string name)
+        public void ReportUndefinedVariable(TextSpan span, string name)
         {
             var message = $"Variable '{name}' doesn't exist.";
             Report(span, message);
@@ -80,6 +80,16 @@ namespace Lex.CodeAnalysis
         public void ReportCannotConvert(TextSpan span, TypeSymbol fromType, TypeSymbol toType)
         {
             var message = $"Cannot convert type '{fromType}' to '{toType}'.";
+            Report(span, message);
+        }
+        public void ReportNotAVariable(TextSpan span, string name)
+        {
+            var message = $"'{name}' is not a variable.";
+            Report(span, message);
+        }
+         public void ReportNotAFunction(TextSpan span, string name)
+        {
+            var message = $"'{name}' is not a function.";
             Report(span, message);
         }
 

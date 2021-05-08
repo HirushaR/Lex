@@ -224,7 +224,8 @@ namespace Lex.CodeAnalysis.Binding
             var type = BindTypeClause(syntax.TypeClause);
             var initializer = BindExpression(syntax.Initializer);
             var variableType = type ?? initializer.Type;
-            var variable = BindVariable(syntax.Identifier, false, variableType);
+            //var variable = BindVariable(syntax.Identifier, false, variableType);
+            var variable = BindVariableDeclaration(syntax.Identifier, false, variableType);
             var convertedInitializer = BindConversion(syntax.Initializer.Span, initializer, variableType);
             
 
@@ -275,8 +276,8 @@ namespace Lex.CodeAnalysis.Binding
 
             SyntaxToken identifier = syntax.Identifier;
             var Ittetarot = syntax.Itterator == null ? null : BindExpression(syntax.Itterator, TypeSymbol.Int);
-            VariableSymble variable = BindVariable(identifier,true,TypeSymbol.Int);
-
+           // VariableSymble variable = BindVariable(identifier,true,TypeSymbol.Int);
+            var variable = BindVariableDeclaration(syntax.Identifier, true, TypeSymbol.Int);
             var body = BindLoopBody(syntax.Body, out var bodyLabel, out var breakLabel, out var continueLabel);
 
             _scope = _scope.Parent;
@@ -323,7 +324,7 @@ namespace Lex.CodeAnalysis.Binding
         }
 
 
-        private VariableSymble BindVariable(SyntaxToken identifier,bool isreadonly,TypeSymbol type)
+        private VariableSymble BindVariableDeclaration(SyntaxToken identifier,bool isreadonly,TypeSymbol type)
         {
             var name = identifier.Text ?? "?";
             var declare = !identifier.isMissing;
@@ -401,12 +402,20 @@ namespace Lex.CodeAnalysis.Binding
                 var boundArgument = BindExpression(argument);
                 boundArguments.Add(boundArgument);
             }
-            if(!_scope.TryLookupFunction(syntax.Identifier.Text, out var function))
+            var symbol = _scope.TryLookupSymbol(syntax.Identifier.Text);
+            if (symbol == null)
             {
                  _diagnostics.ReportUndefinedFunction(syntax.Identifier.Span,syntax.Identifier.Text);
                 return new BoundErrorExpression();
             }
-            
+
+            var function = symbol as FunctionSymbol;
+            if (function == null)
+            {
+                _diagnostics.ReportNotAFunction(syntax.Identifier.Span, syntax.Identifier.Text);
+                return new BoundErrorExpression();
+            }
+
             if(syntax.Arguments.Count != function.Parameter.Length)
             {
                  _diagnostics.ReportWrongArgumentCount(syntax.Span,function.Name, function.Parameter.Length, syntax.Arguments.Count);
@@ -480,11 +489,10 @@ namespace Lex.CodeAnalysis.Binding
                 return new BoundErrorExpression();
             }
 
-            if (!_scope.TryLookupVariable(name, out var variable))
-            {
-                _diagnostics.ReportUndefinedName(syntax.IdentifierToken.Span, name);
+            var variable = BindVariableReference(name, syntax.IdentifierToken.Span);
+            if (variable == null)
                 return new BoundErrorExpression();
-            }
+            
 
             return new BoundVariableExpression(variable);
         }
@@ -494,11 +502,10 @@ namespace Lex.CodeAnalysis.Binding
             var name = syntax.IdentifierToken.Text;
             var boundExpression = BindExpression(syntax.Expression);
 
-            if (!_scope.TryLookupVariable(name, out var variable))
-            {
-                _diagnostics.ReportUndefinedName(syntax.IdentifierToken.Span, name);
+            var variable = BindVariableReference(name, syntax.IdentifierToken.Span);
+            if (variable == null)
                 return boundExpression;
-            }
+            
             if(variable.isReadOnly)
                 _diagnostics.ReportCannotAssign(syntax.EqualsToken.Span,name);
 
@@ -509,6 +516,22 @@ namespace Lex.CodeAnalysis.Binding
             }
 
             return new BoundAssignmentExpression(variable, boundExpression);
+        }
+          private VariableSymble BindVariableReference(string name, TextSpan span)
+        {
+            switch (_scope.TryLookupSymbol(name))
+            {
+                case VariableSymble variable:
+                    return variable;
+
+                case null:
+                    _diagnostics.ReportUndefinedVariable(span, name);
+                    return null;
+
+                default:
+                    _diagnostics.ReportNotAVariable(span, name);
+                    return null;
+            }
         }
 
         private BoundExpression BindUnaryExpression(UnaryExpressionSyntax syntax)
