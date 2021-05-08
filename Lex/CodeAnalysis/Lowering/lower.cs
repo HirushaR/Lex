@@ -114,34 +114,32 @@ namespace Lex.CodeAnalysis.Lowering
             //
             // ----->
             //
-            // goto check
-            // continue:
+            // goto continue
+        
             // <body>
-            // check:
-            // gotoTrue <condition> continue
+            // continue:
+            // gotoTrue <condition> body
             // Break
             //
                 
            
-            var checkLabel = GenerateLabel();
-          
+      
 
-            var gotoCheck = new BoundGotoStatment(checkLabel);
+            var gotoContinue = new BoundGotoStatment(node.ContinueLabel);
+            var bodyLabelStatement = new BoundLabelStatement(node.BodyLabel);
             var continueLabelStatement = new BoundLabelStatement(node.ContinueLabel);
-            var checkLabelStatement = new BoundLabelStatement(checkLabel);
-            var gotoTrue = new BoundConditionalGotoStatment(node.ContinueLabel, node.Condition);
+            var gotoTrue = new BoundConditionalGotoStatment(node.BodyLabel, node.Condition);
             var breakLabelStatement = new BoundLabelStatement(node.BreakLabel);
 
-          
-
             var result = new BoundBlockStatemnet(ImmutableArray.Create<BoundStatement>(
-                gotoCheck,
-                continueLabelStatement,
+                gotoContinue,
+                bodyLabelStatement,
                 node.Body,
-                checkLabelStatement,
+                continueLabelStatement,
                 gotoTrue,
                 breakLabelStatement
             ));
+
 
             return RewriteStatement(result);
         }
@@ -200,7 +198,7 @@ namespace Lex.CodeAnalysis.Lowering
                     continueLabelStatement,
                     increment)
             );
-            var whileStatement = new BoundWhileStatement(condition, whileBody, node.BreakLabel, GenerateLabel());
+            var whileStatement = new BoundWhileStatement(condition, whileBody, node.BodyLabel,node.BreakLabel, GenerateLabel());
             var result = new BoundBlockStatemnet(ImmutableArray.Create<BoundStatement>(
                 variableDeclaration,
                 upperBoundDeclaration,

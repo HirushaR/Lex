@@ -27,6 +27,8 @@ namespace Lex.CodeAnalysis.Binding
                     return RewriteVariableDeclaration((BoundVeriableDeclaration)node);
                 case BoundNodeKind.WhileStatement:
                     return RewriteWhileStatement((BoundWhileStatement)node);
+                case BoundNodeKind.ReturnStatement:
+                    return RewriteReturnStatement((BoundReturnStatement)node);
                 default:
                     throw new Exception($"Unexepected node : {node.Kind}");
            }
@@ -86,8 +88,16 @@ namespace Lex.CodeAnalysis.Binding
             if( lowerBound == node.LowerBound && upperBound == node.LowerBound && body == node.Body)
                 return node;
             
-           return new BoundForStatement(node.Variable, lowerBound, upperBound,Itterator, body, node.BreakLabel, node.ContinueLabel);
+           return new BoundForStatement(node.Variable, lowerBound, upperBound,Itterator, body,node.BodyLabel, node.BreakLabel, node.ContinueLabel);
             
+        }
+        protected virtual BoundStatement RewriteReturnStatement(BoundReturnStatement node)
+        {
+            var expression = node.Expression == null ? null : RewriteExpression(node.Expression);
+            if (expression == node.Expression)
+                return node;
+
+            return new BoundReturnStatement(expression);
         }
 
         protected virtual BoundStatement RewriteExpressionStatement(BoundExpressionStatemnet node)
@@ -126,7 +136,7 @@ namespace Lex.CodeAnalysis.Binding
             if( condition == node.Condition && body == node.Body)
                 return node;
             
-            return new BoundWhileStatement(condition, body, node.BreakLabel, node.ContinueLabel);
+            return new BoundWhileStatement(condition, body,node.BodyLabel, node.BreakLabel, node.ContinueLabel);
         }
        
         public virtual BoundExpression RewriteExpression(BoundExpression node)

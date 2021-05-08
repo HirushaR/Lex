@@ -22,5 +22,6 @@ namespace Lex.CodeAnalysis.Binding
         VariableExpression,
         ErrorExpression,
         ConversionExpression,
+        ReturnStatement,
     }
 }

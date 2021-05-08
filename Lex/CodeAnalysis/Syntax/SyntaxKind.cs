@@ -80,5 +80,7 @@ namespace Lex.CodeAnalysis.Syntax
         ContinueKeyword,
         ContinueStatement,
         BreakStatement,
+        ReturnKeyword,
+        ReturnStatement,
     }
 }

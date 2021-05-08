@@ -74,6 +74,9 @@ internal static class BoundNodePrinter
                 case BoundNodeKind.ConversionExpression:
                     WriteConversionExpression((BoundConversionExpression)node, writer);
                     break;
+                case BoundNodeKind.ReturnStatement:
+                    WriteReturnStatement((BoundReturnStatement)node, writer);
+                    break;
                 default:
                     throw new Exception($"Unexpected node {node.Kind}");
             }
@@ -139,7 +142,7 @@ internal static class BoundNodePrinter
             node.Initializer.WriteTo(writer);
             writer.WriteLine();
         }
-
+        
         private static void WriteIfStatement(BoundIfStatement node, IndentedTextWriter writer)
         {
             writer.WriteKeyword("if ");
@@ -248,6 +251,17 @@ internal static class BoundNodePrinter
                 throw new Exception($"Unexpected type {node.Type}");
             }
         }
+
+        private static void WriteReturnStatement(BoundReturnStatement node, IndentedTextWriter writer)
+        {
+            writer.WriteKeyword("return ");
+            if (node.Expression != null)
+            {
+                node.Expression.WriteTo(writer);
+            }
+            writer.WriteLine();
+        }
+
 
         private static void WriteVariableExpression(BoundVariableExpression node, IndentedTextWriter writer)
         {

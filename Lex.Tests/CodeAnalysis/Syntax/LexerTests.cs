@@ -230,6 +230,18 @@ namespace Lex.Tests.CodeAnalysis.Syntax
                 return true;
             if (t1Kind == SyntaxKind.FunctionKeyword  && t2Kind == SyntaxKind.ByKeyWord )
                 return true;
+            if (t1Kind == SyntaxKind.ByKeyWord  && t2Kind == SyntaxKind.BreakKeyword )
+                return true;
+            if (t1Kind == SyntaxKind.ContinueKeyword  && t2Kind == SyntaxKind.ByKeyWord )
+                return true;
+            if (t1Kind == SyntaxKind.BreakKeyword  && t2Kind == SyntaxKind.ByKeyWord )
+                return true;
+            if (t1Kind == SyntaxKind.ByKeyWord  && t2Kind == SyntaxKind.ContinueKeyword )
+                return true;
+            if (t1Kind == SyntaxKind.ByKeyWord  && t2Kind == SyntaxKind.ReturnKeyword )
+                return true;
+            if (t1Kind == SyntaxKind.ReturnKeyword  && t2Kind == SyntaxKind.ByKeyWord )
+                return true;
 
             return false;
         }

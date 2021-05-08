@@ -107,6 +107,8 @@ namespace Lex.CodeAnalysis.Syntax
                     return SyntaxKind.BreakKeyword;
                 case "continue":
                     return SyntaxKind.ContinueKeyword;
+                case "return":
+                    return SyntaxKind.ReturnKeyword;
                 default:
                     return SyntaxKind.IdentifierToken;
             }
@@ -186,10 +188,11 @@ namespace Lex.CodeAnalysis.Syntax
                     case SyntaxKind.ByKeyWord: 
                         return "by";
                     case SyntaxKind.BreakKeyword:
-                    return "break";
+                        return "break";
                     case SyntaxKind.ContinueKeyword:
                         return "continue";
-                    
+                    case SyntaxKind.ReturnKeyword:
+                        return "return";
                     default:
                         return null;
             }
