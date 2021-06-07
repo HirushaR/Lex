@@ -1,0 +1,15 @@
+F:\hiru\works\C#\Lex\lexcom\obj\Debug\netcoreapp3.0\lexcom.csprojAssemblyReference.cache
+F:\hiru\works\C#\Lex\lexcom\obj\Debug\netcoreapp3.0\lexcom.AssemblyInfoInputs.cache
+F:\hiru\works\C#\Lex\lexcom\obj\Debug\netcoreapp3.0\lexcom.AssemblyInfo.cs
+F:\hiru\works\C#\Lex\lexcom\bin\Debug\netcoreapp3.0\lexcom.exe
+F:\hiru\works\C#\Lex\lexcom\bin\Debug\netcoreapp3.0\lexcom.deps.json
+F:\hiru\works\C#\Lex\lexcom\bin\Debug\netcoreapp3.0\lexcom.runtimeconfig.json
+F:\hiru\works\C#\Lex\lexcom\bin\Debug\netcoreapp3.0\lexcom.runtimeconfig.dev.json
+F:\hiru\works\C#\Lex\lexcom\bin\Debug\netcoreapp3.0\lexcom.dll
+F:\hiru\works\C#\Lex\lexcom\bin\Debug\netcoreapp3.0\lexcom.pdb
+F:\hiru\works\C#\Lex\lexcom\bin\Debug\netcoreapp3.0\System.Collections.Immutable.dll
+F:\hiru\works\C#\Lex\lexcom\bin\Debug\netcoreapp3.0\Lex.dll
+F:\hiru\works\C#\Lex\lexcom\bin\Debug\netcoreapp3.0\Lex.pdb
+F:\hiru\works\C#\Lex\lexcom\obj\Debug\netcoreapp3.0\lexcom.csproj.CopyComplete
+F:\hiru\works\C#\Lex\lexcom\obj\Debug\netcoreapp3.0\lexcom.dll
+F:\hiru\works\C#\Lex\lexcom\obj\Debug\netcoreapp3.0\lexcom.pdb

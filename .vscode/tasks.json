@@ -37,6 +37,20 @@
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "lexcom",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "run",
+                "--project",
+                "${workspaceFolder}/lexcom/lexcom.csproj",
+                "--",
+                "${file}"
+            ],
+            "problemMatcher": "$msCompile"
         }
     ]
+    
 }
